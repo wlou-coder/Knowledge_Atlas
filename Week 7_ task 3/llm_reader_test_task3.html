@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task 3 · LLM-Panel Reader Test · Personas P1 &amp; P2</title>
+  <link rel="stylesheet" href="../_track_pages_shared.css">
+  <style>
+    body { padding-top: 56px; }
+    :root {
+      --paper: #fbf8f1; --ink: #1f1d1a; --muted: #5b574f;
+      --rule: #ddd5c1; --accent: #5a3e1b; --accent-soft: #e9dec4;
+      --good: #2c6b3f; --bad: #8e2727;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      background: var(--paper); color: var(--ink); margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      line-height: 1.6;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 28px 64px; }
+    h1 { font-size: 1.6rem; margin: 0 0 8px; }
+    h2 { font-size: 1.2rem; margin: 28px 0 10px; color: var(--accent);
+         border-bottom: 1px solid var(--rule); padding-bottom: 4px; }
+    h3 { font-size: 1rem; margin: 18px 0 6px; }
+    p { margin: 0 0 10px; }
+    .meta { font-size: 0.86rem; color: var(--muted); margin-bottom: 22px; }
+
+    /* Journey-section labels */
+    .journey-header {
+      background: var(--accent-soft); border-left: 4px solid var(--accent);
+      padding: 12px 16px; border-radius: 0 4px 4px 0; margin: 24px 0 12px;
+    }
+    .journey-header h2 { margin: 0; border: none; padding: 0; font-size: 1.1rem; }
+    .journey-header .j-meta { font-size: 0.84rem; color: var(--muted); margin-top: 4px; }
+
+    /* Agent transcript card */
+    .agent-card {
+      border: 1px solid var(--rule); border-radius: 6px;
+      background: #fff; margin: 14px 0; overflow: hidden;
+    }
+    .agent-head {
+      background: var(--accent-soft); padding: 10px 16px;
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 8px;
+    }
+    .agent-name { font-weight: 700; font-size: 0.96rem; }
+    .agent-profile { font-size: 0.82rem; color: var(--muted); }
+    .agent-body { padding: 14px 16px; }
+
+    .stage-label {
+      font-size: 0.74rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.4px; color: var(--accent); margin: 12px 0 3px;
+    }
+    .stage-label:first-child { margin-top: 0; }
+
+    .stopped-at {
+      display: inline-block; padding: 2px 10px; border-radius: 12px;
+      font-size: 0.78rem; font-weight: 700; background: #f5e0e0; color: var(--bad);
+      margin-left: 6px;
+    }
+    .stopped-at.completed { background: #d6edd8; color: var(--good); }
+
+    .cb-response-taken {
+      display: inline-block; padding: 3px 10px; border-radius: 4px;
+      font-size: 0.84rem; font-weight: 700;
+      background: var(--accent-soft); color: var(--accent); margin: 4px 0;
+    }
+
+    .adequacy-note {
+      background: #fffaef; border: 1px solid #d4c07a; border-radius: 4px;
+      padding: 9px 13px; margin-top: 8px; font-size: 0.88rem;
+    }
+    .adequacy-note b { color: var(--accent); }
+
+    .summary-table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 0.88rem; }
+    .summary-table th {
+      background: var(--accent-soft); color: var(--accent);
+      padding: 7px 10px; text-align: left; border-bottom: 2px solid var(--rule);
+      font-size: 0.80rem; text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .summary-table td { padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    .summary-table tr:last-child td { border-bottom: none; }
+
+    .prompt-block {
+      background: #f5f0ea; border-left: 3px solid var(--accent);
+      padding: 10px 14px; border-radius: 0 4px 4px 0;
+      font-size: 0.86rem; margin: 12px 0; font-style: italic;
+    }
+    .finding-block {
+      background: #fff; border: 1px solid var(--rule); border-radius: 4px;
+      padding: 10px 14px; margin: 8px 0; font-size: 0.88rem;
+    }
+    .finding-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--accent); margin-bottom: 4px;
+    }
+    .footer-note {
+      margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--rule);
+      font-size: 0.84rem; color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<div id="ka-navbar-slot">
+  <nav class="top-nav" role="navigation" aria-label="Primary">
+    <a class="wordmark" href="../../index.html" aria-label="Knowledge Atlas home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+        <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+        <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+        <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+        <line x1="16" y1="7.5" x2="16" y2="12.5"   stroke="#F5A623" stroke-width="1.5"/>
+        <line x1="24.8" y1="20.2" x2="19" y2="17.3" stroke="#F5A623" stroke-width="1.5"/>
+        <line x1="7.2"  y1="20.2" x2="13" y2="17.3" stroke="#F5A623" stroke-width="1.5"/>
+      </svg>
+      <span>Knowledge<span class="wordmark-sub" style="margin-left:6px">Atlas</span></span>
+    </a>
+    <div class="nav-center">
+      <a href="../ka_schedule.html">Syllabus</a>
+      <a href="../t4_intro.html" class="active">Track 4</a>
+    </div>
+  </nav>
+</div>
+
+<div class="breadcrumb">
+  <a href="../../index.html">Home</a> /
+  <a href="../t4_intro.html">Track 4</a> /
+  <a href="../t4_task3.html">Task 3</a> /
+  <span>LLM-panel reader test</span>
+</div>
+
+<div class="wrap">
+  <h1>Task 3 · LLM-Panel Reader Test</h1>
+  <p class="meta">
+    COGS 160 SP26 · Track 4 · Personas P1 (160-student) and P2 (researcher) ·
+    Three agents per journey · Conducted per Scaffold 3.3 of the task-design document.
+  </p>
+
+  <h2>Method</h2>
+  <p>
+    Each agent was instantiated using the Scaffold 3.3 prompt template from the
+    task-design document, substituting the persona profile from the Task-1 panel
+    configurations and the full text of each journey's six steps. Agents were
+    instructed to walk through the journey, note after each step what they understood
+    and what they wanted but did not get, indicate whether they would continue or
+    close the tab, and at the end state which Chinn-Brewer response they would take
+    and why. Runs were conducted using Claude Sonnet 4 (model: claude-sonnet-4-6).
+    Agent outputs below are lightly condensed for legibility but preserve all
+    substantive notes.
+  </p>
+
+  <p style="font-size:0.86rem;padding:10px 14px;background:var(--accent-soft);border-radius:4px;">
+    <strong>Prompt template used (Scaffold 3.3):</strong> "You are [persona], a researcher with
+    the following background and commitments: [brief profile]. You have just opened the Knowledge
+    Atlas and are walking through a journey on the question '[journey question]'. Walk through the
+    journey. After each page, briefly note: (a) what you understood; (b) what you wanted but did
+    not get; (c) whether you would continue or close the tab. At the end, indicate which
+    Chinn-Brewer response you would take and why."
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- JOURNEY 1: M-Q-010, P1 persona -->
+  <!-- ============================================================ -->
+
+  <div class="journey-header">
+    <h2>Journey 1 · M-Q-010 · Prospect-Refuge Evidence</h2>
+    <div class="j-meta">
+      Question: "How strong is the evidence that humans prefer environments with prospect and refuge?" ·
+      Persona: P1-eager (160-student, Maya) · Shape: Toulmin ·
+      File: <code>journey_mq010_prospect_refuge.html</code>
+    </div>
+  </div>
+
+  <h2>Agent P1-A — Maya-Pragmatist</h2>
+  <div class="agent-card">
+    <div class="agent-head">
+      <span class="agent-name">Agent P1-A: Maya-Pragmatist</span>
+      <span class="agent-profile">First-year cognitive science undergraduate · Short on time · Wants a citable bottom line</span>
+    </div>
+    <div class="agent-body">
+
+      <div class="stage-label">Step 1 — Data</div>
+      <p>(a) Understood: There is a meta-analysis with 88 studies and the effect size is d ≈ 0.43. That is usable. (b) Wanted but did not get: I wanted a single recommended citation I could put in a paper right now. The Stamps (2010) citation is in the text but I had to read the full paragraph to find it — if the citation were pulled out into a highlighted box, I would have found it faster. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 2 — Warrant and Backing</div>
+      <p>(a) Understood: The theory predicts the effect based on evolutionary reasoning; there are additional predictions that received partial support. (b) Wanted but did not get: I don't fully understand why I need to know the warrant — I'm writing a paper, not building a theory. The step felt more abstract than the data step. (c) Continue: yes, though I might skim this in a real reading.</p>
+
+      <div class="stage-label">Step 3 — Qualified Claim</div>
+      <p>(a) Understood: The effect is real but only in natural or semi-natural settings. Important qualifier. I will use this. (b) Wanted: I wanted the qualifier in a callout box so I couldn't miss it. I read it in prose and would have preferred a visual flag like the stat-figure for the effect size. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 4 — Rebuttal</div>
+      <p>(a) Understood: In urban settings the effect reverses. Nasar and Fisher (1992). (b) Wanted: I wanted to know whether my specific context — a campus building — counts as "urban" for the purposes of this reversal. The journey does not tell me. This is the moment I needed the journey to get specific about my use-case. (c) I would not close the tab but I was less certain about continuing. Ultimately continued.</p>
+
+      <div class="stage-label">Step 5 — Chinn-Brewer Panel</div>
+      <p>(a) Understood: Seven possible responses. I can see all of them because they are open by default. (b) Wanted: On a first reading, seeing all seven at once was slightly overwhelming. I might have preferred the option to collapse them after reading. The toggle works — I could close individual items — but the page loaded with all text visible, which felt like a lot. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 6 — Reader Response</div>
+      <p>Completed the form. Selected and saved a response.</p>
+
+      <div class="stage-label">Stopped at</div>
+      <p>Completed all six steps. <span class="stopped-at completed">Completed</span></p>
+
+      <div class="stage-label">Chinn-Brewer response taken</div>
+      <div class="cb-response-taken">Response 3 — Exclude from theory's domain</div>
+      <p><em>Reasoning: "I'm writing about a campus library, not an urban street. The Nasar &amp; Fisher finding applies to high-crime urban streetscapes. My setting is not that. I'll cite the theory with the qualifier 'in natural and campus settings' and note that the urban reversal is a boundary condition that doesn't apply to my context."</em></p>
+
+      <div class="adequacy-note">
+        <b>What would have made the journey more adequate:</b> I needed the journey to help me evaluate whether my specific context — campus architecture — falls inside or outside the urban-reversal scope. The journey surfaces the defeater but does not give me the tools to apply the exclusion criterion. A journey that included a decision-tree step ("is your setting high-crime urban, campus, or natural/parkland?") would have let me determine my response without having to make that judgment myself.
+      </div>
+    </div>
+  </div>
+
+  <h2>Agent P1-B — Maya-Eager</h2>
+  <div class="agent-card">
+    <div class="agent-head">
+      <span class="agent-name">Agent P1-B: Maya-Eager</span>
+      <span class="agent-profile">Second-year cognitive science undergraduate · Interested in the theory itself · Wants to understand, not just cite</span>
+    </div>
+    <div class="agent-body">
+
+      <div class="stage-label">Step 1 — Data</div>
+      <p>(a) Understood: 88 studies, d ≈ 0.43. Fail-safe N above 1,000 — I know what that means and it is reassuring. Cross-cultural partial replication adds confidence. (b) Wanted: I wanted to know more about what "prospect features" and "refuge features" were in the studies — were they photographs, real rooms, VR? The phrase "ranging from photograph-rating tasks to VR" is there, but I wanted a concrete example. (c) Continue: yes, eager to see the warrant.</p>
+
+      <div class="stage-label">Step 2 — Warrant and Backing</div>
+      <p>(a) Understood: Evolutionary fitness-tracking is the warrant; three predictions all receive partial support. I followed the logic. (b) Wanted: I would have liked a brief note on why partial support is enough — what would count as falsifying the warrant? (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 3 — Qualified Claim</div>
+      <p>(a) Understood: The Toulmin mini-diagram was helpful. I could see the data → claim inference clearly with the qualifier noted. (b) Nothing missing at this step. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 4 — Rebuttal</div>
+      <p>(a) Understood: Urban reversal is real and documented. The Toulmin-specific version of the defeater — that omitting the qualifier is epistemically dishonest — was the most useful part of this step for me personally. (b) Wanted: I wanted to know how large the reversal effect was — is d for the reversal similar in magnitude to the positive effect? (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 5 — Chinn-Brewer Panel</div>
+      <p>(a) Understood: All seven responses and their implications. The responses were specific enough to this journey's defeater that they felt useful rather than generic. (b) Wanted: I would have liked a "most common response for student writers" note — some cue about which response is most defensible for my specific situation. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 6 — Reader Response</div>
+      <p>Completed. Thought carefully before responding.</p>
+
+      <div class="stage-label">Stopped at</div>
+      <p>Completed all six steps. <span class="stopped-at completed">Completed</span></p>
+
+      <div class="stage-label">Chinn-Brewer response taken</div>
+      <div class="cb-response-taken">Response 5 — Reinterpret the data, theory unchanged</div>
+      <p><em>Reasoning: "The urban reversal is real, but it doesn't break the theory — it reveals that the evolutionary cue operates through social threat detection, not just spatial geometry. Prospect is preferred when it signals safety; it is avoided when it signals exposure. The theory is preserved at the level of evolutionary mechanism; we just need to specify which type of social context modulates the signal. I'll cite the theory with this reinterpretation framing."</em></p>
+
+      <div class="adequacy-note">
+        <b>What would have made the journey more adequate:</b> I would have benefited from knowing the effect size for the urban-reversal finding — is d in the opposite direction comparable in magnitude to d = 0.43 for the positive effect? Without that number, I cannot assess whether the reversal is as robust as the original finding or smaller and less stable. The journey should quantify the defeater's magnitude, not just its existence.
+      </div>
+    </div>
+  </div>
+
+  <h2>Agent P1-C — Maya-Sceptic</h2>
+  <div class="agent-card">
+    <div class="agent-head">
+      <span class="agent-name">Agent P1-C: Maya-Sceptic</span>
+      <span class="agent-profile">Third-year undergraduate · Has taken a research methods course · Sceptical of evolutionary psychology claims · Looking for reasons to reject the theory</span>
+    </div>
+    <div class="agent-body">
+
+      <div class="stage-label">Step 1 — Data</div>
+      <p>(a) Understood: Meta-analysis with 88 studies. The phrase "ranging from photograph-rating tasks … to VR" raises my concern immediately — these are all artificial stimuli, not real environments. The effect might be a stimulus-evaluation artifact. (b) Wanted: Breakdown of effect size by stimulus type. Is d the same for photograph tasks as for real-environment walkthroughs? If photograph tasks dominate the 88 studies, the generalisability is limited. (c) Continue: yes, but with a flagged concern.</p>
+
+      <div class="stage-label">Step 2 — Warrant and Backing</div>
+      <p>(a) Understood: Evolutionary reasoning. (b) Wanted: An acknowledgment that the evolutionary psychology warrant is contested — specifically, Buller (2005) and critics who argue that the "WEIRD" and photograph-based evidence base cannot confirm an evolutionary mechanism. The journey treats the evolutionary hypothesis as the backing without noting that the backing itself is disputed. (c) Continue: yes, but skepticism increased.</p>
+
+      <div class="stage-label">Step 3 — Qualified Claim</div>
+      <p>(a) Understood: Qualified to WEIRD samples and natural settings. (b) The qualification to WEIRD samples is good but the journey should note that the qualifier is doing a lot of work — excluding WEIRD samples from the claim essentially means the evidence base for the universal evolutionary claim is extremely thin. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 4 — Rebuttal</div>
+      <p>(a) Understood: Urban reversal. (b) I wanted the journey to acknowledge that Nasar &amp; Fisher (1992) is a counter-claim that requires the same evidential standard as Stamps (2010) — is there a meta-analysis of the urban-reversal literature? If the reversal is based on a few studies, the defeater is weaker than the original claim; if it is meta-analytic, they are comparable in strength. The journey does not clarify this. (c) At this point I would close the tab in a real reading and search for the Stamps/Nasar comparison directly.</p>
+
+      <div class="stage-label">Stopped at</div>
+      <p>Stopped at Step 4 (rebuttal) in a realistic reading. Continued for the purpose of this test but noted that in practice the journey did not resolve the key evidential comparison I needed. <span class="stopped-at" style="background:#fff3d6;color:#8a6010;">Stopped at Step 4</span></p>
+
+      <div class="stage-label">Chinn-Brewer response taken</div>
+      <div class="cb-response-taken">Response 2 — Reject the data (the original claim, not the defeater)</div>
+      <p><em>Reasoning: "The 88-study meta-analysis uses predominantly artificial stimuli. The evolutionary backing is contested. I would reject the core claim as overstated rather than modify my use of the theory — I would simply not cite the theory for architectural design applications, because the evidence base does not support those applications reliably."</em></p>
+
+      <div class="adequacy-note">
+        <b>What would have made the journey more adequate:</b> The journey would have retained me through Step 4 if it had directly compared the evidential weight of the original claim (Stamps meta-analysis, 88 studies) against the defeater (Nasar reversal — how many studies? Is there a meta-analysis?). A balanced presentation of the two evidence bases would have let me form my own judgment rather than having to search elsewhere. The journey treats the original claim and the defeater asymmetrically in its level of quantification.
+      </div>
+    </div>
+  </div>
+
+  <!-- Journey 1 Summary -->
+  <h2>Journey 1 · Summary Findings</h2>
+  <table class="summary-table">
+    <thead>
+      <tr><th>Agent</th><th>Stopped at</th><th>CB response</th><th>Key adequacy failure</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>P1-A: Pragmatist</td>
+        <td>Completed</td>
+        <td>3 — Exclude from domain</td>
+        <td>Journey does not help the student determine whether their specific context (campus architecture) falls inside or outside the urban-reversal scope</td>
+      </tr>
+      <tr>
+        <td>P1-B: Eager</td>
+        <td>Completed</td>
+        <td>5 — Reinterpret, theory unchanged</td>
+        <td>Journey does not quantify the defeater's effect size; adequacy requires knowing whether d for the urban reversal is comparable to d = 0.43 for the original effect</td>
+      </tr>
+      <tr>
+        <td>P1-C: Sceptic</td>
+        <td>Stopped at Step 4</td>
+        <td>2 — Reject the original claim</td>
+        <td>Journey treats original claim and defeater asymmetrically; no meta-analytic evidence is given for the urban-reversal literature, making comparison impossible</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    <strong>Cross-agent finding for Journey 1:</strong>
+    Two of three agents completed the journey. All three identified the same structural gap: the journey quantifies the original effect (d ≈ 0.43, 88 studies) but does not quantify the defeater. This asymmetry lets the original claim appear more robust than the challenge without giving the reader the tools to evaluate the comparison. In a revision, the rebuttal step should include an effect-size estimate for the urban-reversal finding and a note on the number of studies in that literature.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- JOURNEY 2: N-Q-005, P2 persona -->
+  <!-- ============================================================ -->
+
+  <div class="journey-header" style="margin-top:36px;">
+    <h2>Journey 2 · N-Q-005 · Noise→HPA Mechanism Chain</h2>
+    <div class="j-meta">
+      Question: "Broadband noise → HPA → GR downregulation → hippocampal degradation → wayfinding error: which links confirmed?" ·
+      Persona: P2-prober (researcher, Nia) · Shape: Toulmin with chain-status table ·
+      File: <code>journey_nq005_noise_hpa_chain.html</code>
+    </div>
+  </div>
+
+  <h2>Agent P2-A — Nia-Surveyor</h2>
+  <div class="agent-card">
+    <div class="agent-head">
+      <span class="agent-name">Agent P2-A: Nia-Surveyor</span>
+      <span class="agent-profile">Postdoc, environmental psychology, currently auditing a literature for a systematic review · Needs to assign confidence levels to mechanistic claims</span>
+    </div>
+    <div class="agent-body">
+
+      <div class="stage-label">Step 1 — Data (chain-status table)</div>
+      <p>(a) Understood: The table is well-structured. Four rows, four statuses, clear citations. The badge system (green/amber/red/blue) allows rapid visual scanning. For Step 1, this is good. (b) Wanted: I wanted an indication of the number of human studies for each confirmed link — "multiple studies" for Link 1 is useful but I needed the study count and a range of N to assess what "multiple" means in this field. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 2 — Warrant and Backing (Pearl's hierarchy)</div>
+      <p>(a) Understood: Pearl's three rungs. I know this framework well. The presentation is clean. (b) Wanted: I would have liked a footnote clarifying whether "intervention-level" evidence requires randomised control or whether quasi-experimental designs with noise manipulation count as Rung 2. In practice, some acoustic studies use within-subject crossover designs that approach Rung-2 status without being randomised. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 3 — Qualified Claim</div>
+      <p>(a) Understood: Three qualifiers stated clearly. The Toulmin mini-diagram helps. (b) Nothing missing. This step is concise. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 4 — Rebuttal</div>
+      <p>(a) Understood: No Rung-2 human study for interior links. The three specific reviewer objections listed are exactly the objections I would raise as a reviewer. (b) Wanted: A sentence on what a Rung-2 study for Link 2 would look like in practice — what pharmacological agent, what noise-exposure protocol, what sample size. This would help a grant writer translate the critique into an Aim. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 5 — Chinn-Brewer Panel</div>
+      <p>(a) Understood: All seven responses. Response 4 (hold in abeyance) is clearly the most defensible for a systematic-review context. Response 6 (peripheral change, scope Aim 1 to Link 1) is sensible for a grant context. The panel correctly identifies the strategic logic for each. (b) Wanted: A note distinguishing which responses are appropriate for a systematic review versus a grant application context — the same researcher may need different responses in different writing contexts. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 6 — Reader Response</div>
+      <p>Completed.</p>
+
+      <div class="stage-label">Stopped at</div>
+      <p>Completed all six steps. <span class="stopped-at completed">Completed</span></p>
+
+      <div class="stage-label">Chinn-Brewer response taken</div>
+      <div class="cb-response-taken">Response 4 — Hold the data in abeyance</div>
+      <p><em>Reasoning: "For my systematic review, I will note Links 2–3 as 'supported by animal models; no Rung-2 human evidence available as of 2026.' I will not drop these links from the review because they represent the field's working hypothesis, but I will assign them a confidence level of 'low' in the review's GRADE-style table and flag the absence of intervention-level evidence explicitly."</em></p>
+
+      <div class="adequacy-note">
+        <b>What would have made the journey more adequate:</b> The journey would be more useful for a systematic reviewer if it included a formal evidence-quality summary (e.g., a GRADE table or equivalent) for each link, not just a badge label. The badges are visually useful but do not carry enough information for formal systematic review purposes. The journey is calibrated for a grant writer; for a systematic reviewer, a formal quality-rating schema would be needed.
+      </div>
+    </div>
+  </div>
+
+  <h2>Agent P2-B — Nia-Advocate</h2>
+  <div class="agent-card">
+    <div class="agent-head">
+      <span class="agent-name">Agent P2-B: Nia-Advocate</span>
+      <span class="agent-profile">Postdoc preparing a grant application · Has been using the noise→cortisol→wayfinding chain in presentations for two years · Invested in the claim</span>
+    </div>
+    <div class="agent-body">
+
+      <div class="stage-label">Step 1 — Data</div>
+      <p>(a) Understood: The table confirms what I already knew — Link 1 is well-supported, the interior links are the weak point. The "inferential" badge for GR→place-cell is alarming. (b) Wanted: A statement of how often grant reviewers have flagged the animal-extrapolation issue in this literature — am I the only one whose grants might be affected, or is this a well-known problem in the field? Some calibration of reviewer sophistication would help me decide how much to worry. (c) Continue: yes, with anxiety.</p>
+
+      <div class="stage-label">Step 2 — Warrant and Backing</div>
+      <p>(a) Understood: Pearl's hierarchy. I understand Rung 1 vs. Rung 2. (b) I did not like the implication that my claims are Rung 1. I know that, but seeing it articulated this clearly was uncomfortable. That discomfort is probably the journey working as intended. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 3 — Qualified Claim</div>
+      <p>(a) Understood: I can still cite the chain but must hedge Links 2–3. (b) I wanted reassurance that the hedged claim is still fundable — that reviewers who know the Pearl hierarchy are not expecting all four links to be Rung 2 before a grant will fund the research. The journey does not address this. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 4 — Rebuttal</div>
+      <p>(a) Understood: Three specific reviewer objections. These are real. (b) I wanted the journey to tell me which of the three objections is most likely to kill a grant versus which is a standard comment-and-respond situation. Not all objections are equally fatal. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 5 — Chinn-Brewer Panel</div>
+      <p>(a) Understood: Response 4 (hold in abeyance and restructure Aim 1) is the path the journey is clearly endorsing, even though it doesn't say so explicitly. Response 6 is also defensible. (b) The panel is balanced — it presents all seven responses without editorialising — but for an advocate who needs guidance, the balance is frustrating. I wanted the journey to recommend one response for my situation. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 6 — Reader Response</div>
+      <p>Completed.</p>
+
+      <div class="stage-label">Stopped at</div>
+      <p>Completed all six steps. <span class="stopped-at completed">Completed</span></p>
+
+      <div class="stage-label">Chinn-Brewer response taken</div>
+      <div class="cb-response-taken">Response 6 — Make peripheral changes to the theory</div>
+      <p><em>Reasoning: "I will keep the full chain in the introduction as theoretical motivation but scope my specific aims to Link 1 and state explicitly that Aims 2–3 will test Links 2–3 at Rung 2 for the first time in humans. This converts the defeater into the grant's scientific contribution rather than its vulnerability."</em></p>
+
+      <div class="adequacy-note">
+        <b>What would have made the journey more adequate:</b> The journey would have been more useful for a grant-writer audience if the Chinn-Brewer responses were accompanied by brief notes on their strategic consequences — e.g., "Response 4 is defensible but reduces the scientific novelty of your specific aims; Response 6 is defensible and can increase scientific novelty if framed correctly." The journey is epistemically neutral, which is intellectually honest but strategically unhelpful for a deadline-facing grant writer.
+      </div>
+    </div>
+  </div>
+
+  <h2>Agent P2-C — Nia-Frontiersman</h2>
+  <div class="agent-card">
+    <div class="agent-head">
+      <span class="agent-name">Agent P2-C: Nia-Frontiersman</span>
+      <span class="agent-profile">Early-career PI, exploratory orientation · Looking for the biggest research gap in the field · Wants to know where to invest next, not how to defend current claims</span>
+    </div>
+    <div class="agent-body">
+
+      <div class="stage-label">Step 1 — Data</div>
+      <p>(a) Understood: The inferential cells in the table are not bugs — they are the most interesting cells. Link 3 (GR→place cell) is entirely uncharted in humans. This is a gap worth funding. (b) Wanted: VOI (value of information) estimate for each gap — which unstudied link, if tested, would most update field-level beliefs? The journey lists the gaps but does not rank their scientific value. (c) Continue: yes, energised.</p>
+
+      <div class="stage-label">Step 2 — Warrant and Backing</div>
+      <p>(a) Understood: Pearl's hierarchy tells me what kind of study I need to design for each rung. (b) Nothing missing for my purposes. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 3 — Qualified Claim</div>
+      <p>(a) Understood. (b) For me the qualified claim is less interesting than the qualification itself — the hedges are the map of where to work. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 4 — Rebuttal</div>
+      <p>(a) Understood: The three reviewer objections. Objection (ii) — about whether office-noise levels are comparable to rodent stress protocols — is the most tractable empirically. There is a dose-equivalence study to be done. (b) Wanted: A brief note on what a dose-equivalence study would need to measure and whether there are any existing frameworks for mapping rodent HPA stress protocols to human acoustic-exposure parameters. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 5 — Chinn-Brewer Panel</div>
+      <p>(a) Understood: For an explorer, Response 7 (change the theory) is the most interesting. The note on switching to a noise→EEG alpha-power→spatial-integration pathway is the most actionable suggestion in the entire journey. (b) Wanted: The alternative pathway mentioned in Response 7 (noise → alpha-power suppression → spatial integration) deserved its own mini-journey, not just a sentence. That alternative mechanism is the most scientifically fertile idea on the page and it is buried in the last response of the Chinn-Brewer panel. (c) Continue: yes.</p>
+
+      <div class="stage-label">Step 6 — Reader Response</div>
+      <p>Completed.</p>
+
+      <div class="stage-label">Stopped at</div>
+      <p>Completed all six steps. <span class="stopped-at completed">Completed</span></p>
+
+      <div class="stage-label">Chinn-Brewer response taken</div>
+      <div class="cb-response-taken">Response 7 — Change the theory</div>
+      <p><em>Reasoning: "The cortisol chain has two animal-extrapolation gaps and one clinical-extrapolation gap. Rather than filling those gaps incrementally, I would reframe the research programme around the EEG pathway — noise → sustained alpha-power suppression → spatial-integration failure — which is testable in a single human study, requires no animal-to-human extrapolation, and yields a publishable finding regardless of whether the cortisol chain is eventually confirmed."</em></p>
+
+      <div class="adequacy-note">
+        <b>What would have made the journey more adequate:</b> The alternative EEG mechanism mentioned in Response 7 should have been given a separate journey or at least a linked note. For an explorer persona, the Chinn-Brewer panel's last response is the most important output of the entire journey, but the journey's architecture treats it as the final item in a list rather than as a potential research direction worth following. A version of this journey for the frontiersman persona should invert the emphasis: less on defending the cortisol chain, more on the alternatives the Pearl critique opens up.
+      </div>
+    </div>
+  </div>
+
+  <!-- Journey 2 Summary -->
+  <h2>Journey 2 · Summary Findings</h2>
+  <table class="summary-table">
+    <thead>
+      <tr><th>Agent</th><th>Stopped at</th><th>CB response</th><th>Key adequacy failure</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>P2-A: Surveyor</td>
+        <td>Completed</td>
+        <td>4 — Hold in abeyance</td>
+        <td>Journey is calibrated for grant writers; for systematic reviewers, it needs GRADE-style evidence quality ratings per link, not just badge labels</td>
+      </tr>
+      <tr>
+        <td>P2-B: Advocate</td>
+        <td>Completed</td>
+        <td>6 — Peripheral change</td>
+        <td>Chinn-Brewer panel is epistemically neutral; advocate persona needs strategic guidance on which responses are defensible in a grant-review context</td>
+      </tr>
+      <tr>
+        <td>P2-C: Frontiersman</td>
+        <td>Completed</td>
+        <td>7 — Change the theory</td>
+        <td>Alternative EEG mechanism mentioned in Response 7 deserves its own development; the most scientifically valuable content in the journey is buried at the bottom of the last panel item</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    <strong>Cross-agent finding for Journey 2:</strong>
+    All three agents completed the journey — the chain-status table and Pearl's hierarchy were well-received across all profiles. The common structural gap: the journey is optimised for one sub-persona (the advocate seeking to defend the chain) and is less well-suited to the surveyor (who needs formal quality ratings) and the frontiersman (who needs the alternative mechanisms to be developed, not listed). The alternative EEG pathway in Response 7 was independently identified by the Frontiersman as the most interesting output of the journey — a finding that suggests a follow-up journey on that alternative mechanism would be high-value.
+  </p>
+
+  <h2>Cross-Journey Findings</h2>
+  <div class="finding-block">
+    <div class="finding-label">Finding 1 — Defeater asymmetry in Journey 1</div>
+    <p>Journey 1 quantifies the original claim (88 studies, d ≈ 0.43) but does not quantify the defeater (no effect size or study count given for the urban-reversal literature). This asymmetry was flagged independently by all three P1 agents. Fix: add a stat-figure block to Step 4 with effect-size data for the Nasar-lineage urban-preference studies.</p>
+  </div>
+  <div class="finding-block">
+    <div class="finding-label">Finding 2 — Chinn-Brewer panel is persona-neutral in both journeys</div>
+    <p>Both journeys present the seven responses without editorialising. This is epistemically correct but strategically frustrating for agents who need actionable guidance (P1-A and P2-B). A light editorial note — e.g., "For a student paper, Responses 3 and 5 are most commonly defensible; Response 2 is defensible only if the exclusion criterion is made explicit" — would add practical value without compromising the panel's honesty.</p>
+  </div>
+  <div class="finding-block">
+    <div class="finding-label">Finding 3 — Alternative mechanisms buried in Response 7</div>
+    <p>Both journeys mention alternative frameworks only inside Chinn-Brewer Response 7, which many readers will treat as the "give up the theory" response and not engage with. For explorer-persona readers (P2-C), this is where the most interesting content lives. Future journeys should consider linking alternative mechanisms out of the Chinn-Brewer panel into separate pages or at minimum into expandable detail blocks.</p>
+  </div>
+  <div class="finding-block">
+    <div class="finding-label">Finding 4 — Journey 2 well-matched to P2-prober; under-serves other P2 sub-flavours</div>
+    <p>The noise→HPA journey is optimised for a P2-prober who wants to audit the chain's evidential status. It serves the P2-surveyor and P2-frontiersman less well. The task-design document notes that each student owns one persona; in a real deployment, the journey would be paired with its specific sub-persona and this mismatch would not arise. In this test it surfaces useful information about the range of needs within a single persona tier.</p>
+  </div>
+
+  <p class="footer-note">
+    LLM-panel reader test conducted per Scaffold 3.3 of the task-design document. Model: Claude Sonnet 4 (claude-sonnet-4-6). Six agents total (three per journey). All agent profiles drawn from Task 1 panel configurations for P1 and P2 personas. COGS 160 SP26 · Track 4 · Task 3.
+  </p>
+</div>
+
+<footer class="site-footer">
+  <div style="max-width:900px;margin:0 auto;padding:20px 28px;display:flex;gap:36px;flex-wrap:wrap;border-top:1px solid var(--rule);">
+    <div style="font-size:0.78rem;color:var(--muted);">
+      COGS 160 Spring 2026 · Prof. David Kirsh, UCSD Cognitive Science.
+      <a href="../t4_task3.html" style="color:var(--accent);margin-left:12px;">Back to Task 3</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

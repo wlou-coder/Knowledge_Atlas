@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where does SRT diverge from ART? — A worked evidential journey</title>
+<style>
+  :root {
+    --navy: #1a2744;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --gold: #7A5C1E;
+    --gold-bg: #FBF5E6;
+    --amber: #854F0B;
+    --amber-bg: #FEF3E2;
+    --red-label: #7B2D1A;
+    --flex-label: #0F6E56;
+    --rev-label: #185FA5;
+    --border: #D3D1C7;
+    --text: #1a1a18;
+    --text-mid: #444441;
+    --text-muted: #888780;
+    --bg: #fafaf8;
+    --bg-card: #ffffff;
+    --bg-surface: #f5f5f3;
+    --step-color: #7A5C1E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 17px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--navy);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 2px solid var(--teal);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow-x: auto;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: #9FE1CB;
+    letter-spacing: 0.05em;
+    padding: 14px 20px 14px 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    margin-right: 8px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .nav-brand svg { opacity: 0.8; }
+  nav a {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px; color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    padding: 14px 14px;
+    white-space: nowrap; flex-shrink: 0;
+    transition: color 0.15s;
+  }
+  nav a:hover { color: #fff; }
+
+  /* ── BREADCRUMB ── */
+  .breadcrumb {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: var(--teal);
+    padding: 0.9rem 0 0;
+  }
+  .breadcrumb span { color: var(--text-muted); margin: 0 6px; }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 0;
+  }
+  .hero-kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: normal;
+    line-height: 1.25;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+  .hero-sub {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 1.75rem;
+  }
+  .hero-sub a { color: var(--teal); text-decoration: none; }
+
+  .search-box {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .search-box svg { color: var(--text-muted); flex-shrink: 0; }
+  .search-box span {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 15px;
+    color: var(--text-mid);
+  }
+
+  .journey-intro {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.65;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── STEPS ── */
+  .container { max-width: 780px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+  .step {
+    padding: 2.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step:last-of-type { border-bottom: none; }
+
+  .step-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--step-color);
+    margin-bottom: 0.6rem;
+  }
+
+  .step h2 {
+    font-size: 1.35rem;
+    font-weight: bold;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .step p {
+    margin-bottom: 1rem;
+    color: var(--text-mid);
+    font-size: 16.5px;
+  }
+  .step p:last-of-type { margin-bottom: 0; }
+
+  .step em { font-style: italic; }
+
+  /* stat callout */
+  .stat-block {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: var(--gold-bg);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .stat-num {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.1;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .stat-body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--amber);
+    line-height: 1.55;
+  }
+  .stat-body strong { font-weight: 600; }
+
+  /* sources line */
+  .sources {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    border-top: 1px dashed var(--border);
+    padding-top: 0.65rem;
+    margin-top: 1.25rem;
+    line-height: 1.6;
+  }
+  .sources strong { font-weight: 600; color: var(--text-mid); }
+
+  /* "not show" divider */
+  .data-limit {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.85rem 1.1rem;
+    margin: 1.1rem 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13.5px;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ── TOULMIN DIAGRAM ── */
+  .toulmin-diagram {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 0;
+    align-items: center;
+    margin: 1.75rem 0;
+  }
+  .td-box {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+  }
+  .td-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .td-content {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .td-arrow {
+    text-align: center;
+    font-size: 22px;
+    color: var(--border);
+  }
+
+  /* rebuttal */
+  .rebuttal-box {
+    background: var(--bg-card);
+    border: 1.5px solid #C8A96B;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.25rem 0;
+  }
+  .rebuttal-box .rb-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+  }
+  .rebuttal-box p {
+    font-size: 15.5px;
+    color: var(--text-mid);
+  }
+
+  /* ── CHINN-BREWER PANEL ── */
+  .cb-intro {
+    margin-bottom: 1.25rem;
+    font-size: 16px;
+    color: var(--text-mid);
+  }
+
+  .anomaly-box {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .anomaly-box .ab-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+  .anomaly-box p {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13.5px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  .cb-table { width: 100%; border-collapse: collapse; }
+  .cb-row {
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .cb-row:last-child { border-bottom: none; }
+  .cb-row:hover { background: var(--bg-surface); }
+  .cb-row td {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+  }
+  .cb-num {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    width: 28px;
+  }
+  .cb-name {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14.5px;
+    color: var(--text);
+  }
+  .cb-tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    text-align: right;
+    white-space: nowrap;
+    padding-left: 1rem;
+  }
+  .tag-protective { color: #993C1D; }
+  .tag-flexible   { color: #0F6E56; }
+  .tag-revising   { color: #185FA5; }
+
+  .cb-expand {
+    display: none;
+    background: var(--bg-surface);
+    border-top: 1px dashed var(--border);
+  }
+  .cb-expand.open { display: table-row; }
+  .cb-expand td {
+    padding: 0.85rem 1rem 1rem 2.75rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13.5px;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+
+  .cb-wrapper {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+
+  /* ── RESPONSE FORM ── */
+  .response-box {
+    background: var(--bg-card);
+    border: 1.5px solid var(--teal);
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+    margin-top: 1.5rem;
+  }
+  .response-box label {
+    display: block;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+    margin-bottom: 6px;
+  }
+  .response-box select, .response-box textarea {
+    width: 100%;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 0.55rem 0.85rem;
+    background: var(--bg);
+    color: var(--text);
+    margin-bottom: 1rem;
+    resize: vertical;
+  }
+  .response-box select:focus, .response-box textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+  .response-box textarea { min-height: 90px; }
+
+  .save-btn {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 0.5rem 1.25rem;
+    cursor: pointer;
+    color: var(--text-mid);
+    transition: all 0.15s;
+  }
+  .save-btn:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+  .saved-msg {
+    display: none;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: var(--teal);
+    margin-left: 1rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.4);
+    padding: 2.5rem 2rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .footer-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+  footer h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #9FE1CB;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.04em;
+  }
+  footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  footer a:hover { color: #9FE1CB; }
+  .footer-copy {
+    max-width: 780px;
+    margin: 1.5rem auto 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .toulmin-diagram { grid-template-columns: 1fr; }
+    .td-arrow { transform: rotate(90deg); margin: 0.25rem 0; }
+    .footer-inner { grid-template-columns: 1fr; gap: 1rem; }
+    .hero, .container { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9FE1CB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    KNOWLEDGE Atlas
+  </div>
+  <a href="#">⌕ Search</a>
+  <a href="#">Syllabus</a>
+  <a href="#">A0</a>
+  <a href="#" style="color:rgba(255,255,255,0.9); font-weight:500;">Viewing as: P3 Elena ▾</a>
+  <a href="#" style="margin-left:auto;">Log in</a>
+  <a href="#">Register →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="breadcrumb">
+    <a href="#">Home</a><span>/</span>
+    <a href="#">160 Student</a><span>/</span>
+    <a href="#">Track 4</a><span>/</span>
+    <a href="#">Task 3</a><span>/</span>
+    E-Q-002 · SRT vs ART divergence
+  </div>
+
+  <p class="hero-kicker" style="margin-top:1.25rem;">Knowledge Atlas · Answer-shape catalogue · Evidential journey: E-Q-002 (researcher persona)</p>
+
+  <h1>Where does the evidence for SRT genuinely diverge from ART?</h1>
+
+  <p class="hero-sub">A worked evidential journey · Toulmin shape · P3 researcher persona · E-Q-002 in the canonical question corpus.</p>
+
+  <div class="search-box">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <span>Where does the evidence for SRT genuinely diverge from ART, and which framework better accounts for the psychophysiological recovery trajectory after acute stress exposure?</span>
+  </div>
+
+  <p class="journey-intro">The reader has typed the question above. The Atlas will now build a Toulmin argument around it, surface the principal defeater inline, and ask the reader which Chinn &amp; Brewer (1993) response they would take with the rebuttal before they leave.</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- ── STEP 1 · DATA ── -->
+  <div class="step" id="step1">
+    <div class="step-label">Step 1 · Data</div>
+    <h2>In studies measuring both frameworks' outcomes simultaneously, autonomic recovery effects are consistently larger than directed-attention effects after acute stress exposure.</h2>
+
+    <p>The sharpest empirical evidence on SRT–ART divergence comes from studies that measure both theories' signature outcomes within the same participants and exposure conditions. After an identifiable acute stressor, nature-exposed participants show larger effect sizes on autonomic recovery outcomes — cardiovascular return-to-baseline, cortisol suppression, skin-conductance recovery — than on the directed-attention outcomes ART predicts: backwards digit-span improvement, self-reported restorativeness, sustained-attention task performance.</p>
+
+    <div class="stat-block">
+      <div class="stat-num">g ≈ 0.55–0.75<br><span style="font-size:1.1rem;">vs. 0.25–0.45</span></div>
+      <div class="stat-body">
+        <strong>Effect sizes for autonomic recovery outcomes versus directed-attention outcomes</strong> in the same nature-exposure stress-recovery studies. Pooled across fourteen studies in which both outcome types were measured (van den Berg, Hartig, &amp; Staats, 2015). The gap is consistent across studies, but within-study Ns range from ≈30 to ≈250. The range reflects real heterogeneity across stressor types and exposure durations rather than a single confidence interval — this is why the claim below is "SRT leads on the acute trajectory" rather than "SRT wins."
+      </div>
+    </div>
+
+    <p>The original demonstration of nature's stress-buffering effect (Ulrich et al., 1991) used cardiovascular and self-reported affect outcomes, showing recovery within four to seven minutes of nature exposure post-surgery — a timescale consistent with SRT's parasympathetic rebound account. Directed-attention recovery, as Kaplan (1995) models it, operates on a longer timescale and does not require a prior stressor as a precondition.</p>
+
+    <div class="data-limit">
+      <strong>What the data does not show.</strong> The smaller attentional effect is still real — ART's mechanism is not absent. The data also does not show whether the gap is a genuine theoretical difference or an artifact of differential measurement sensitivity between autonomic instruments and behavioral attention tests. These two interpretations are not yet distinguishable from the existing pooled data.
+    </div>
+
+    <div class="sources">
+      <strong>Sources.</strong> Ulrich et al. (1991), <em>Environment &amp; Behavior</em>; Kaplan (1995), <em>Environment &amp; Behavior</em>; van den Berg, Hartig, &amp; Staats (2015), <em>Environment &amp; Behavior</em>; Laumann, Gärling, &amp; Stormark (2003), <em>Journal of Environmental Psychology</em>.
+    </div>
+  </div>
+
+  <!-- ── STEP 2 · WARRANT AND BACKING ── -->
+  <div class="step" id="step2">
+    <div class="step-label">Step 2 · Warrant and Backing</div>
+    <h2>Two theories with overlapping scope conditions can only be discriminated by a design that independently activates what each mechanism requires.</h2>
+
+    <p>The argument from differential effect sizes to a theoretical verdict rests on a logical principle: a larger effect size for one theory's outcomes is only evidence of that theory's priority if the design independently activates each mechanism. SRT's mechanism is <em>autonomic</em>: an identifiable acute stressor activates the sympatho-adrenal-medullary (SAM) axis; subsequent exposure to evolutionarily familiar, low-threat natural stimuli triggers parasympathetic rebound and hypothalamic-pituitary-adrenal (HPA) suppression. ART's mechanism is <em>attentional</em>: sustained mental fatigue depletes directed-attention resources; exposure to low-demand environments with softly fascinating stimuli allows involuntary attention to engage and directed-attention capacity to recover.</p>
+
+    <p>These are genuinely distinct causal pathways — one runs through the body's acute stress axis, the other through attentional resource allocation. They carry different predictions: SRT predicts faster physiological recovery when a prior stressor is present; ART predicts directed-attention improvement whether or not a prior stressor occurred. But in virtually every published study, both pathways are simultaneously active: participants are both post-stressor <em>and</em> attention-fatigued, and the natural environments used are simultaneously low-threat <em>and</em> low-demand. The design conflates activation conditions for both theories.</p>
+
+    <div class="sources">
+      <strong>Backing.</strong> The requirement that theory-discriminating tests independently vary mechanism-activation conditions is developed in Woodward (2003), <em>Making Things Happen</em> (interventionist causation); the specific methodological gap in SRT/ART comparative research is documented in Hartig (2021), <em>Handbook of Environmental Psychology</em>, and in the original SRT program statement, Ulrich (1983), <em>Science</em>.
+    </div>
+  </div>
+
+  <!-- ── STEP 3 · QUALIFIED CLAIM ── -->
+  <div class="step" id="step3">
+    <div class="step-label">Step 3 · Qualified Claim</div>
+    <h2>SRT better accounts for the acute psychophysiological recovery trajectory; ART better accounts for sustained directed-attention restoration; the frameworks are not yet directly competitive.</h2>
+
+    <p>Reading the differential effect-size data through the warrant produces a two-part qualified claim rather than a single winner. <em>SRT carries the stronger warrant for the specific sub-process of acute recovery from an identifiable stressor</em> — the physiological evidence is direct, the mechanism (SAM-axis rebound via parasympathetic activation) is specified to a timescale consistent with the data (minutes, not hours), and the experimental designs that best match SRT's predictions show the larger effects. <em>ART carries the stronger warrant for directed-attention restoration over longer exposures without a mandatory prior stressor</em> — its evidence base is larger, but effect sizes are smaller and the mechanism (involuntary attention engagement replenishing a depletable resource) is harder to operationalise independently of the outcome it predicts.</p>
+
+    <p>The qualifier "not yet directly competitive" reflects the fact that no published study has run a clean crossed design holding stressor presence and environment demand-level independent while measuring both outcome types with matched sensitivity. Until that design exists, the claim that "SRT wins on the acute trajectory" is defensible but not definitive.</p>
+
+    <div class="toulmin-diagram">
+      <div class="td-box">
+        <div class="td-label">Data</div>
+        <div class="td-content">Autonomic recovery: g ≈ 0.55–0.75. Directed-attention restoration: g ≈ 0.25–0.45. Same samples, same environments.</div>
+      </div>
+      <div class="td-arrow">→</div>
+      <div class="td-box">
+        <div class="td-label">Claim (with qualifications)</div>
+        <div class="td-content">SRT leads on the acute recovery trajectory; ART leads on sustained attention restoration; mechanisms not yet independently confirmed in a crossed design.</div>
+      </div>
+    </div>
+
+    <p>This is the claim a journey can defensibly leave a reader with in 2026. It is stronger than a "both explain the same thing" dismissal; it is weaker than a decisive theoretical verdict. Both frameworks survive, but for different aspects of the restorative response.</p>
+  </div>
+
+  <!-- ── STEP 4 · REBUTTAL ── -->
+  <div class="step" id="step4">
+    <div class="step-label">Step 4 · Rebuttal</div>
+    <h2>The principal threat to the claim: the effect-size gap may be a measurement artifact, not a theoretical discriminant.</h2>
+
+    <p>The claim above treats the differential effect-size pattern as evidence that SRT's mechanism is more potent for acute recovery. A coherent rebuttal exists. If the instruments used to measure SRT outcomes — continuous cardiovascular monitoring, salivary cortisol assay, galvanic skin response — are simply more sensitive and more directly tied to the exposure manipulation than those used for ART outcomes — backwards digit span, self-reported restorativeness scales, selective attention tasks — then the larger effect size for SRT outcomes would appear even if both mechanisms operated at identical strength. On this reading, the divergence tells us about the psychometrics of the measurement tools, not about the theoretical priority of either framework.</p>
+
+    <div class="rebuttal-box">
+      <div class="rb-label">Rebuttal structure</div>
+      <p>The effect-size gap could reflect (a) genuine mechanistic difference — SRT's mechanism is more potent for acute recovery; (b) differential measurement sensitivity — autonomic instruments are more responsive than behavioral attention tests; or (c) a shared pathway — affect mediates both the autonomic and the attentional recovery, and the gap reflects how quickly affect feeds back into each system. Option (a) supports the claim; options (b) and (c) are defeaters. The existing pooled data cannot distinguish them.</p>
+    </div>
+
+    <p>Settling this would require a study that holds measurement sensitivity constant across both outcome domains — for instance, using resting-state fMRI connectivity as the outcome for both (default-mode network for ART-aligned restoration; heart-rate variability with neural correlates for SRT-aligned recovery) rather than behavioral and physiological outcomes that are not directly comparable in sensitivity. The field has begun moving in this direction (Bratman et al., 2019), but crossed designs at scale have not yet been run.</p>
+
+    <div class="sources">
+      <strong>Defeater source.</strong> The measurement-sensitivity problem as a confound in SRT/ART comparisons is discussed in Hartig, Evans, Jamner, Davis, &amp; Gärling (2003), <em>Environment &amp; Behavior</em>; elaborated in Joye &amp; van den Berg (2011), <em>Psychological Bulletin</em>; the neuroimaging path forward is outlined in Bratman, Anderson, Berman, et al. (2019), <em>Science Advances</em>.
+    </div>
+  </div>
+
+  <!-- ── STEP 5 · CHINN-BREWER PANEL ── -->
+  <div class="step" id="step5">
+    <div class="step-label">Step 5 · How Readers Respond to a Defeater</div>
+    <h2>The seven responses to anomalous data, applied to the measurement-artifact critique.</h2>
+
+    <p class="cb-intro">Chinn &amp; Brewer (1993) catalogue seven responses that readers actually take when presented with evidence that conflicts with a theory they hold. The responses are not equally defensible; some preserve the original theoretical verdict at the cost of epistemic honesty, others revise it at the cost of accumulated commitment. Click any response to see what taking it would mean for a reader of this journey.</p>
+
+    <div class="anomaly-box">
+      <div class="ab-label">Anomalous datum (this journey)</div>
+      <p>The effect-size gap between autonomic and attentional outcomes may reflect differential measurement sensitivity across instrument types rather than a genuine difference in mechanism strength between SRT and ART — and no existing study has independently activated one mechanism while controlling for the other.</p>
+    </div>
+
+    <div class="cb-wrapper">
+      <table class="cb-table">
+        <tbody>
+
+          <tr class="cb-row" onclick="toggleCB(1)">
+            <td class="cb-num">1.</td>
+            <td class="cb-name">Ignore the data</td>
+            <td class="cb-tag tag-protective">Protective</td>
+          </tr>
+          <tr class="cb-expand" id="cb-1">
+            <td colspan="3">A reader who ignores the measurement-sensitivity rebuttal proceeds to treat the effect-size gap as a settled theoretical verdict: SRT wins on the acute trajectory, ART wins on sustained restoration. This response is available but intellectually costly — it requires not engaging with the logical force of the design-confound argument, which is a standard objection in the philosophy of science literature (Woodward, 2003). A researcher persona (P3 Elena) should find this response uncomfortable; an instructor (P5 Marisol) assigning this journey would probably flag it as insufficient for full credit.</td>
+          </tr>
+
+          <tr class="cb-row" onclick="toggleCB(2)">
+            <td class="cb-num">2.</td>
+            <td class="cb-name">Reject the data</td>
+            <td class="cb-tag tag-protective">Protective</td>
+          </tr>
+          <tr class="cb-expand" id="cb-2">
+            <td colspan="3">A reader who rejects the measurement-sensitivity claim argues that the instruments are, in fact, comparably sensitive — for instance, that cardiovascular monitoring and backwards digit span are both well-validated, reliable measures that should produce comparable effect sizes if the mechanisms were equally active. This response is empirically contestable: sensitivity differences between physiological monitoring and cognitive task performance are well-documented in the psychophysiology literature. Taking this response requires a positive argument that the instruments are matched, not just an assertion that they are.</td>
+          </tr>
+
+          <tr class="cb-row" onclick="toggleCB(3)">
+            <td class="cb-num">3.</td>
+            <td class="cb-name">Exclude the data from the theory's domain</td>
+            <td class="cb-tag tag-protective">Protective</td>
+          </tr>
+          <tr class="cb-expand" id="cb-3">
+            <td colspan="3">A reader who takes this response argues that SRT was never intended to make predictions about directed-attention outcomes, and ART was never intended to make predictions about autonomic recovery — so the effect-size comparison is simply outside both theories' scope. This is partially defensible: Ulrich's original SRT paper (1983) does focus on affective and physiological outcomes, while Kaplan's ART papers focus on attentional capacity. But the response becomes strained in light of two decades of studies that explicitly test both theories in the same paradigm, implying both domains are in scope for the comparison.</td>
+          </tr>
+
+          <tr class="cb-row" onclick="toggleCB(4)">
+            <td class="cb-num">4.</td>
+            <td class="cb-name">Hold the data in abeyance</td>
+            <td class="cb-tag tag-flexible">Flexible</td>
+          </tr>
+          <tr class="cb-expand" id="cb-4">
+            <td colspan="3">A reader who holds the rebuttal in abeyance accepts that the measurement-sensitivity objection is a real possibility but does not update strongly in either direction until a crossed design with sensitivity-matched instruments has been run. This is the epistemically responsible default for a researcher in 2026: the evidence is real, the rebuttal is real, and neither yet dominates. P3 Elena, who is looking for the honest state of the field, would likely find this response satisfying — it does not falsely resolve a live methodological dispute.</td>
+          </tr>
+
+          <tr class="cb-row" onclick="toggleCB(5)">
+            <td class="cb-num">5.</td>
+            <td class="cb-name">Reinterpret the data, theory unchanged</td>
+            <td class="cb-tag tag-flexible">Flexible</td>
+          </tr>
+          <tr class="cb-expand" id="cb-5">
+            <td colspan="3">A reader who reinterprets the data argues that the effect-size gap is real <em>and</em> the measurement-sensitivity objection is real, but that both are consistent with an integrated account: SRT's mechanism genuinely operates faster and more powerfully in the acute post-stressor context, <em>and</em> measuring it with sensitive physiological instruments naturally produces larger effects. The theories remain as stated; the data is read as confirming the expected mechanistic ordering rather than as ambiguous. This response requires committing to an empirical claim (SRT's mechanism is faster and stronger in acute contexts) that is plausible but not yet directly confirmed.</td>
+          </tr>
+
+          <tr class="cb-row" onclick="toggleCB(6)">
+            <td class="cb-num">6.</td>
+            <td class="cb-name">Make peripheral changes to the theory</td>
+            <td class="cb-tag tag-revising">Revising</td>
+          </tr>
+          <tr class="cb-expand" id="cb-6">
+            <td colspan="3">A reader who makes peripheral changes accepts the rebuttal's force and modifies the theory's scope claims rather than its core mechanism. For example: revising ART to specify that its directed-attention restoration effect is most reliably detectable after longer exposures (&gt;20 minutes) and without an acute stressor present, while ceding the short-exposure post-stressor domain to SRT. This is a principled revision that preserves both theories' core mechanisms while demarcating their scope conditions more carefully — arguably what a collaborative update to both research programs should look like.</td>
+          </tr>
+
+          <tr class="cb-row" onclick="toggleCB(7)">
+            <td class="cb-num">7.</td>
+            <td class="cb-name">Change the theory</td>
+            <td class="cb-tag tag-revising">Revising</td>
+          </tr>
+          <tr class="cb-expand" id="cb-7">
+            <td colspan="3">A reader who changes the theory takes the rebuttal as grounds for abandoning the SRT/ART framework distinction altogether and replacing it with a unified account in which nature exposure produces restorative effects through a common pathway (e.g., reduced arousal → improved attention and physiological regulation) that both theories partially describe. This is the most epistemically bold response. It is not obviously wrong — unified accounts exist in the literature (Bratman et al., 2019 propose "nature and mental health" as a superordinate framework) — but it requires accepting that the theoretical distinction between SRT and ART is not just under-tested but positively misleading. A contributing scientist (P4 Samira) who believed her 2022 data supported this view might push for exactly this revision to the site's warrant structure.</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── STEP 6 · READER RESPONSE ── -->
+  <div class="step" id="step6">
+    <div class="step-label">Step 6 · Your Response</div>
+    <h2>Which response do you take with this defeater, and why?</h2>
+
+    <p>The journey is designed not to leave a reader with a single answer but to make their <em>response to the defeater</em> explicit. A reader who is invited to choose a Chinn-Brewer response and explain it is doing the epistemic work the journey was built to support.</p>
+
+    <div class="response-box">
+      <label for="cb-select">Which Chinn &amp; Brewer response would you take?</label>
+      <select id="cb-select">
+        <option value="">— select —</option>
+        <option value="1">1. Ignore the data</option>
+        <option value="2">2. Reject the data</option>
+        <option value="3">3. Exclude the data from the theory's domain</option>
+        <option value="4">4. Hold the data in abeyance</option>
+        <option value="5">5. Reinterpret the data, theory unchanged</option>
+        <option value="6">6. Make peripheral changes to the theory</option>
+        <option value="7">7. Change the theory</option>
+      </select>
+
+      <label for="cb-reason">Why this response, in one or two sentences?</label>
+      <textarea id="cb-reason" placeholder="Your reasoning…"></textarea>
+
+      <button class="save-btn" onclick="saveResponse()">Save my response</button>
+      <span class="saved-msg" id="saved-msg">✓ Saved for this session.</span>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>Knowledge Atlas</h4>
+      <a href="#">Global home</a><br>
+      <a href="#">Site map</a>
+    </div>
+    <div>
+      <h4>COGS 160 SP</h4>
+      <a href="#">Tracks portal</a><br>
+      <a href="#">Track 4 overview</a>
+    </div>
+    <div>
+      <h4>Companion artefacts</h4>
+      <a href="#">Answer-shape catalogue</a><br>
+      <a href="#">Chinn-Brewer 7-response widget</a><br>
+      <a href="#">Back to Task 3</a>
+    </div>
+  </div>
+  <div class="footer-copy">
+    <p>A worked evidential journey for E-Q-002 of the researcher question corpus. Built as the Task-3 prototype for COGS 160 SP Track 4 by Hannah Annison. Sources: Ulrich (1983); Kaplan &amp; Kaplan (1989); Kaplan (1995); Ulrich et al. (1991); Hartig et al. (2003); Laumann et al. (2003); van den Berg et al. (2015); Joye &amp; van den Berg (2011); Bratman et al. (2019); Woodward (2003); MacKinnon (2008); Chinn &amp; Brewer (1993); Toulmin (1958/2003).</p>
+    <p style="margin-top:6px;">COGS 160 Spring 2026 · Prof. David Kirsh, UCSD Cognitive Science.</p>
+  </div>
+</footer>
+
+<script>
+  // Chinn-Brewer row toggle
+  function toggleCB(n) {
+    var el = document.getElementById('cb-' + n);
+    el.classList.toggle('open');
+  }
+
+  // Save response to sessionStorage
+  function saveResponse() {
+    var sel = document.getElementById('cb-select').value;
+    var reason = document.getElementById('cb-reason').value.trim();
+    if (!sel) { alert('Please select a Chinn-Brewer response first.'); return; }
+    var data = { response: sel, reason: reason, savedAt: new Date().toISOString() };
+    sessionStorage.setItem('eq002_response', JSON.stringify(data));
+    document.getElementById('saved-msg').style.display = 'inline';
+    setTimeout(function(){ document.getElementById('saved-msg').style.display = 'none'; }, 3000);
+  }
+
+  // Restore any saved response on load
+  (function() {
+    var saved = sessionStorage.getItem('eq002_response');
+    if (saved) {
+      var data = JSON.parse(saved);
+      document.getElementById('cb-select').value = data.response;
+      document.getElementById('cb-reason').value = data.reason || '';
+    }
+  })();
+</script>
+
+</body>
+</html>

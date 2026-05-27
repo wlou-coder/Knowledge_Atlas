@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidential Journey · ART vs SRT · K-Atlas Theory Explorer</title>
+<style>
+/* ── CSS Variables — Atlas House Style ── */
+:root {
+  --bg:          #f8f7f4;
+  --bg-card:     #ffffff;
+  --primary:     #1a3a5c;
+  --primary-mid: #2d5a8c;
+  --accent:      #c17f3a;
+  --accent-lt:   #fdf3e7;
+  --text:        #2c2c2c;
+  --muted:       #6b7280;
+  --border:      #e5e0d8;
+  /* Theory-specific colours */
+  --art:         #1e40af;
+  --art-lt:      #dbeafe;
+  --art-mid:     #3b82f6;
+  --srt:         #065f46;
+  --srt-lt:      #d1fae5;
+  --srt-mid:     #10b981;
+  --undet:       #92400e;
+  --undet-lt:    #fef3c7;
+  --undet-border:#f59e0b;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ── TOP NAV ── */
+.top-nav {
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  height: 50px;
+  gap: 22px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.top-nav .logo { font-weight: 800; font-size: 16px; color: #fff; letter-spacing: .3px; margin-right: 8px; }
+.top-nav a { color: rgba(255,255,255,.72); text-decoration: none; white-space: nowrap; }
+.top-nav a:hover { color: #fff; }
+.top-nav .spacer { flex: 1; }
+.persona-badge {
+  background: #5b3d8f;
+  color: #fff;
+  border-radius: 12px;
+  padding: 3px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 8px 28px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+}
+.breadcrumb a { color: var(--primary); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { margin: 0 5px; opacity: .5; }
+
+/* ── LAYOUT ── */
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  max-width: 1280px;
+  margin: 0 auto;
+  min-height: calc(100vh - 50px - 32px);
+}
+
+/* ── SIDE NAV ── */
+.side-nav {
+  padding: 24px 14px 24px 20px;
+  border-right: 1px solid var(--border);
+  background: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  position: sticky;
+  top: 50px;
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+}
+.side-nav .sn-group { margin-bottom: 22px; }
+.side-nav h3 {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.side-nav ul { list-style: none; }
+.side-nav li { margin-bottom: 2px; }
+.side-nav a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.3;
+}
+.side-nav a:hover { background: var(--accent-lt); color: var(--primary); }
+.side-nav a.active { background: var(--accent-lt); color: var(--primary); font-weight: 700; }
+.sn-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.side-nav a.active .sn-dot { background: var(--accent); }
+
+/* ── MAIN ── */
+main { padding: 44px 56px 72px; }
+
+/* ── SECTION COMMON ── */
+section { margin-bottom: 76px; scroll-margin-top: 70px; }
+.sec-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+h1 { font-size: 26px; font-weight: 700; line-height: 1.28; color: var(--primary); margin-bottom: 16px; }
+h2 { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+h3 { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+p  { margin-bottom: 13px; }
+.prose-sm { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1a3a5c 0%, #2d1b69 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 40px 44px;
+  margin-bottom: 36px;
+}
+.hero .q-badge {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 10px;
+}
+.hero .question {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.42;
+  margin-bottom: 22px;
+}
+.q-input-row { display: flex; gap: 8px; margin-bottom: 22px; }
+.q-input-row input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid rgba(255,255,255,.25);
+  border-radius: 6px;
+  background: rgba(255,255,255,.1);
+  color: #fff;
+  font-size: 13.5px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  outline: none;
+}
+.q-input-row input::placeholder { color: rgba(255,255,255,.42); }
+.q-input-row input:focus { border-color: rgba(255,255,255,.5); }
+.q-input-row button {
+  padding: 10px 20px;
+  background: #5b3d8f;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.q-input-row button:hover { background: #4a3077; }
+.hero-meta {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11.5px;
+  color: rgba(255,255,255,.6);
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.hero-meta strong { color: rgba(255,255,255,.88); }
+
+/* ── PROGRESS TRACK ── */
+.progress-track {
+  display: flex;
+  margin-bottom: 48px;
+  border-radius: 7px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+.prog-step {
+  flex: 1;
+  padding: 9px 10px;
+  background: #fff;
+  border-right: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  text-align: center;
+}
+.prog-step:last-child { border-right: none; }
+.prog-step .ps-num { display: block; font-size: 8.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+.prog-step .ps-name { font-size: 11px; font-weight: 600; }
+.prog-step:hover { background: var(--accent-lt); color: var(--primary); }
+.prog-step.active { background: var(--primary); color: #fff; }
+.prog-step.active .ps-num { color: rgba(255,255,255,.6); }
+.prog-step.done { background: #f0fdf4; color: #15803d; }
+.prog-step.done .ps-name::after { content: ' ✓'; }
+
+/* ── THEORY COMPARISON TABLE ── */
+.theory-table-wrap { overflow-x: auto; margin: 20px 0 28px; }
+.theory-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.theory-table th, .theory-table td {
+  padding: 11px 16px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.theory-table thead th {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  padding: 14px 16px;
+}
+.th-dim   { background: #f5f4f0; color: var(--muted); width: 22%; }
+.th-art   { background: var(--art); color: #fff; }
+.th-srt   { background: var(--srt); color: #fff; }
+.th-dim-cell { background: #fafaf8; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11.5px; font-weight: 700; color: var(--primary); }
+.art-cell { background: #f8faff; border-left: 3px solid var(--art); }
+.srt-cell { background: #f8fffe; border-left: 3px solid var(--srt); }
+.undet-row td { background: #fffbeb; font-size: 12.5px; }
+.undet-row .th-dim-cell { background: #fef3c7; }
+.agree-row td { background: #f0fdf4; font-size: 12.5px; }
+
+/* ── MECHANISM CHAINS ── */
+.chain-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 24px;
+  margin: 16px 0 24px;
+  overflow-x: auto;
+}
+.chain-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chain-label.art-label { color: var(--art); }
+.chain-label.srt-label { color: var(--srt); }
+.chain-label .theory-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.chain-wrap svg { display: block; max-width: 100%; height: auto; }
+
+/* ── CRITICAL TESTS ── */
+.critical-test-grid { display: grid; gap: 16px; margin: 20px 0; }
+.ct-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.ct-card-head {
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+.ct-num { font-size: 18px; font-weight: 800; opacity: .6; }
+.ct-title { font-size: 14px; font-weight: 700; }
+.ct-card-body { padding: 0; }
+.ct-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+  font-size: 12.5px;
+}
+.ct-row:last-child { border-bottom: none; }
+.ct-row-label {
+  padding: 10px 14px;
+  background: #f5f4f0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--muted);
+  border-right: 1px solid var(--border);
+}
+.ct-art { padding: 10px 14px; background: #f8faff; border-right: 1px solid var(--border); line-height: 1.55; }
+.ct-srt { padding: 10px 14px; background: #f8fffe; line-height: 1.55; }
+.ct-full { grid-column: 1 / -1; padding: 10px 14px; line-height: 1.55; }
+.ct-full.verdict-gap    { background: #fee2e2; color: #7f1d1d; font-weight: 600; }
+.ct-full.verdict-partial { background: #fef3c7; color: #92400e; font-weight: 600; }
+.ct-full.verdict-avail  { background: #dcfce7; color: #14532d; font-weight: 600; }
+.ct-headers {
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr;
+  background: #f5f4f0;
+  border-bottom: 1px solid var(--border);
+}
+.ct-headers .art-h {
+  padding: 8px 14px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--art);
+  border-right: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+.ct-headers .srt-h {
+  padding: 8px 14px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--srt);
+}
+
+/* ── UNDERDETERMINATION ALERT ── */
+.undet-alert {
+  background: var(--undet-lt);
+  border: 2px solid var(--undet-border);
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin: 32px 0;
+}
+.undet-alert-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.undet-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+.undet-alert-head h3 {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--undet);
+  margin-bottom: 0;
+}
+.undet-status {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--undet);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 10px;
+  margin-left: auto;
+}
+.undet-reasons { list-style: none; margin: 10px 0 0; }
+.undet-reasons li {
+  font-size: 13.5px;
+  padding: 7px 0 7px 20px;
+  border-bottom: 1px solid rgba(180,83,9,.15);
+  position: relative;
+  line-height: 1.6;
+}
+.undet-reasons li:last-child { border-bottom: none; }
+.undet-reasons li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--undet);
+  font-size: 11px;
+  top: 9px;
+}
+
+/* ── CHINN-BREWER PANEL ── */
+.cb-panel {
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  padding: 32px;
+}
+.cb-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.cb-exposed-badge {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 10px;
+  padding: 3px 9px;
+}
+.cb-intro {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.65;
+}
+.defeater-list { display: grid; gap: 11px; margin-bottom: 30px; }
+.defeater-card {
+  background: #fffbf5;
+  border: 1px solid #f0dfc0;
+  border-radius: 7px;
+  padding: 14px 18px;
+}
+.def-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #b45309;
+  margin-bottom: 4px;
+}
+.def-title { font-size: 14px; font-weight: 700; margin-bottom: 5px; color: var(--primary); }
+.def-text { font-size: 13px; line-height: 1.58; }
+.cb-section-divider {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 24px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.cb-sub-intro { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.58; }
+.cb-responses { display: grid; gap: 10px; }
+.cb-response { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.cb-resp-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+.cb-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+  flex-shrink: 0;
+  color: #fff;
+}
+.cb-type { font-size: 13.5px; font-weight: 700; }
+.cb-stance { font-size: 11px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+.cb-resp-body {
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  line-height: 1.62;
+}
+.cb-epist-take {
+  margin-top: 10px;
+  padding: 9px 13px;
+  border-radius: 6px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* CB colour scheme — same as P6 */
+.cb1 .cb-resp-head { background: #f1f5f9; }
+.cb1 .cb-num       { background: #64748b; }
+.cb1 .cb-epist-take { background: #e2e8f0; color: #1e293b; }
+
+.cb2 .cb-resp-head { background: #fef9c3; }
+.cb2 .cb-num       { background: #854d0e; }
+.cb2 .cb-epist-take { background: #fef08a; color: #713f12; }
+
+.cb3 .cb-resp-head { background: #fce7f3; }
+.cb3 .cb-num       { background: #831843; }
+.cb3 .cb-epist-take { background: #fbcfe8; color: #701a44; }
+
+.cb4 .cb-resp-head { background: #ede9fe; }
+.cb4 .cb-num       { background: #4c1d95; }
+.cb4 .cb-epist-take { background: #ddd6fe; color: #3b0764; }
+
+.cb5 .cb-resp-head { background: #dcfce7; }
+.cb5 .cb-num       { background: #14532d; }
+.cb5 .cb-epist-take { background: #bbf7d0; color: #052e16; }
+
+.cb6 .cb-resp-head { background: #dbeafe; }
+.cb6 .cb-num       { background: #1e3a8a; }
+.cb6 .cb-epist-take { background: #bfdbfe; color: #1e3a8a; }
+
+.cb7 .cb-resp-head { background: #fee2e2; }
+.cb7 .cb-num       { background: #7f1d1d; }
+.cb7 .cb-epist-take { background: #fecaca; color: #450a0a; }
+
+/* ── READER RESPONSE ── */
+.reader-stage {
+  background: #fff;
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 36px 36px 32px;
+}
+.rs-intro { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.65; }
+.cb-option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.cb-opt {
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  transition: border-color .15s, background .15s;
+  background: #fff;
+  user-select: none;
+}
+.cb-opt:hover { border-color: var(--primary); background: #f0f4f8; }
+.cb-opt.selected { border-color: var(--primary); background: var(--primary); color: #fff; }
+.cb-opt .opt-n { font-size: 17px; font-weight: 800; display: block; margin-bottom: 1px; }
+.rationale-box {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  line-height: 1.65;
+  resize: vertical;
+  min-height: 110px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+.rationale-box:focus { outline: none; border-color: var(--primary); }
+.save-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 28px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.save-btn:hover { background: #a86d2f; }
+.saved-notice {
+  display: none;
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 7px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.saved-notice.show { display: block; }
+
+/* ── MISC ── */
+.note-block {
+  background: var(--accent-lt);
+  border: 1px solid #f0dfc0;
+  border-radius: 7px;
+  padding: 14px 18px;
+  font-size: 13px;
+  margin: 16px 0;
+  line-height: 1.6;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--primary);
+  color: rgba(255,255,255,.55);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11.5px;
+  padding: 18px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+footer a { color: rgba(255,255,255,.72); text-decoration: none; }
+footer a:hover { color: #fff; }
+
+@media print {
+  .top-nav, .breadcrumb, .side-nav, footer, .save-btn,
+  .q-input-row, .progress-track { display: none !important; }
+  .layout { grid-template-columns: 1fr; }
+  main { padding: 0; }
+  section { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     TOP NAV
+════════════════════════════════════════════════ -->
+<nav class="top-nav">
+  <span class="logo">K-Atlas</span>
+  <a href="ka_home_theory.html">Home</a>
+  <a href="#mechanism-trace">Mechanism Trace</a>
+  <a href="#">Corpus</a>
+  <a href="#">Argument Map</a>
+  <div class="spacer"></div>
+  <span class="persona-badge">P7 · Theory Explorer</span>
+  <a href="#">Dr Raza</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     BREADCRUMB
+════════════════════════════════════════════════ -->
+<div class="breadcrumb">
+  <a href="ka_home_theory.html">K-Atlas</a><span>›</span>
+  <a href="#">Mechanism Trace</a><span>›</span>
+  <a href="#">Restorative Environments</a><span>›</span>
+  Evidential Journey · ART vs SRT · Theory Comparison
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LAYOUT
+════════════════════════════════════════════════ -->
+<div class="layout">
+
+<!-- SIDE NAV -->
+<nav class="side-nav">
+  <div class="sn-group">
+    <h3>This Journey</h3>
+    <ul>
+      <li><a href="#landing"  class="active"><span class="sn-dot"></span>Question</a></li>
+      <li><a href="#matrix"   ><span class="sn-dot"></span>Theory Comparison</a></li>
+      <li><a href="#chains"   ><span class="sn-dot"></span>Mechanism Chains</a></li>
+      <li><a href="#crittests"><span class="sn-dot"></span>Critical Tests</a></li>
+      <li><a href="#undet"    ><span class="sn-dot"></span>⚠ Underdetermination</a></li>
+      <li><a href="#rebuttal" ><span class="sn-dot"></span>Rebuttal Panel</a></li>
+      <li><a href="#response" ><span class="sn-dot"></span>Your Response</a></li>
+    </ul>
+  </div>
+  <div class="sn-group">
+    <h3>Theories</h3>
+    <ul>
+      <li><a href="#matrix" style="color:var(--art);font-weight:700">ART — Kaplan &amp; Kaplan</a></li>
+      <li><a href="#matrix" style="color:var(--srt);font-weight:700">SRT — Ulrich</a></li>
+    </ul>
+  </div>
+  <div class="sn-group">
+    <h3>Constructs</h3>
+    <ul>
+      <li><a href="#">Directed Attention</a></li>
+      <li><a href="#">Soft Fascination</a></li>
+      <li><a href="#">Autonomic Recovery</a></li>
+      <li><a href="#">Evolutionary Preparedness</a></li>
+    </ul>
+  </div>
+  <div class="sn-group">
+    <h3>Export</h3>
+    <ul>
+      <li><a href="#" onclick="window.print();return false;">📄 Print / PDF</a></li>
+      <li><a href="#" onclick="exportBrief();return false;">📋 Export matrix (.txt)</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<!-- ═══════════════════════════════════════════════
+     §0  LANDING / QUESTION
+════════════════════════════════════════════════ -->
+<section id="landing">
+  <div class="hero">
+    <div class="q-badge">Mechanism Trace · Restorative Environments · Theory Comparison</div>
+    <div class="question" id="heroQuestion">How do Attention Restoration Theory and Stress Recovery Theory give competing mechanistic accounts of the restorative effects of natural environments — and what experimental design would adjudicate between them?</div>
+    <div class="q-input-row">
+      <input type="text" id="userQ"
+        value="How do Attention Restoration Theory and Stress Recovery Theory give competing mechanistic accounts of the restorative effects of natural environments — and what experimental design would adjudicate between them?"
+        placeholder="Modify or retype your question…">
+      <button onclick="updateQuestion()">Trace</button>
+    </div>
+    <div class="hero-meta">
+      <span><strong>Theories:</strong> ART (Kaplan &amp; Kaplan) · SRT (Ulrich)</span>
+      <span><strong>Shape:</strong> Contrast pair — theory comparison matrix</span>
+      <span><strong>Adjudication status:</strong> Open — underdetermined</span>
+      <span><strong>Studies reviewed:</strong> 83</span>
+    </div>
+  </div>
+
+  <div class="progress-track" id="progressTrack">
+    <div class="prog-step active" onclick="gotoSection('matrix')">
+      <span class="ps-num">Stage 1</span><span class="ps-name">Theory Matrix</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('chains')">
+      <span class="ps-num">Stage 2</span><span class="ps-name">Mechanisms</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('crittests')">
+      <span class="ps-num">Stage 3</span><span class="ps-name">Critical Tests</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('undet')">
+      <span class="ps-num">Stage 4</span><span class="ps-name">⚠ Undet.</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('rebuttal')">
+      <span class="ps-num">Stage 5</span><span class="ps-name">Rebuttal</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('response')">
+      <span class="ps-num">Stage 6</span><span class="ps-name">Your Response</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §1  THEORY COMPARISON MATRIX
+════════════════════════════════════════════════ -->
+<section id="matrix">
+  <div class="sec-label">Stage 1 · Theory Comparison Matrix</div>
+  <h2>ART vs SRT — structural comparison</h2>
+  <p class="prose-sm" style="margin-bottom:18px;">
+    Both theories predict that natural environments outperform urban environments on restorative outcomes, but they posit distinct mechanisms, distinct primary outcomes, and crucially distinct boundary conditions. The boundary conditions are where adjudication is possible — and where the existing evidence is thinnest.
+  </p>
+
+  <div class="theory-table-wrap">
+    <table class="theory-table">
+      <thead>
+        <tr>
+          <th class="th-dim">Dimension</th>
+          <th class="th-art">Attention Restoration Theory (ART)<br><span style="font-weight:400;font-size:10px;opacity:.8">Kaplan &amp; Kaplan (1989, 1995)</span></th>
+          <th class="th-srt">Stress Recovery Theory (SRT)<br><span style="font-weight:400;font-size:10px;opacity:.8">Ulrich (1983, 1991)</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="th-dim-cell">Core claim</td>
+          <td class="art-cell">Directed attention (DA) is a finite cognitive resource. Sustained use produces DA fatigue. Nature restores DA by engaging <em>involuntary</em> attention (soft fascination), allowing DA circuits to recover.</td>
+          <td class="srt-cell">Acute stressors activate the sympathetic ANS. Natural environments trigger evolutionarily prepared positive affect and approach responses, downregulating the ANS and restoring physiological baseline.</td>
+        </tr>
+        <tr>
+          <td class="th-dim-cell">Primary mechanism</td>
+          <td class="art-cell">DA fatigue → involuntary attention engagement → prefrontal recovery</td>
+          <td class="srt-cell">Sympathetic activation → positive affect (evolutionary preparedness) → parasympathetic recovery</td>
+        </tr>
+        <tr>
+          <td class="th-dim-cell">Primary outcome predicted</td>
+          <td class="art-cell"><strong>Cognitive:</strong> improved attention task performance, reduced errors, faster processing on DA-dependent tasks</td>
+          <td class="srt-cell"><strong>Affective / physiological:</strong> reduced heart rate, lower cortisol, reduced skin conductance response, improved mood valence</td>
+        </tr>
+        <tr>
+          <td class="th-dim-cell">Proposed neural substrate</td>
+          <td class="art-cell">Prefrontal cortex (PFC) sustained-attention circuits; dorsal attention network</td>
+          <td class="srt-cell">Amygdala-ANS axis; hypothalamic-pituitary-adrenal (HPA) axis; nucleus accumbens (approach signal)</td>
+        </tr>
+        <tr>
+          <td class="th-dim-cell">Key boundary condition</td>
+          <td class="art-cell">Effect present only when DA fatigue is prior. <em>Rested, unstressed subjects should show null or attenuated effect.</em></td>
+          <td class="srt-cell">Effect present after an acute stressor. <em>Unstressed subjects should show attenuated effect; magnitude scales with stressor intensity.</em></td>
+        </tr>
+        <tr>
+          <td class="th-dim-cell">Key environmental properties</td>
+          <td class="art-cell">Fascination (soft), coherence, extent (scope), compatibility with current goals</td>
+          <td class="srt-cell">Evolutionary preparedness (non-threatening natural scenes), moderate visual complexity, water and vegetation presence</td>
+        </tr>
+        <tr>
+          <td class="th-dim-cell">Theorists' diagnostic test</td>
+          <td class="art-cell">Nature should selectively improve attention performance; affective change is secondary</td>
+          <td class="srt-cell">Nature should selectively reduce physiological arousal; attention change is secondary</td>
+        </tr>
+        <tr>
+          <td class="th-dim-cell">Processing speed</td>
+          <td class="art-cell">Restoration requires minutes to hours; depends on depth of DA fatigue</td>
+          <td class="srt-cell">Affective change within 4–7 min of exposure (Ulrich 1991); rapid ANS downregulation</td>
+        </tr>
+        <tr class="agree-row">
+          <td class="th-dim-cell">Where theories agree</td>
+          <td colspan="2" style="padding:10px 16px;font-size:13px;line-height:1.55;">Both predict that natural environments outperform urban environments on most measured outcomes. Both are consistent with a preference for natural scenes. Both are compatible with the observation that the effects vary across individuals and contexts.</td>
+        </tr>
+        <tr>
+          <td class="th-dim-cell">Where theories <em>disagree</em></td>
+          <td class="art-cell">ART predicts <em>null effect</em> for unstressed, cognitively rested subjects; the mechanism requires prior DA depletion.</td>
+          <td class="srt-cell">SRT predicts effect after stressor regardless of prior cognitive fatigue; fatigue and stress are orthogonal predictors.</td>
+        </tr>
+        <tr class="undet-row">
+          <td class="th-dim-cell">⚠ Underdetermination</td>
+          <td colspan="2" style="padding:10px 16px;font-size:13px;line-height:1.55;color:#92400e;font-weight:600;">The empirical record has been used to confirm <em>both</em> theories. Most studies do not cross-tabulate baseline stress against baseline cognitive fatigue, making it impossible to identify which mechanism is operating in which study. The evidence is co-extensive across both theories.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §2  MECHANISM CHAINS
+════════════════════════════════════════════════ -->
+<section id="chains">
+  <div class="sec-label">Stage 2 · Mechanism Chains</div>
+  <h2>Causal architecture of each theory</h2>
+  <p class="prose-sm" style="margin-bottom:20px;">
+    Each chain below traces the posited causal sequence from antecedent state through environmental intervention to outcome. The intervention node (nature exposure) is highlighted in both chains. The chains diverge in their antecedent state, their posited mechanism, and their primary distal outcome — which is precisely where a critical experiment should intervene.
+  </p>
+
+  <!-- ART CHAIN -->
+  <div class="chain-wrap">
+    <div class="chain-label art-label">
+      <div class="theory-dot" style="background:var(--art)"></div>
+      ART — Attention Restoration Theory · Causal chain
+    </div>
+    <svg viewBox="0 0 920 110" xmlns="http://www.w3.org/2000/svg"
+         font-family="Helvetica Neue, Arial, sans-serif" font-size="10.5">
+      <defs>
+        <marker id="art-arr" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <polygon points="0 0,7 2.5,0 5" fill="#1e40af"/>
+        </marker>
+      </defs>
+      <!-- Box 1: DA Demand -->
+      <rect x="2"   y="20" width="108" height="52" rx="6" fill="#dbeafe" stroke="#1e40af" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#1e3a8a">
+        <tspan x="56" y="43" font-weight="700">DA Demand</tspan>
+        <tspan x="56" dy="14">(task / environment)</tspan>
+      </text>
+      <line x1="110" y1="46" x2="124" y2="46" stroke="#1e40af" stroke-width="1.4" marker-end="url(#art-arr)"/>
+
+      <!-- Box 2: DA Depletion -->
+      <rect x="126" y="20" width="108" height="52" rx="6" fill="#dbeafe" stroke="#1e40af" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#1e3a8a">
+        <tspan x="180" y="43" font-weight="700">DA Depletion</tspan>
+        <tspan x="180" dy="14">(resource exhausted)</tspan>
+      </text>
+      <line x1="234" y1="46" x2="248" y2="46" stroke="#1e40af" stroke-width="1.4" marker-end="url(#art-arr)"/>
+
+      <!-- Box 3: Attentional Fatigue -->
+      <rect x="250" y="20" width="118" height="52" rx="6" fill="#dbeafe" stroke="#1e40af" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#1e3a8a">
+        <tspan x="309" y="43" font-weight="700">Attentional Fatigue</tspan>
+        <tspan x="309" dy="14">(impaired inhibition)</tspan>
+      </text>
+      <line x1="368" y1="46" x2="382" y2="46" stroke="#1e40af" stroke-width="1.4" marker-end="url(#art-arr)"/>
+
+      <!-- Box 4: INTERVENTION -->
+      <rect x="384" y="14" width="122" height="64" rx="6" fill="#1e40af" stroke="#1e3a8a" stroke-width="1.8"/>
+      <text text-anchor="middle" fill="#fff" font-weight="700">
+        <tspan x="445" y="38">⚡ Nature Exposure</tspan>
+        <tspan x="445" dy="14" font-weight="400">soft fascination,</tspan>
+        <tspan x="445" dy="13" font-weight="400">coherence, extent</tspan>
+      </text>
+      <line x1="506" y1="46" x2="520" y2="46" stroke="#1e40af" stroke-width="1.4" marker-end="url(#art-arr)"/>
+
+      <!-- Box 5: Involuntary Attention -->
+      <rect x="522" y="20" width="120" height="52" rx="6" fill="#dbeafe" stroke="#1e40af" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#1e3a8a">
+        <tspan x="582" y="43" font-weight="700">Involuntary</tspan>
+        <tspan x="582" dy="14">Attention Engaged</tspan>
+      </text>
+      <line x1="642" y1="46" x2="656" y2="46" stroke="#1e40af" stroke-width="1.4" marker-end="url(#art-arr)"/>
+
+      <!-- Box 6: PFC Recovery -->
+      <rect x="658" y="20" width="108" height="52" rx="6" fill="#dbeafe" stroke="#1e40af" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#1e3a8a">
+        <tspan x="712" y="43" font-weight="700">PFC Recovery</tspan>
+        <tspan x="712" dy="14">(DA circuits rest)</tspan>
+      </text>
+      <line x1="766" y1="46" x2="780" y2="46" stroke="#1e40af" stroke-width="1.4" marker-end="url(#art-arr)"/>
+
+      <!-- Box 7: Restored DA -->
+      <rect x="782" y="20" width="132" height="52" rx="6" fill="#1e40af" stroke="#1e3a8a" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#fff" font-weight="700">
+        <tspan x="848" y="41">Restored DA</tspan>
+        <tspan x="848" dy="14">Capacity</tspan>
+      </text>
+
+      <!-- Outcome label -->
+      <text x="848" y="90" text-anchor="middle" font-size="9.5" fill="#1e40af" font-weight="700">PRIMARY OUTCOME: COGNITIVE</text>
+    </svg>
+  </div>
+
+  <!-- SRT CHAIN -->
+  <div class="chain-wrap">
+    <div class="chain-label srt-label">
+      <div class="theory-dot" style="background:var(--srt)"></div>
+      SRT — Stress Recovery Theory · Causal chain
+    </div>
+    <svg viewBox="0 0 940 110" xmlns="http://www.w3.org/2000/svg"
+         font-family="Helvetica Neue, Arial, sans-serif" font-size="10.5">
+      <defs>
+        <marker id="srt-arr" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <polygon points="0 0,7 2.5,0 5" fill="#065f46"/>
+        </marker>
+      </defs>
+      <!-- Box 1: Stressor -->
+      <rect x="2"   y="20" width="108" height="52" rx="6" fill="#d1fae5" stroke="#065f46" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#065f46">
+        <tspan x="56" y="43" font-weight="700">Acute Stressor</tspan>
+        <tspan x="56" dy="14">(threat, noise, crowding)</tspan>
+      </text>
+      <line x1="110" y1="46" x2="124" y2="46" stroke="#065f46" stroke-width="1.4" marker-end="url(#srt-arr)"/>
+
+      <!-- Box 2: ANS Activation -->
+      <rect x="126" y="20" width="118" height="52" rx="6" fill="#d1fae5" stroke="#065f46" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#065f46">
+        <tspan x="185" y="43" font-weight="700">Sympathetic ANS</tspan>
+        <tspan x="185" dy="14">Activation</tspan>
+      </text>
+      <line x1="244" y1="46" x2="258" y2="46" stroke="#065f46" stroke-width="1.4" marker-end="url(#srt-arr)"/>
+
+      <!-- Box 3: Physiological Arousal -->
+      <rect x="260" y="20" width="120" height="52" rx="6" fill="#d1fae5" stroke="#065f46" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#065f46">
+        <tspan x="320" y="38" font-weight="700">Physiological</tspan>
+        <tspan x="320" dy="13">Arousal</tspan>
+        <tspan x="320" dy="12">↑HR ↑Cortisol ↑SCR</tspan>
+      </text>
+      <line x1="380" y1="46" x2="394" y2="46" stroke="#065f46" stroke-width="1.4" marker-end="url(#srt-arr)"/>
+
+      <!-- Box 4: INTERVENTION -->
+      <rect x="396" y="14" width="130" height="64" rx="6" fill="#065f46" stroke="#052e16" stroke-width="1.8"/>
+      <text text-anchor="middle" fill="#fff" font-weight="700">
+        <tspan x="461" y="38">⚡ Nature Exposure</tspan>
+        <tspan x="461" dy="14" font-weight="400">evolutionary preparedness,</tspan>
+        <tspan x="461" dy="13" font-weight="400">non-threatening scene</tspan>
+      </text>
+      <line x1="526" y1="46" x2="540" y2="46" stroke="#065f46" stroke-width="1.4" marker-end="url(#srt-arr)"/>
+
+      <!-- Box 5: Positive Affect -->
+      <rect x="542" y="20" width="120" height="52" rx="6" fill="#d1fae5" stroke="#065f46" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#065f46">
+        <tspan x="602" y="43" font-weight="700">Positive Affect /</tspan>
+        <tspan x="602" dy="14">Approach Signal</tspan>
+      </text>
+      <line x1="662" y1="46" x2="676" y2="46" stroke="#065f46" stroke-width="1.4" marker-end="url(#srt-arr)"/>
+
+      <!-- Box 6: Parasympathetic Recovery -->
+      <rect x="678" y="20" width="126" height="52" rx="6" fill="#d1fae5" stroke="#065f46" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#065f46">
+        <tspan x="741" y="43" font-weight="700">Parasympathetic</tspan>
+        <tspan x="741" dy="14">Recovery</tspan>
+      </text>
+      <line x1="804" y1="46" x2="818" y2="46" stroke="#065f46" stroke-width="1.4" marker-end="url(#srt-arr)"/>
+
+      <!-- Box 7: Outcome -->
+      <rect x="820" y="20" width="116" height="52" rx="6" fill="#065f46" stroke="#052e16" stroke-width="1.2"/>
+      <text text-anchor="middle" fill="#fff" font-weight="700">
+        <tspan x="878" y="38">Reduced Arousal</tspan>
+        <tspan x="878" dy="14">&amp; Improved Mood</tspan>
+      </text>
+
+      <!-- Outcome label -->
+      <text x="878" y="90" text-anchor="middle" font-size="9.5" fill="#065f46" font-weight="700">PRIMARY OUTCOME: AFFECTIVE / PHYSIOLOGICAL</text>
+    </svg>
+  </div>
+
+  <div class="note-block">
+    <strong>Reading the chains.</strong> The two theories share an intervention node (nature exposure) but differ in their antecedent state (DA fatigue vs. sympathetic arousal) and their posited distal outcome (cognitive restoration vs. physiological/affective restoration). A critical experiment must independently manipulate the antecedent state and independently measure both outcome types — otherwise the two chains cannot be distinguished empirically.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §3  CRITICAL TEST IDENTIFICATION
+════════════════════════════════════════════════ -->
+<section id="crittests">
+  <div class="sec-label">Stage 3 · Critical Test Identification</div>
+  <h2>What experiment would adjudicate?</h2>
+  <p class="prose-sm" style="margin-bottom:20px;">
+    Three experimental designs have been proposed or implied in the literature as capable of distinguishing ART from SRT. Each is mapped below against the predictions each theory makes, the state of current evidence, and a verdict on adjudicatory power. The verdicts are honest about the evidential gap.
+  </p>
+
+  <div class="critical-test-grid">
+
+    <!-- Critical Test 1 -->
+    <div class="ct-card">
+      <div class="ct-card-head">
+        <span class="ct-num">1</span>
+        <span class="ct-title">Fatigue × Stress Factorial Design</span>
+      </div>
+      <div class="ct-card-body">
+        <div class="ct-headers">
+          <div style="padding:8px 14px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;border-right:1px solid var(--border);">Design</div>
+          <div class="art-h">ART Prediction</div>
+          <div class="srt-h">SRT Prediction</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Design</div>
+          <td class="ct-full" style="grid-column:2/4;padding:10px 14px;font-size:12.5px;line-height:1.55;">2 × 2 factorial: (Cognitively fatigued vs. rested) × (Stressed vs. unstressed); randomise to nature vs. urban exposure; measure both attention task performance AND physiological arousal (HRV, cortisol, SCR) independently</td>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Prediction</div>
+          <div class="ct-art">Nature improves cognitive performance selectively in <em>fatigued</em> cells; null or attenuated effect in rested cells. Stress condition is orthogonal to the ART effect.</div>
+          <div class="ct-srt">Nature reduces physiological arousal selectively in <em>stressed</em> cells; null or attenuated effect in unstressed cells. Fatigue condition is orthogonal to the SRT effect.</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Current evidence</div>
+          <td class="ct-full" style="grid-column:2/4;padding:10px 14px;font-size:12.5px;line-height:1.55;">No fully crossed factorial study with independent manipulation checks for both cognitive fatigue and acute stress exists in the published literature. Berto (2005) approximates the fatigue manipulation; Ulrich et al. (1991) approximates the stress manipulation. Neither crosses both manipulations systematically.</td>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Verdict</div>
+          <td class="ct-full verdict-gap" style="grid-column:2/4;">🔴 CRITICAL GAP — This design has been called for in the literature since Kaplan (1995) and has not been executed. It is the single most informative missing experiment.</td>
+        </div>
+      </div>
+    </div>
+
+    <!-- Critical Test 2 -->
+    <div class="ct-card">
+      <div class="ct-card-head">
+        <span class="ct-num">2</span>
+        <span class="ct-title">Neural Substrate Dissociation (fMRI / EEG)</span>
+      </div>
+      <div class="ct-card-body">
+        <div class="ct-headers">
+          <div style="padding:8px 14px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;border-right:1px solid var(--border);">Dimension</div>
+          <div class="art-h">ART Prediction</div>
+          <div class="srt-h">SRT Prediction</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Design</div>
+          <td class="ct-full" style="grid-column:2/4;padding:10px 14px;font-size:12.5px;line-height:1.55;">Concurrent fMRI and HRV recording during natural vs. urban scene exposure following independent fatigue and stress induction; measure PFC sustained-attention BOLD signal and amygdala-HRV coupling separately as competing neural markers</td>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Prediction</div>
+          <div class="ct-art">Nature selectively increases dorsal PFC sustained-attention BOLD; amygdala modulation is secondary and derivative. Alpha-band EEG increase at PFC electrodes is the peripheral signature.</div>
+          <div class="ct-srt">Nature selectively reduces amygdala-HRV coupling (sympathovagal balance shifts toward vagal); PFC change is secondary. Rapid (within 4–7 min) HRV change is the peripheral signature.</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Current evidence</div>
+          <td class="ct-full" style="grid-column:2/4;padding:10px 14px;font-size:12.5px;line-height:1.55;">EEG studies show alpha-band increase during natural scene exposure consistent with ART (Berto et al., 2010; Grassini et al., 2019). HRV studies show parasympathetic upregulation consistent with SRT (Gladwell et al., 2012). No study measures both neural markers simultaneously in a within-subjects factorial design.</td>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Verdict</div>
+          <td class="ct-full verdict-partial" style="grid-column:2/4;">🟡 PARTIAL — Separate evidence streams are consistent with each theory; neither has been subjected to a simultaneous within-subjects dissociation. The two signatures may co-occur, which would support dual-process rather than single-mechanism accounts.</td>
+        </div>
+      </div>
+    </div>
+
+    <!-- Critical Test 3 -->
+    <div class="ct-card">
+      <div class="ct-card-head">
+        <span class="ct-num">3</span>
+        <span class="ct-title">Outcome-Dissociation Paradigm</span>
+      </div>
+      <div class="ct-card-body">
+        <div class="ct-headers">
+          <div style="padding:8px 14px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;border-right:1px solid var(--border);">Dimension</div>
+          <div class="art-h">ART Prediction</div>
+          <div class="srt-h">SRT Prediction</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Design</div>
+          <td class="ct-full" style="grid-column:2/4;padding:10px 14px;font-size:12.5px;line-height:1.55;">Use tasks selectively sensitive to only one domain: (a) a pure directed attention task with no affective valence or arousal loading; (b) a pure physiological arousal measure (HRV) with no cognitive demand. Randomise exposure; test in both fatigue-only and stress-only baseline conditions.</td>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Prediction</div>
+          <div class="ct-art">In fatigue-only condition: nature improves attention performance; HRV is unchanged (no prior sympathetic activation to recover). In stress-only condition: attenuated or null attention effect.</div>
+          <div class="ct-srt">In stress-only condition: nature improves HRV; attention performance is unchanged (no prior DA depletion). In fatigue-only condition: attenuated or null HRV effect.</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Current evidence</div>
+          <td class="ct-full" style="grid-column:2/4;padding:10px 14px;font-size:12.5px;line-height:1.55;">Most studies use outcome batteries that mix attention and affective measures without verifying selective sensitivity. The few studies that approximate clean attention measures (Berto 2005) do not simultaneously record physiological arousal. The design is methodologically feasible and has been described in proposal form (Hartig et al., 2011) but not executed at scale.</td>
+        </div>
+        <div class="ct-row">
+          <div class="ct-row-label">Verdict</div>
+          <td class="ct-full verdict-avail" style="grid-column:2/4;">🟢 DESIGN AVAILABLE — Methodologically achievable with existing lab infrastructure; requires only proper manipulation checks and selective outcome measures. This is the lowest-cost critical test and the most actionable near-term experimental priority.</td>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /critical-test-grid -->
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §4  UNDERDETERMINATION ALERT
+════════════════════════════════════════════════ -->
+<section id="undet">
+  <div class="sec-label">Stage 4 · Underdetermination Status</div>
+  <h2>What the evidence cannot currently adjudicate</h2>
+
+  <div class="undet-alert">
+    <div class="undet-alert-head">
+      <span class="undet-icon">⚠</span>
+      <h3>Underdetermination Alert</h3>
+      <span class="undet-status">Status: Open</span>
+    </div>
+    <p style="font-size:14px;color:var(--undet);font-weight:600;margin-bottom:12px;line-height:1.6;">
+      The current evidence base cannot adjudicate between ART and SRT. Both theories are empirically adequate relative to the existing record. Three structural reasons ground this verdict:
+    </p>
+    <ul class="undet-reasons">
+      <li>
+        <strong>Co-extensive evidence (primary defeater).</strong> The same body of studies — Ulrich (1984), Kaplan et al. (1995), Berto (2005), Hartig et al. (2003) — appears in the citation networks of both theories as confirmatory. No published study was designed specifically to discriminate between the two. The evidence is consistent with both, which means it confirms neither uniquely. This is a textbook case of Quinean underdetermination: the theoretical commitments that determine how each theory interprets the same data are not fixed by the data themselves.
+      </li>
+      <li>
+        <strong>Construct ambiguity (operationalisation heterogeneity).</strong> "Natural environment" is operationalised as real parks (Hartig et al., 2003), photographs of natural scenes (Berto, 2005), window views (Ulrich, 1984), virtual reality simulations (Valtchanov et al., 2010), and fractal patterns (Taylor et al., 2005). Each operationalisation activates different stimulus properties emphasised by each theory (fascination vs. evolutionary preparedness), making post-hoc accommodation trivial for both theories across the full range of operalisations.
+      </li>
+      <li>
+        <strong>Boundary condition underspecification.</strong> The critical boundary conditions — when is DA fatigue operationally present? what constitutes a qualifying acute stressor? what magnitude of stressor is required for SRT to predict a significant effect? — are not consistently operationalised across studies, and neither theory provides a quantitative specification of these thresholds. Without such specifications, both theories are immunised against straightforward disconfirmation: any null result can be attributed to insufficient fatigue induction or insufficient stressor intensity.
+      </li>
+    </ul>
+    <p style="font-size:13px;color:var(--undet);margin-top:14px;line-height:1.6;">
+      <strong>Implication for the web of belief.</strong> Under Quinean coherentism, the appropriate response to this underdetermination is not to abandon either theory but to identify which additional beliefs would need to be revised to produce a discriminating test — and then to test those beliefs directly. Critical Test 3 (outcome-dissociation paradigm) is the most tractable near-term approach.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §5  CHINN-BREWER REBUTTAL PANEL
+════════════════════════════════════════════════ -->
+<section id="rebuttal">
+  <div class="cb-panel">
+    <div class="cb-panel-head">
+      <h2>Rebuttal Panel</h2>
+      <span class="cb-exposed-badge">Exposed by default</span>
+    </div>
+    <p class="cb-intro">
+      Five defeaters from the Task-2 catalog challenge the theoretical comparison above. All seven Chinn-Brewer responses are then mapped against the <strong>primary defeater</strong> (D1: the evidence record is co-extensive across ART and SRT — the same studies have been used to confirm both theories, so neither receives unique empirical support). This is the core underdetermination anomaly. How Hanif responds to it determines his research programme.
+    </p>
+
+    <!-- FIVE DEFEATERS -->
+    <div class="sec-label" style="margin-bottom:12px;">All five defeaters · Task-2 catalog</div>
+    <div class="defeater-list">
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D1 · PRIMARY — mapped in CB widget below</div>
+        <div class="def-title">Co-extensive evidence: the same studies confirm both theories</div>
+        <div class="def-text">The empirical record — Ulrich (1984), Hartig et al. (2003), Berto (2005) and the studies built on them — appears in the citation networks of both ART and SRT as supportive evidence. No study was designed to discriminate between the two mechanisms. Since both theories are consistent with the existing data, the data confirm neither uniquely. This is a structural underdetermination at the level of the evidence base, not merely a gap in a single study.</div>
+      </div>
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D2</div>
+        <div class="def-title">Construct ambiguity: "natural environment" is operationally heterogeneous</div>
+        <div class="def-text">"Natural environment" is variously operationalised as real outdoor parks, photographs, window views, VR simulations, and fractal patterns. Each operationalisation emphasises different stimulus properties that the two theories differentially invoke (ART emphasises fascination and coherence; SRT emphasises evolutionary preparedness and visual complexity). The heterogeneity of the construct allows both theories to post-hoc accommodate any result, which is a theoretical vice that immunises both against disconfirmation.</div>
+      </div>
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D3</div>
+        <div class="def-title">Mechanism gap: neither theory specifies its neural substrate with sufficient precision for a mechanistic test</div>
+        <div class="def-text">ART invokes "directed attention circuits" and "prefrontal recovery" without specifying which PFC subregions, which time course of recovery, or what BOLD signature would confirm the mechanism. SRT invokes the "amygdala-ANS axis" without specifying the precise HRV metric (SDNN vs. RMSSD vs. LF/HF ratio) or cortisol trajectory that constitutes confirmation. Both theories are specified at the functional level but not at the mechanistic level, making neural substrate tests ambiguous between confirming the mechanism and confirming only the functional outcome.</div>
+      </div>
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D4</div>
+        <div class="def-title">Boundary condition underspecification: the theories are immunised against null results</div>
+        <div class="def-text">Neither ART nor SRT provides a quantitative specification of its boundary conditions. What lux level or duration of concentration constitutes "sufficient DA fatigue"? What stressor magnitude or cortisol elevation is required for SRT to predict a significant effect? Without these thresholds, any null result can be attributed to insufficient manipulation intensity, making both theories empirically vacuous in their boundary condition claims. This is a structural weakness that must be resolved before a critical test can be designed.</def-text>
+      </div>
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D5</div>
+        <div class="def-title">Third-theory undercutting: predictive processing accounts may subsume both ART and SRT</div>
+        <div class="def-text">Predictive processing / active inference accounts of perception (Friston, 2010; Vessel et al., 2012; Tschacher et al., 2018) suggest that natural environments reduce perceptual prediction error by providing statistically regular, low-uncertainty visual input. This higher-level account is consistent with both DA recovery (reduced prediction error demand on PFC) and ANS downregulation (reduced arousal associated with reduced threat uncertainty). If the predictive processing account is correct, ART and SRT are both domain-specific approximations of a more general mechanism — and the ART vs. SRT debate is misframed at the level of competing theories.</def-text>
+      </div>
+
+    </div><!-- /defeater-list -->
+
+    <!-- CB WIDGET — 7 responses to D1 -->
+    <div class="cb-section-divider">Chinn &amp; Brewer (1993) · Seven Responses to Defeater D1</div>
+    <p class="cb-sub-intro">
+      D1 (the evidence is co-extensive across ART and SRT — neither receives unique empirical support) is mapped below against all seven Chinn-Brewer responses to anomalous data. Each response is a coherent theoretical position. The epistemic implication for Hanif's research programme is stated for each.
+    </p>
+
+    <div class="cb-responses">
+
+      <div class="cb-response cb1">
+        <div class="cb-resp-head">
+          <span class="cb-num">1</span>
+          <span class="cb-type">Ignoring the Anomaly</span>
+          <span class="cb-stance">Belief unchanged; anomaly unacknowledged</span>
+        </div>
+        <div class="cb-resp-body">
+          Proceed as if the existing literature confirms ART (or SRT) specifically, without acknowledging that the same studies have been cited as confirming the competing theory. This is the modal practice in the field: researchers who favour ART cite the same pool of studies as ART-confirming; SRT researchers cite them as SRT-confirming. The strategy is incoherent if both camps are doing it simultaneously — the studies cannot be uniquely confirming for both — but it is stable within each research community because the communities rarely engage directly with each other's theoretical commitments.
+          <div class="cb-epist-take"><strong>Epistemic implication:</strong> The web of belief is maintained intact. No revision is required. The cost is that the underdetermination is reproduced in every new study that follows the same design, and the theoretical dispute cannot make progress. Under Quinean coherentism, this is not epistemically virtuous.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb2">
+        <div class="cb-resp-head">
+          <span class="cb-num">2</span>
+          <span class="cb-type">Rejection</span>
+          <span class="cb-stance">Anomaly disqualifies the data; theory maintained</span>
+        </div>
+        <div class="cb-resp-body">
+          Treat the co-extensive evidence problem as revealing that the existing literature is methodologically inadequate: none of the studies was designed to discriminate between ART and SRT, so none of them provides genuine evidential support for either. Reject the existing body of evidence as relevant to the ART-SRT dispute. Maintain ART (or SRT) as a theoretical commitment on other grounds — internal coherence, analogical support from cognitive neuroscience, or theoretical parsimony — while denying that the current empirical record bears on the choice.
+          <div class="cb-epist-take"><strong>Epistemic implication:</strong> A strong epistemological move that isolates the theoretical choice from the empirical base. Consistent with a strongly rationalist methodology but difficult to sustain if the rejected studies are otherwise high-quality. Commits Hanif to articulating non-empirical grounds for theoretical preference.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb3">
+        <div class="cb-resp-head">
+          <span class="cb-num">3</span>
+          <span class="cb-type">Exclusion</span>
+          <span class="cb-stance">Anomaly is real but context-specific; theory maintained</span>
+        </div>
+        <div class="cb-resp-body">
+          Accept that the broad naturalistic literature is co-extensive, but argue that a subset of studies — those with well-specified baseline conditions, measured manipulations, and selective outcome measures — does provide partial adjudication. Berto (2005), which uses fractal complexity manipulation and attention-only outcomes, is closer to an ART-specific test than to an SRT test. Hartig et al. (2003), which includes physiological measures post-stressor, is closer to an SRT test. Exclude the methodologically underdiscriminating studies and analyse only the subset with discriminatory power.
+          <div class="cb-epist-take"><strong>Epistemic implication:</strong> A partial and defensible solution. The subset that survives exclusion is small (perhaps 8–12 studies), but the evidential basis is more honest. Commits Hanif to a systematic methodological classification of the existing literature by discriminatory power — a tractable and publishable contribution.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb4">
+        <div class="cb-resp-head">
+          <span class="cb-num">4</span>
+          <span class="cb-type">Abeyance</span>
+          <span class="cb-stance">Hold judgment; wait for discriminating evidence</span>
+        </div>
+        <div class="cb-resp-body">
+          Acknowledge the underdetermination fully and suspend theoretical commitment to either ART or SRT until a critical experiment (preferably Critical Test 1 or Test 3 from Stage 3) has been conducted. Document both theories as live hypotheses with their distinct predictions specified. Treat the ART-SRT dispute as an open empirical question that requires new evidence, not better interpretation of old evidence. Advocate for the factorial design as a research priority.
+          <div class="cb-epist-take"><strong>Epistemic implication:</strong> The most epistemically virtuous response under Quinean coherentism if the goal is coherence with the broadest evidence base. The cost is that it delays the research programme — Hanif cannot make a theoretical bet that drives a research agenda. In practice, grant committees and research programmes require a theoretical commitment. Abeyance is intellectually honest but strategically difficult.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb5">
+        <div class="cb-resp-head">
+          <span class="cb-num">5</span>
+          <span class="cb-type">Reinterpretation</span>
+          <span class="cb-stance">Anomaly explained within current belief; theory enriched</span>
+        </div>
+        <div class="cb-resp-body">
+          Reframe the co-extensive evidence problem as revealing that ART and SRT are not competing but complementary — they describe different phases or components of a unified restorative process. The first phase of nature exposure triggers SRT-type affective recovery (rapid, within 4–7 min, ANS-mediated); the second phase triggers ART-type cognitive recovery (slower, requires DA fatigue as antecedent). The two mechanisms operate in sequence, not in competition. Co-extensive evidence is expected on this reading because most naturalistic exposures are long enough to trigger both sequences. This reinterpretation is partially consistent with Hartig's (2004) synthesis proposal and with dual-process models in related domains.
+          <div class="cb-epist-take"><strong>Epistemic implication:</strong> The most theoretically productive response. It converts the underdetermination anomaly into a productive theoretical synthesis. It generates new predictions (the temporal dissociation of SRT then ART effects over the exposure duration) and a new critical test (time-series measurement of physiological vs. cognitive restoration trajectories). A publishable theoretical contribution with a specific empirical follow-up.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb6">
+        <div class="cb-resp-head">
+          <span class="cb-num">6</span>
+          <span class="cb-type">Peripheral Change</span>
+          <span class="cb-stance">Core belief preserved; auxiliary assumptions revised</span>
+        </div>
+        <div class="cb-resp-body">
+          Accept the co-extensive evidence problem as a limitation of current research design but retain ART as the primary theoretical framework — justified by its greater specification of mechanism (four ART components vs. SRT's more gestalt evolutionary-preparedness claim) and by the stronger experimental control in its dedicated tests (e.g., fractal complexity manipulation). Revise the auxiliary assumption that existing naturalistic studies are ART-confirming: note explicitly that they are consistent with ART but do not confirm it uniquely. Update citation practice to reflect this. ART is retained as the preferred theoretical frame on grounds of relative specificity, not unique empirical support.
+          <div class="cb-epist-take"><strong>Epistemic implication:</strong> A conservative and defensible response that does not require major theoretical revision. Commits Hanif to a more careful distinction between "consistent with" and "confirms" in his theoretical writing — a non-trivial epistemic discipline. Leaves the underdetermination intact but makes the epistemic situation explicit.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb7">
+        <div class="cb-resp-head">
+          <span class="cb-num">7</span>
+          <span class="cb-type">Theory Change</span>
+          <span class="cb-stance">Current theoretical frame abandoned; major revision</span>
+        </div>
+        <div class="cb-resp-body">
+          Abandon the ART-SRT comparison as the organising framework for restorative environment research. Adopt the predictive processing / active inference framework (Friston, 2010; Vessel et al., 2012) as the theoretical replacement. On this account, natural environments restore because they reduce the metabolic cost of perceptual inference — they provide statistically regular, low-uncertainty input that reduces prediction error and the precision weighting of threat-detection priors. Both DA recovery (reduced precision demand on executive attention) and ANS downregulation (reduced arousal associated with uncertainty resolution) are derivative consequences of a single higher-level mechanism. ART and SRT become domain-specific approximations of the predictive processing account, and the debate between them is dissolved rather than resolved.
+          <div class="cb-epist-take"><strong>Epistemic implication:</strong> The most radical and potentially most powerful response. It reframes the research field rather than adjudicating within it — consistent with Kuhnian paradigm shift rather than Lakatosian research programme refinement. The cost is that predictive processing is itself underspecified in the restorative environments domain, and the new framework may import its own underdetermination. Commits Hanif to a major theoretical programme with uncertain payoff and high intellectual risk.</div>
+        </div>
+      </div>
+
+    </div><!-- /cb-responses -->
+  </div><!-- /cb-panel -->
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §6  READER RESPONSE
+════════════════════════════════════════════════ -->
+<section id="response">
+  <div class="sec-label">Stage 6 · Reader Response</div>
+  <div class="reader-stage">
+    <h2>Which response would you take — and why?</h2>
+    <p class="rs-intro">
+      You have traced the full mechanism comparison: the theory matrix, the mechanism chains, the three critical test designs, the underdetermination diagnosis, and all seven Chinn-Brewer responses to the primary defeater. Now, in Hanif Raza's position — philosopher of cognitive science, committed to Quinean coherentism, interested in what experiment would distinguish the theories — which response preserves the most coherent overall web of belief while being honest about the underdetermination?
+    </p>
+
+    <div class="cb-option-grid" id="optGrid">
+      <div class="cb-opt" id="co1" onclick="pickCB(1)"><span class="opt-n">1</span>Ignoring</div>
+      <div class="cb-opt" id="co2" onclick="pickCB(2)"><span class="opt-n">2</span>Rejection</div>
+      <div class="cb-opt" id="co3" onclick="pickCB(3)"><span class="opt-n">3</span>Exclusion</div>
+      <div class="cb-opt" id="co4" onclick="pickCB(4)"><span class="opt-n">4</span>Abeyance</div>
+      <div class="cb-opt" id="co5" onclick="pickCB(5)"><span class="opt-n">5</span>Reinterpretation</div>
+      <div class="cb-opt" id="co6" onclick="pickCB(6)"><span class="opt-n">6</span>Peripheral Change</div>
+      <div class="cb-opt" id="co7" onclick="pickCB(7)"><span class="opt-n">7</span>Theory Change</div>
+    </div>
+
+    <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">
+      Explain your reasoning — in terms of coherentist epistemology, the state of the evidence, your theoretical commitments, and what experimental follow-up your chosen response would motivate:
+    </p>
+    <textarea class="rationale-box" id="readerRat"
+      placeholder="e.g. I would take Response 5 (Reinterpretation), converting the underdetermination anomaly into a dual-process synthesis. The co-extensive evidence is expected on the reading that SRT operates first (rapid affective, within 4–7 min) and ART operates second (slower cognitive, requiring prior DA fatigue). This reading generates the new prediction that physiological markers should lead cognitive markers in time-series data — which is a testable claim that the current literature cannot adjudicate because it has not been measured at the requisite temporal resolution…"></textarea>
+
+    <button class="save-btn" onclick="saveResponse()">Save my response for this session</button>
+    <div class="saved-notice" id="savedNote">
+      ✓ Response saved for this session and will persist until you close this tab.
+      <div id="savedDetail" style="margin-top:6px;font-weight:400;font-size:12px;"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div><!-- /layout -->
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer>
+  <span>K-Atlas · Knowledge Atlas · Track 4 · Task 3 · Weeks 7–8 · P7 Dr Hanif Raza · Theory Explorer</span>
+  <span>
+    <a href="ka_home_theory.html">← Theory Explorer Home</a> &nbsp;·&nbsp;
+    <a href="#landing">Back to top ↑</a>
+  </span>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<script>
+/* ── Question update ── */
+function updateQuestion() {
+  const q = document.getElementById('userQ').value.trim();
+  if (q) document.getElementById('heroQuestion').textContent = q;
+}
+
+/* ── Smooth scroll ── */
+function gotoSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── CB option selection ── */
+let selectedCB = null;
+const cbNames = ['','Ignoring','Rejection','Exclusion','Abeyance','Reinterpretation','Peripheral Change','Theory Change'];
+
+function pickCB(n) {
+  for (let i = 1; i <= 7; i++) {
+    document.getElementById('co' + i).classList.remove('selected');
+  }
+  document.getElementById('co' + n).classList.add('selected');
+  selectedCB = n;
+}
+
+/* ── Save response ── */
+function saveResponse() {
+  if (!selectedCB) {
+    alert('Please choose one of the seven Chinn-Brewer responses before saving.');
+    return;
+  }
+  const rat = document.getElementById('readerRat').value;
+  const record = {
+    cb: selectedCB,
+    cbName: cbNames[selectedCB],
+    rationale: rat,
+    timestamp: new Date().toISOString(),
+    question: document.getElementById('userQ').value
+  };
+  sessionStorage.setItem('kAtlasP7Journey', JSON.stringify(record));
+  showSaved(record);
+}
+
+function showSaved(record) {
+  const note = document.getElementById('savedNote');
+  note.classList.add('show');
+  document.getElementById('savedDetail').innerHTML =
+    '<strong>Your response:</strong> CB ' + record.cb + ' — ' + record.cbName +
+    (record.rationale
+      ? '<br><strong>Rationale:</strong> ' + record.rationale.slice(0, 240) + (record.rationale.length > 240 ? '…' : '')
+      : '');
+}
+
+/* ── Restore on page load ── */
+window.addEventListener('load', function () {
+  const raw = sessionStorage.getItem('kAtlasP7Journey');
+  if (raw) {
+    try {
+      const r = JSON.parse(raw);
+      pickCB(r.cb);
+      document.getElementById('readerRat').value = r.rationale || '';
+      showSaved(r);
+    } catch (e) { /* ignore */ }
+  }
+});
+
+/* ── Progress track + side nav active state on scroll ── */
+const stages = ['landing','matrix','chains','crittests','undet','rebuttal','response'];
+const progSteps = document.querySelectorAll('.prog-step');
+const sideLinks = document.querySelectorAll('.side-nav a[href^="#"]');
+
+function updateActive() {
+  let current = 0;
+  stages.forEach(function(id, i) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * 0.42) current = i;
+  });
+  progSteps.forEach(function(s, i) {
+    s.classList.remove('active', 'done');
+    if (i < current) s.classList.add('done');
+    else if (i === current) s.classList.add('active');
+  });
+  sideLinks.forEach(function(a) {
+    a.classList.remove('active');
+    const href = a.getAttribute('href').slice(1);
+    if (href === stages[current]) a.classList.add('active');
+  });
+}
+
+window.addEventListener('scroll', updateActive, { passive: true });
+updateActive();
+
+/* ── Export matrix ── */
+function exportBrief() {
+  const d = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  const txt = [
+    'K-ATLAS THEORY EXPLORER — ART vs SRT COMPARISON MATRIX',
+    '═'.repeat(60),
+    '',
+    'Question: How do ART and SRT give competing mechanistic accounts of',
+    'the restorative effects of natural environments, and what experimental',
+    'design would adjudicate between them?',
+    '',
+    'THEORY COMPARISON SUMMARY',
+    '─'.repeat(60),
+    '',
+    'ART (Kaplan & Kaplan, 1989)',
+    '  Mechanism: DA fatigue → soft fascination → PFC recovery',
+    '  Primary outcome: Cognitive restoration',
+    '  Key boundary: Effect present only when DA fatigue is prior',
+    '',
+    'SRT (Ulrich, 1983, 1991)',
+    '  Mechanism: Sympathetic activation → positive affect → ANS downregulation',
+    '  Primary outcome: Affective / physiological restoration',
+    '  Key boundary: Effect present after acute stressor',
+    '',
+    '⚠ UNDERDETERMINATION STATUS: OPEN',
+    '─'.repeat(60),
+    '  D1: Evidence is co-extensive — same studies cited by both theories',
+    '  D2: "Natural environment" operationally heterogeneous; accommodates both',
+    '  D3: Neural substrates underspecified in both theories',
+    '  D4: Boundary conditions unquantified; null results can be deflected',
+    '  D5: Predictive processing may subsume both theories',
+    '',
+    'MOST TRACTABLE CRITICAL TEST',
+    '─'.repeat(60),
+    '  Critical Test 3: Outcome-Dissociation Paradigm',
+    '  Design: Pure attention task (no affective loading) + pure HRV measure',
+    '           (no cognitive demand); test in fatigue-only vs. stress-only baseline',
+    '  Status: Methodologically available; not yet executed at scale',
+    '',
+    'Generated by K-Atlas Theory Explorer · ' + d
+  ].join('\n');
+
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'k-atlas-p7-art-vs-srt-matrix.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+</script>
+
+</body>
+</html>

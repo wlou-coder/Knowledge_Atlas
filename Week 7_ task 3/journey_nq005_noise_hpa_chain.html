@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noise → HPA → hippocampus → wayfinding: which links are confirmed? — Journey N-Q-005</title>
+  <link rel="stylesheet" href="../_track_pages_shared.css">
+  <style>
+    body { padding-top: 56px; }
+    :root {
+      --paper:       #fbf8f1;
+      --ink:         #1f1d1a;
+      --muted:       #5b574f;
+      --rule:        #ddd5c1;
+      --accent:      #5a3e1b;
+      --accent-soft: #e9dec4;
+      --emphasis:    #8a4b1a;
+      --good:        #2c6b3f;
+      --bad:         #8e2727;
+      --rebut-bg:    #f9f0ee;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      background: var(--paper); color: var(--ink); margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      line-height: 1.6; scroll-behavior: smooth;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 32px 28px 64px; }
+
+    header.j-header { border-bottom: 1px solid var(--rule); padding-bottom: 18px; margin-bottom: 22px; }
+    header.j-header .crumb { font-size: 0.84rem; color: var(--muted); margin-bottom: 8px; }
+    header.j-header .crumb a { color: var(--accent); text-decoration: none; }
+    header.j-header .crumb a:hover { text-decoration: underline; }
+    header.j-header h1 { font-size: 1.55rem; margin: 0 0 6px; letter-spacing: 0.2px; line-height: 1.25; }
+    header.j-header .meta { font-size: 0.86rem; color: var(--muted); }
+
+    .search-box {
+      background: #fff; border: 1px solid var(--rule); border-radius: 6px;
+      padding: 14px 18px; margin: 18px 0 22px;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .search-box .icon { font-size: 1.1rem; color: var(--muted); margin-top: 3px; }
+    .search-box .q-text { flex: 1; font-size: 0.94rem; color: var(--ink); line-height: 1.45; }
+
+    .step {
+      border-left: 3px solid var(--accent-soft);
+      padding: 14px 18px; margin: 22px 0;
+      background: #fff; border-radius: 0 4px 4px 0;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+    }
+    .step.rebut { border-left-color: var(--bad); background: var(--rebut-bg); }
+    .step h2 {
+      font-size: 0.78rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1.6px;
+      margin: 0 0 4px; font-weight: 700;
+    }
+    .step.rebut h2 { color: var(--bad); }
+    .step h3 { font-size: 1.15rem; margin: 0 0 12px; line-height: 1.3; }
+    .step p { margin: 0 0 10px; }
+    .step p:last-child { margin-bottom: 0; }
+    .step .cite {
+      font-size: 0.85rem; color: var(--muted);
+      border-top: 1px dashed var(--rule); padding-top: 8px; margin-top: 14px;
+    }
+    .step .cite b { color: var(--accent); font-weight: 600; }
+
+    /* Chain-status table */
+    .chain-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.86rem; }
+    .chain-table th {
+      background: var(--accent-soft); color: var(--accent);
+      text-align: left; padding: 7px 10px; font-weight: 700;
+      border-bottom: 2px solid var(--rule); font-size: 0.82rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .chain-table td { padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    .chain-table tr:last-child td { border-bottom: none; }
+    .chain-table .link-arrow { color: var(--muted); text-align: center; font-size: 1rem; padding: 0; }
+    .badge {
+      display: inline-block; padding: 3px 9px; border-radius: 12px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .badge-confirmed   { background: #d6edd8; color: #2c6b3f; }
+    .badge-tentative   { background: #fff3d6; color: #8a6010; }
+    .badge-inferential { background: #f5e0e0; color: var(--bad); }
+    .badge-partial     { background: #dce8f5; color: #1f3a8a; }
+
+    /* Causal-level legend */
+    .causal-legend {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      font-size: 0.8rem; margin: 10px 0 4px;
+    }
+    .causal-legend span {
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    .toulmin-mini {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 0 14px; margin: 14px 0;
+    }
+    .toulmin-mini .box {
+      border: 1px solid var(--rule); padding: 10px 12px;
+      background: #fff; border-radius: 4px; font-size: 0.86rem;
+    }
+    .toulmin-mini .box.rebut { border-color: var(--bad); background: var(--rebut-bg); }
+    .toulmin-mini .arrow { align-self: center; color: var(--accent); font-size: 1.2rem; padding: 0 8px; }
+    .toulmin-mini .box .label {
+      font-size: 0.72rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1.4px; margin: 0 0 4px;
+    }
+    .toulmin-mini .box.rebut .label { color: var(--bad); }
+
+    /* Pearl causal hierarchy diagram */
+    .pearl-ladder {
+      margin: 14px 0; display: flex; flex-direction: column; gap: 6px;
+    }
+    .pearl-rung {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 8px 12px; border-radius: 4px; font-size: 0.86rem;
+    }
+    .pearl-rung .rung-num {
+      font-weight: 700; font-size: 1rem; min-width: 20px; color: var(--accent);
+    }
+    .pearl-rung.rung-assoc   { background: #f5e0e0; }
+    .pearl-rung.rung-interv  { background: #fff3d6; }
+    .pearl-rung.rung-counter { background: #d6edd8; }
+    .pearl-rung .rung-label  { font-weight: 700; margin-right: 6px; }
+
+    /* Chinn-Brewer panel — items open by default */
+    .cb-panel {
+      border: 1px solid var(--rule); border-radius: 6px; background: #fff;
+      padding: 14px 16px; margin: 18px 0;
+    }
+    .cb-panel h4 {
+      font-size: 0.92rem; margin: 0 0 8px; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700;
+    }
+    .cb-panel .cb-prompt { font-size: 0.92rem; color: var(--muted); margin: 0 0 12px; }
+    .cb-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+    .cb-list li { border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+    .cb-list li .cb-head {
+      display: grid; grid-template-columns: 24px 1fr auto;
+      gap: 10px; align-items: baseline;
+      padding: 8px 12px; background: var(--accent-soft); cursor: pointer;
+    }
+    .cb-list li:hover .cb-head { background: #ddcfa6; }
+    .cb-list li .cb-num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--accent); }
+    .cb-list li .cb-name { font-size: 0.92rem; }
+    .cb-list li .cb-disp {
+      font-size: 0.74rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted);
+    }
+    .cb-list li .cb-disp.protective { color: var(--bad); }
+    .cb-list li .cb-disp.flexible   { color: #b76e1a; }
+    .cb-list li .cb-disp.revising   { color: var(--good); }
+    /* Exposed by default — all items open on load */
+    .cb-list li .cb-body {
+      display: block; padding: 10px 14px; font-size: 0.88rem; background: #fff;
+    }
+    .cb-list li.closed .cb-body { display: none; }
+    .cb-list li .cb-body p { margin: 0 0 8px; }
+    .cb-list li .cb-body p:last-child { margin-bottom: 0; }
+
+    .reader-response {
+      border: 1px solid var(--accent); border-radius: 6px;
+      background: #fff; padding: 18px 20px; margin: 24px 0 12px;
+    }
+    .reader-response h4 { font-size: 1rem; margin: 0 0 10px; color: var(--accent); }
+    .reader-response label { font-size: 0.85rem; color: var(--muted); display: block; margin-bottom: 4px; }
+    .reader-response select, .reader-response textarea {
+      font: inherit; padding: 8px 10px; border: 1px solid var(--rule);
+      border-radius: 3px; background: var(--paper); color: var(--ink);
+      width: 100%; margin-bottom: 12px;
+    }
+    .reader-response textarea { min-height: 80px; resize: vertical; }
+    .reader-response button {
+      font: inherit; padding: 6px 14px; border: 1px solid var(--accent);
+      border-radius: 3px; background: var(--accent); color: #fff; cursor: pointer;
+    }
+    .reader-response button:hover { background: #4a3214; }
+    .reader-response .stored {
+      display: none; margin-top: 12px; padding: 10px 12px;
+      background: var(--accent-soft); border-radius: 4px; font-size: 0.88rem;
+    }
+    .footer-note {
+      margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--rule);
+      font-size: 0.84rem; color: var(--muted);
+    }
+    .footer-note a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div id="ka-navbar-slot">
+  <nav class="top-nav" role="navigation" aria-label="Primary">
+    <a class="wordmark" href="../../index.html" aria-label="Knowledge Atlas home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+        <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+        <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+        <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+        <line x1="16" y1="7.5" x2="16" y2="12.5"   stroke="#F5A623" stroke-width="1.5"/>
+        <line x1="24.8" y1="20.2" x2="19" y2="17.3" stroke="#F5A623" stroke-width="1.5"/>
+        <line x1="7.2"  y1="20.2" x2="13" y2="17.3" stroke="#F5A623" stroke-width="1.5"/>
+      </svg>
+      <span>Knowledge<span class="wordmark-sub" style="margin-left:6px">Atlas</span></span>
+    </a>
+    <div class="nav-center">
+      <a href="../ka_schedule.html">Syllabus</a>
+      <a href="../t1_intro.html">Track 1</a>
+      <a href="../t2_intro.html">Track 2</a>
+      <a href="../t3_intro.html">Track 3</a>
+      <a href="../t4_intro.html" class="active">Track 4</a>
+    </div>
+  </nav>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="../../index.html">Home</a> /
+  <a href="../ka_schedule.html">160 Student</a> /
+  <a href="../t4_intro.html">Track 4</a> /
+  <a href="../t4_task3.html">Task 3</a> /
+  <span>Journey N-Q-005 · Noise→HPA mechanism chain</span>
+</div>
+
+<div class="wrap">
+  <header class="j-header">
+    <div class="crumb">
+      <a href="../../index.html">Knowledge Atlas</a> ·
+      <a href="answer_shape_catalogue.html">Answer-shape catalogue</a> ·
+      Evidential journey: N-Q-005 (P2 · researcher persona)
+    </div>
+    <h1>Broadband noise → HPA activation → GR downregulation → hippocampal degradation → wayfinding error: which links are empirically confirmed and which are inferential?</h1>
+    <div class="meta">
+      An evidential journey · Toulmin shape · researcher persona (P2-prober) ·
+      N-Q-005 in the combined question corpus.
+    </div>
+  </header>
+
+  <div class="search-box">
+    <span class="icon">⌕</span>
+    <div class="q-text">
+      <strong>Nia's question:</strong> What does the K-Atlas mechanism database show for the chain
+      broadband noise → sustained HPA activation → glucocorticoid receptor downregulation →
+      hippocampal place-cell degradation → wayfinding error — which links are empirically
+      confirmed and which are inferential?
+    </div>
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--muted);margin:-8px 0 18px;">
+    Nia is a postdoctoral researcher preparing a grant application that depends on the
+    cortisol-to-wayfinding mechanistic chain as its theoretical backbone. Before she
+    writes the mechanism section, she needs to know which links can be cited as
+    established and which need hedging. This journey audits each link against Pearl's
+    (2018) causal hierarchy, surfaces the principal defeater, and asks which
+    Chinn &amp; Brewer response Nia would take with the hierarchy critique.
+  </p>
+
+  <!-- STEP 1 — DATA -->
+  <div class="step" id="data">
+    <h2>Step 1 · Data</h2>
+    <h3>Of the four links in the chain, one is robustly confirmed at association level, two rely on animal-model extrapolation, and one is confirmed only in clinical populations outside the noise-exposure range.</h3>
+    <p>
+      The chain posits four causal links. The table below gives the evidential status of
+      each, the study type that provides the best available evidence, and the citation
+      to audit. "Confirmed" means multiple independent human studies document the
+      association; "tentative" means the association is supported in animal models or
+      in human studies with significant methodological limitations; "inferential" means
+      no direct human built-environment study has established the link.
+    </p>
+    <table class="chain-table" aria-label="Mechanism chain evidential status">
+      <thead>
+        <tr>
+          <th>Link</th>
+          <th>Status</th>
+          <th>Best available evidence</th>
+          <th>Key citation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Broadband noise → sustained HPA activation</strong> (cortisol elevation)</td>
+          <td><span class="badge badge-confirmed">Confirmed</span><br><small>association-level</small></td>
+          <td>Multiple controlled lab and field studies in humans; noise-exposed office workers show elevated salivary cortisol vs. quiet controls; meta-analytic support</td>
+          <td>Björk et al. (2006); Skånberg &amp; Öhrström (2002); reviewed in Stansfeld &amp; Matheson (2003)</td>
+        </tr>
+        <tr>
+          <td><strong>Sustained HPA activation → glucocorticoid receptor (GR) downregulation</strong></td>
+          <td><span class="badge badge-tentative">Tentative</span><br><small>animal + limited human</small></td>
+          <td>Animal (rodent) stress models demonstrate GR downregulation under chronic HPA activation; two human studies show reduced GR sensitivity under chronic work stress but neither uses acoustic built-environment exposures</td>
+          <td>McEwen &amp; Gianaros (2011) review; Pace et al. (2007) for human GR sensitivity under chronic stress</td>
+        </tr>
+        <tr>
+          <td><strong>GR downregulation → hippocampal place-cell degradation</strong></td>
+          <td><span class="badge badge-inferential">Inferential</span><br><small>animal models only</small></td>
+          <td>Conrad (2010): rodent chronic-stress models show dendritic atrophy in CA3 region and impaired place-cell firing; no human built-environment study has measured hippocampal place-cell activity under acoustic stress</td>
+          <td>Conrad (2010); Bhagya et al. (2017) in rodents</td>
+        </tr>
+        <tr>
+          <td><strong>Hippocampal degradation → wayfinding error</strong></td>
+          <td><span class="badge badge-partial">Partial</span><br><small>confirmed in clinical populations; unknown sub-clinical</small></td>
+          <td>Well-established in Alzheimer's disease, post-traumatic stress, and hippocampal lesion studies; not established in the sub-clinical hippocampal changes plausibly produced by acoustic office-noise exposure over months or years</td>
+          <td>Maguire et al. (2006); Hartley et al. (2003); no comparable study in noise-stressed non-clinical cohorts</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      The key implication: the chain has confirmed endpoints (noise elevates cortisol;
+      severe hippocampal damage impairs wayfinding) but its interior — the two links
+      connecting the confirmed endpoints — rests on animal models and clinical
+      extrapolation. A grant application that presents the full chain as established
+      will be correctly challenged by reviewers who know the McEwen or Conrad literature.
+    </p>
+    <div class="cite">
+      <b>Sources.</b> Björk, J. et al. (2006). Annoyance and effects on work from
+      environmental noise at work. <em>International Archives of Occupational and
+      Environmental Health</em>; Skånberg, A., &amp; Öhrström, E. (2002). Adverse
+      health effects in relation to urban residential soundscapes. <em>Journal of
+      Sound and Vibration</em>; Stansfeld, S., &amp; Matheson, M. (2003). Noise
+      pollution: Non-auditory effects on health. <em>British Medical Bulletin</em>.
+    </div>
+  </div>
+
+  <!-- STEP 2 — WARRANT + BACKING -->
+  <div class="step" id="warrant">
+    <h2>Step 2 · Warrant and Backing</h2>
+    <h3>A mechanistic chain is only as strong as the weakest evidential link; and the strength of any link depends on which rung of Pearl's causal hierarchy the evidence occupies — association, intervention, or counterfactual.</h3>
+    <p>
+      The warrant for the claim that follows is methodological rather than
+      empirical: it concerns what <em>kind</em> of evidence licenses what
+      <em>kind</em> of inference. Pearl &amp; Mackenzie (2018) distinguish three
+      levels of causal knowledge on what they call the "ladder of causation."
+    </p>
+    <div class="pearl-ladder" aria-label="Pearl causal hierarchy">
+      <div class="pearl-rung rung-assoc">
+        <span class="rung-num">1</span>
+        <span><span class="rung-label">Association (Rung 1).</span>
+        Observational data — what tends to co-occur. Most human acoustic-stress studies
+        supply Rung-1 evidence. Sufficient to generate hypotheses; insufficient to
+        license claims about mechanism.</span>
+      </div>
+      <div class="pearl-rung rung-interv">
+        <span class="rung-num">2</span>
+        <span><span class="rung-label">Intervention (Rung 2).</span>
+        Experimental data — what happens when you actively change one variable (e.g.,
+        pharmacologically block cortisol while holding noise constant). Required to
+        confirm a causal link as opposed to an associative one. The interior links of
+        the noise-to-wayfinding chain have not been tested at Rung 2 in humans.</span>
+      </div>
+      <div class="pearl-rung rung-counter">
+        <span class="rung-num">3</span>
+        <span><span class="rung-label">Counterfactual (Rung 3).</span>
+        Causal reasoning about what <em>would have happened</em> under alternative
+        conditions — the standard for formal mediation claims. No link in the chain
+        has been tested at Rung 3 in built-environment research.</span>
+      </div>
+    </div>
+    <p>
+      The chain's backing for the interior links is drawn from animal models (Rung-2
+      evidence in rodents) and extrapolated to humans. Extrapolation from animal
+      models to human built-environment conditions is standard in neuroscience but
+      must be explicitly flagged as extrapolation — it does not have the evidential
+      weight of a human intervention study. The grant application's mechanism section
+      must specify which rung backs each link, or it will be read as misrepresenting
+      the evidence base.
+    </p>
+    <div class="cite">
+      <b>Backing.</b> Pearl, J., &amp; Mackenzie, D. (2018). <em>The Book of Why.</em>
+      Basic Books; Craver, C. F. (2007). <em>Explaining the Brain.</em> Oxford
+      University Press (on constitutive vs. causal mechanisms); McEwen, B. S., &amp;
+      Gianaros, P. J. (2011). Stress- and allostasis-induced brain plasticity.
+      <em>Annual Review of Medicine</em>.
+    </div>
+  </div>
+
+  <!-- STEP 3 — QUALIFIED CLAIM -->
+  <div class="step" id="claim">
+    <h2>Step 3 · Qualified Claim</h2>
+    <h3>The chain from broadband noise to cortisol is well-supported at association level in humans; the interior links rely on animal extrapolation; the final link to wayfinding error has not been tested in sub-clinical noise-stressed cohorts.</h3>
+    <p>
+      Reading the chain-status data through the Pearl-hierarchy warrant produces the
+      qualified claim above. The three attached qualifiers matter for how Nia writes
+      the mechanism section. The first qualifier is <em>association-level in
+      humans</em> for the noise-to-cortisol link: the evidence base is large and
+      cross-laboratory, but it is still observational and cannot exclude third-variable
+      confounds (e.g., noise-sensitive individuals may have higher baseline HPA
+      reactivity, making the association non-causal). The second qualifier is
+      <em>animal extrapolation</em> for the interior links: the GR and place-cell
+      research is from rodent models, which differ from humans in HPA axis sensitivity
+      and hippocampal architecture. The third qualifier is <em>not yet demonstrated
+      sub-clinically</em> for the wayfinding endpoint: the clinical literature on
+      hippocampal damage and wayfinding is strong, but the degree of hippocampal change
+      plausibly produced by months of office-noise exposure has not been shown to cross
+      the threshold at which wayfinding deficits become detectable.
+    </p>
+    <div class="toulmin-mini" aria-label="Toulmin mini-diagram: chain data to qualified claim">
+      <div class="box">
+        <p class="label">Data (chain status)</p>
+        Link 1 confirmed (association); Links 2–3 inferential (animal models);
+        Link 4 partial (clinical populations only).
+      </div>
+      <div class="arrow">→</div>
+      <div class="box">
+        <p class="label">Claim (qualified)</p>
+        The chain is a plausible working hypothesis, not a confirmed mechanism.
+        Links 1 and 4 (in clinical range) can be cited as supported;
+        Links 2–3 must be hedged as animal extrapolation.
+      </div>
+    </div>
+    <p>
+      A grant application that presents this as a testable hypothesis — and proposes
+      an intervention study to move Link 2 from Rung 1 to Rung 2 of the causal
+      hierarchy — will be reviewed as intellectually honest. One that presents it as
+      an established mechanism will not.
+    </p>
+  </div>
+
+  <!-- STEP 4 — REBUTTAL -->
+  <div class="step rebut" id="rebuttal">
+    <h2>Step 4 · Rebuttal</h2>
+    <h3>The principal defeater: no study has intervened to block any interior link of this chain in humans under built-environment conditions — the chain's interior is plausible but not yet intervention-tested.</h3>
+    <p>
+      The claim above hedges the interior links as "animal extrapolation." A stronger
+      version of the defeater, from Pearl's Rung-2 standard: because no study has
+      used pharmacological glucocorticoid-receptor blockade (e.g., mifepristone) or
+      noise-ablation designs to test whether HPA activation is <em>necessary</em> for
+      wayfinding impairment under acoustic stress, the chain's interior cannot be cited
+      as mechanistically established in humans — not even tentatively. It can only be
+      cited as consistent with animal models that use analogous but not identical stress
+      protocols in non-human subjects.
+    </p>
+    <p>
+      The grant reviewer who knows this literature will raise three specific objections:
+      (i) Why was no Rung-2 study cited for Links 2–3? (ii) Are the acoustic stress
+      levels in the relevant human office studies comparable in intensity and duration
+      to the chronic stress protocols that produce hippocampal changes in rodents —
+      and if not, why should the extrapolation hold? (iii) Is there any evidence of
+      sub-clinical hippocampal volume change in noise-exposed office workers at all,
+      even at the structural MRI level?
+    </p>
+    <p>
+      These are not rhetorical objections. They are the exact questions that make this
+      grant proposal valuable if it proposes to answer them — and vulnerable if it
+      implies they have already been answered.
+    </p>
+    <div class="cite">
+      <b>Defeater source.</b> Pearl, J., &amp; Mackenzie, D. (2018). <em>The Book of
+      Why.</em> Basic Books, Chapter 1 (the causal hierarchy); the specific application
+      to neuroarchitecture is developed from Craver (2007) and the null-human-fMRI
+      observation in Conrad (2010)'s review.
+    </div>
+  </div>
+
+  <!-- STEP 5 — CHINN-BREWER PANEL -->
+  <div class="step" id="chinn-brewer">
+    <h2>Step 5 · How researchers respond to this defeater</h2>
+    <h3>Seven responses to Pearl's hierarchy critique, applied to the noise-to-wayfinding chain.</h3>
+    <p>
+      Chinn &amp; Brewer (1993) catalogue seven responses readers take when confronted
+      with evidence that threatens a theory or claim they hold. Each response below
+      is applied to the specific defeater this journey has surfaced: that the interior
+      links of the chain are not intervention-tested in humans. All seven responses
+      are visible by default because a researcher who only reads the headings has not
+      yet done the epistemic work the journey requires.
+    </p>
+    <div class="cb-panel">
+      <h4>Anomalous datum (this journey)</h4>
+      <p class="cb-prompt">
+        <em>Pearl's causal hierarchy requires intervention-level (Rung-2) evidence to
+        license mechanistic claims. The interior links of the noise → HPA → GR →
+        hippocampus chain have not been tested at Rung 2 in humans — only in rodent
+        models. The chain cannot be presented as an established human mechanism.</em>
+      </p>
+      <ul class="cb-list" id="cb-list">
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">1.</span>
+            <span class="cb-name">Ignore the data</span>
+            <span class="cb-disp protective">protective</span>
+          </div>
+          <div class="cb-body">
+            <p>Nia writes the mechanism section as if all four links are confirmed, citing the rodent studies without flagging the species difference. The grant narrative is internally fluent. A panel reviewer who knows Conrad (2010) or the Pearl framework will raise the objection in their review, and it will be harder to address at revision than at submission. Not recommended unless the grant is in a field where rodent extrapolation is treated as adequate without explicit hedging.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">2.</span>
+            <span class="cb-name">Reject the data</span>
+            <span class="cb-disp protective">protective</span>
+          </div>
+          <div class="cb-body">
+            <p>Nia argues that Pearl's hierarchy is a philosophical standard that is not routinely applied in the neuroarchitecture literature, and that the field operates on a weaker criterion of plausible mechanism. This can be true — many grant panels do not apply Rung-2 standards. But if the grant is being reviewed by a methods-rigorous panel (NIH, NSF, or a committee with a causal-inference specialist), this defence will fail. The rejection criterion must be specified: Nia should know which review panel she is writing for before deciding whether to make this move.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">3.</span>
+            <span class="cb-name">Exclude the data from the theory's domain</span>
+            <span class="cb-disp protective">protective</span>
+          </div>
+          <div class="cb-body">
+            <p>Nia accepts the Pearl critique but argues it applies to the mechanistic claim and not to the associative claim — she redescribes the chain as an association chain (noise correlates with cortisol; cortisol correlates with wayfinding impairment in clinical populations) rather than a mechanistic chain. This is an honest and defensible re-scope. The cost: it weakens the scientific case for the proposed intervention, because an association chain cannot tell the funder which link to target. The grant's specificity of aim depends on treating at least one interior link as a causal mechanism.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">4.</span>
+            <span class="cb-name">Hold the data in abeyance</span>
+            <span class="cb-disp flexible">flexible</span>
+          </div>
+          <div class="cb-body">
+            <p>Nia accepts the Pearl critique, flags Links 2–3 as "supported by animal models pending human replication," and structures the grant so that Aim 1 tests Link 2 at Rung 2 (using a pharmacological blockade design or a noise-ablation crossover). This is the intellectually honest move and, strategically, the one most likely to fund well: the gap between association-level and intervention-level evidence is itself a fundable question. It converts the defeater into the grant's scientific rationale.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">5.</span>
+            <span class="cb-name">Reinterpret the data, theory unchanged</span>
+            <span class="cb-disp flexible">flexible</span>
+          </div>
+          <div class="cb-body">
+            <p>Nia accepts the Pearl critique and proposes that the interior links are better understood as operating through a parallel pathway — e.g., noise-induced sleep disruption as a second route to hippocampal degradation that does not require GR downregulation as an intermediate. The mechanistic chain is preserved but with a revised interior. This is inventive and potentially more accurate; it requires citing the sleep-disruption literature on hippocampal function (Walker, 2017; Rasch &amp; Born, 2013) and making a new prediction that distinguishes the sleep-pathway account from the cortisol-pathway account.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">6.</span>
+            <span class="cb-name">Make peripheral changes to the theory</span>
+            <span class="cb-disp revising">revising</span>
+          </div>
+          <div class="cb-body">
+            <p>Nia keeps the full chain but adds an auxiliary scope condition: the Rung-2 standard is required for the full chain, but only Link 1 (noise → cortisol) needs to be at Rung 2 for her specific Aim 1 hypothesis (which concerns acoustic intervention rather than the downstream pathway). The downstream mechanism is framed as a theoretical background that motivates why cortisol is the right biomarker to target, not a claim requiring Rung-2 support for each step. Technically sound if the grant's aims are scoped to Link 1; potentially misleading if the reviewers read the full chain as if it requires equal evidentiary support at every step.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">7.</span>
+            <span class="cb-name">Change the theory</span>
+            <span class="cb-disp revising">revising</span>
+          </div>
+          <div class="cb-body">
+            <p>Nia treats the Pearl critique as decisive and abandons the cortisol-mediated chain entirely in favour of a more directly testable pathway — e.g., noise → sustained alpha-power suppression (EEG) → degraded spatial-integration performance, which is testable in one study without animal-model extrapolation. This is the most radical response and the one that most honestly confronts the current evidence gap. It requires a significant reframe of the grant's theoretical background but would survive any methods-rigorous review panel.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 6 — READER RESPONSE -->
+  <div class="step" id="response">
+    <h2>Step 6 · Your response</h2>
+    <h3>Which Chinn-Brewer response do you take with this defeater, and what does it commit you to in your grant mechanism section?</h3>
+    <p>
+      The journey is designed to make Nia's response to the Pearl-hierarchy critique
+      explicit before she writes. A researcher who can name the response she is taking
+      — and can state what it commits her to in the grant narrative — has done the
+      epistemic preparation the Atlas was built to support.
+    </p>
+    <div class="reader-response">
+      <h4>Record your response (saved for this session)</h4>
+      <label for="cb-pick">Which Chinn &amp; Brewer response would you take?</label>
+      <select id="cb-pick">
+        <option value="">— select —</option>
+        <option value="1">1. Ignore the data</option>
+        <option value="2">2. Reject the data</option>
+        <option value="3">3. Exclude the data from the theory's domain</option>
+        <option value="4">4. Hold the data in abeyance</option>
+        <option value="5">5. Reinterpret the data, theory unchanged</option>
+        <option value="6">6. Make peripheral changes to the theory</option>
+        <option value="7">7. Change the theory</option>
+      </select>
+      <label for="cb-why">What does this response commit you to in the grant mechanism section?</label>
+      <textarea id="cb-why" placeholder="One or two sentences — e.g., 'I will flag Links 2–3 as animal-model extrapolation and restructure Aim 1 to test Link 2 at Rung 2 using a pharmacological blockade crossover.'"></textarea>
+      <button id="cb-save">Save my response</button>
+      <div class="stored" id="cb-stored"></div>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    An evidential journey for N-Q-005 of the combined question corpus.
+    Built as a Track 4, Task 3 prototype for COGS 160 SP26. Persona: P2-prober (Nia).
+    The Chinn-Brewer taxonomy is drawn from the
+    <a href="chinn_brewer_response_widget.html">standalone widget</a>.
+    Sources: <cite>Björk et al. (2006); Skånberg &amp; Öhrström (2002); Stansfeld &amp; Matheson (2003);
+    McEwen &amp; Gianaros (2011); Conrad (2010); Maguire et al. (2006);
+    Pearl &amp; Mackenzie (2018); Craver (2007); Chinn &amp; Brewer (1993)</cite>.
+  </p>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner" style="max-width:880px;margin:0 auto;padding:20px 28px;display:flex;gap:36px;flex-wrap:wrap;border-top:1px solid var(--rule);">
+    <div>
+      <div style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:var(--accent)">Knowledge Atlas</div>
+      <a href="../../index.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Global home</a>
+    </div>
+    <div>
+      <div style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:var(--accent)">COGS 160 SP</div>
+      <a href="../t4_intro.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Track 4 overview</a>
+    </div>
+    <div>
+      <div style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:var(--accent)">Companion artefacts</div>
+      <a href="answer_shape_catalogue.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Answer-shape catalogue</a>
+      <a href="chinn_brewer_response_widget.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Chinn-Brewer widget</a>
+      <a href="journey_q29_art_affect_confound.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Q-29 worked journey</a>
+      <a href="../t4_task3.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;">Back to Task 3</a>
+    </div>
+    <div style="margin-top:auto;font-size:0.78rem;color:var(--muted);width:100%">
+      COGS 160 Spring 2026 · Prof. David Kirsh, UCSD Cognitive Science.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Toggle CB items (start open; click to close/re-open)
+  document.querySelectorAll('#cb-list .cb-head').forEach(head => {
+    head.addEventListener('click', () => {
+      head.closest('li').classList.toggle('closed');
+    });
+  });
+
+  // Reader response — in-memory storage (no localStorage per Atlas convention)
+  let SAVED = null;
+  document.getElementById('cb-save').addEventListener('click', () => {
+    const pick = document.getElementById('cb-pick').value;
+    const why  = document.getElementById('cb-why').value.trim();
+    if (!pick) { alert('Please select a Chinn-Brewer response.'); return; }
+    SAVED = { pick, why };
+    const stored = document.getElementById('cb-stored');
+    const opt    = document.getElementById('cb-pick').selectedOptions[0].text;
+    stored.style.display = 'block';
+    stored.innerHTML = '<b>Saved (this session only):</b><br>Response: ' + opt + '<br>' +
+                       (why ? 'Reasoning: ' + why : '<em>No reasoning recorded.</em>');
+  });
+</script>
+</body>
+</html>

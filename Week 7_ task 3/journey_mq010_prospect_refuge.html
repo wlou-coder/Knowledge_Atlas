@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How strong is the evidence for prospect-refuge preference? — Evidential Journey M-Q-010</title>
+  <link rel="stylesheet" href="../_track_pages_shared.css">
+  <style>
+    body { padding-top: 56px; }
+    :root {
+      --paper:       #fbf8f1;
+      --ink:         #1f1d1a;
+      --muted:       #5b574f;
+      --rule:        #ddd5c1;
+      --accent:      #5a3e1b;
+      --accent-soft: #e9dec4;
+      --emphasis:    #8a4b1a;
+      --good:        #2c6b3f;
+      --bad:         #8e2727;
+      --rebut-bg:    #f9f0ee;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      background: var(--paper); color: var(--ink); margin: 0;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      line-height: 1.6; scroll-behavior: smooth;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 32px 28px 64px; }
+
+    header.j-header { border-bottom: 1px solid var(--rule); padding-bottom: 18px; margin-bottom: 22px; }
+    header.j-header .crumb { font-size: 0.84rem; color: var(--muted); margin-bottom: 8px; }
+    header.j-header .crumb a { color: var(--accent); text-decoration: none; }
+    header.j-header .crumb a:hover { text-decoration: underline; }
+    header.j-header h1 { font-size: 1.7rem; margin: 0 0 6px; letter-spacing: 0.2px; }
+    header.j-header .meta { font-size: 0.86rem; color: var(--muted); }
+
+    .search-box {
+      background: #fff; border: 1px solid var(--rule); border-radius: 6px;
+      padding: 14px 18px; margin: 18px 0 22px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .search-box .icon { font-size: 1.1rem; color: var(--muted); }
+    .search-box input {
+      flex: 1; border: none; background: transparent; font: inherit;
+      color: var(--ink); padding: 4px 0; outline: none;
+    }
+
+    .step {
+      border-left: 3px solid var(--accent-soft);
+      padding: 14px 18px; margin: 22px 0;
+      background: #fff; border-radius: 0 4px 4px 0;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+    }
+    .step.rebut { border-left-color: var(--bad); background: var(--rebut-bg); }
+    .step h2 {
+      font-size: 0.78rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1.6px;
+      margin: 0 0 4px; font-weight: 700;
+    }
+    .step.rebut h2 { color: var(--bad); }
+    .step h3 { font-size: 1.18rem; margin: 0 0 12px; letter-spacing: 0.1px; line-height: 1.3; }
+    .step p { margin: 0 0 10px; }
+    .step p:last-child { margin-bottom: 0; }
+    .step .cite {
+      font-size: 0.85rem; color: var(--muted);
+      border-top: 1px dashed var(--rule); padding-top: 8px; margin-top: 14px;
+    }
+    .step .cite b { color: var(--accent); font-weight: 600; }
+
+    .stat-figure {
+      display: flex; align-items: baseline; gap: 12px;
+      background: var(--accent-soft); padding: 12px 16px;
+      border-radius: 4px; margin: 12px 0;
+    }
+    .stat-figure .num { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+    .stat-figure .lbl { font-size: 0.92rem; color: var(--muted); }
+
+    /* Chain-status table for mechanistic-chain journeys */
+    .chain-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.88rem; }
+    .chain-table th {
+      background: var(--accent-soft); color: var(--accent);
+      text-align: left; padding: 6px 10px; font-weight: 700;
+      border-bottom: 2px solid var(--rule);
+    }
+    .chain-table td { padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    .chain-table tr:last-child td { border-bottom: none; }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 12px;
+      font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .badge-confirmed  { background: #d6edd8; color: #2c6b3f; }
+    .badge-tentative  { background: #fff3d6; color: #8a6010; }
+    .badge-inferential{ background: #f5e0e0; color: var(--bad); }
+    .badge-partial    { background: #dce8f5; color: #1f3a8a; }
+
+    .toulmin-mini {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 0 14px; margin: 14px 0;
+    }
+    .toulmin-mini .box {
+      border: 1px solid var(--rule); padding: 10px 12px;
+      background: #fff; border-radius: 4px; font-size: 0.86rem;
+    }
+    .toulmin-mini .box.rebut { border-color: var(--bad); background: var(--rebut-bg); }
+    .toulmin-mini .arrow { align-self: center; color: var(--accent); font-size: 1.2rem; padding: 0 8px; }
+    .toulmin-mini .box .label {
+      font-size: 0.72rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1.4px; margin: 0 0 4px;
+    }
+    .toulmin-mini .box.rebut .label { color: var(--bad); }
+
+    /* Chinn-Brewer panel — items open by default */
+    .cb-panel {
+      border: 1px solid var(--rule); border-radius: 6px; background: #fff;
+      padding: 14px 16px; margin: 18px 0;
+    }
+    .cb-panel h4 {
+      font-size: 0.92rem; margin: 0 0 8px; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700;
+    }
+    .cb-panel .cb-prompt { font-size: 0.92rem; color: var(--muted); margin: 0 0 12px; }
+    .cb-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+    .cb-list li {
+      border: 1px solid var(--rule); border-radius: 4px; overflow: hidden;
+    }
+    .cb-list li .cb-head {
+      display: grid; grid-template-columns: 24px 1fr auto;
+      gap: 10px; align-items: baseline;
+      padding: 8px 12px; background: var(--accent-soft); cursor: pointer;
+    }
+    .cb-list li:hover .cb-head { background: #ddcfa6; }
+    .cb-list li .cb-num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--accent); }
+    .cb-list li .cb-name { font-size: 0.92rem; }
+    .cb-list li .cb-disp {
+      font-size: 0.74rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted);
+    }
+    .cb-list li .cb-disp.protective { color: var(--bad); }
+    .cb-list li .cb-disp.flexible   { color: #b76e1a; }
+    .cb-list li .cb-disp.revising   { color: var(--good); }
+    /* Exposed by default — all items start open */
+    .cb-list li .cb-body {
+      display: block; padding: 10px 14px; font-size: 0.88rem; background: #fff;
+    }
+    .cb-list li.closed .cb-body { display: none; }
+    .cb-list li .cb-body p { margin: 0 0 8px; }
+    .cb-list li .cb-body p:last-child { margin-bottom: 0; }
+
+    .reader-response {
+      border: 1px solid var(--accent); border-radius: 6px;
+      background: #fff; padding: 18px 20px; margin: 24px 0 12px;
+    }
+    .reader-response h4 { font-size: 1rem; margin: 0 0 10px; color: var(--accent); }
+    .reader-response label { font-size: 0.85rem; color: var(--muted); display: block; margin-bottom: 4px; }
+    .reader-response select, .reader-response textarea {
+      font: inherit; padding: 8px 10px; border: 1px solid var(--rule);
+      border-radius: 3px; background: var(--paper); color: var(--ink);
+      width: 100%; margin-bottom: 12px;
+    }
+    .reader-response textarea { min-height: 80px; resize: vertical; }
+    .reader-response button {
+      font: inherit; padding: 6px 14px; border: 1px solid var(--accent);
+      border-radius: 3px; background: var(--accent); color: #fff; cursor: pointer;
+    }
+    .reader-response button:hover { background: #4a3214; }
+    .reader-response .stored {
+      display: none; margin-top: 12px; padding: 10px 12px;
+      background: var(--accent-soft); border-radius: 4px; font-size: 0.88rem;
+    }
+    .footer-note {
+      margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--rule);
+      font-size: 0.84rem; color: var(--muted);
+    }
+    .footer-note a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV (Atlas house style) -->
+<div id="ka-navbar-slot">
+  <nav class="top-nav" role="navigation" aria-label="Primary">
+    <a class="wordmark" href="../../index.html" aria-label="Knowledge Atlas home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+        <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+        <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+        <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+        <line x1="16" y1="7.5" x2="16" y2="12.5"   stroke="#F5A623" stroke-width="1.5"/>
+        <line x1="24.8" y1="20.2" x2="19" y2="17.3" stroke="#F5A623" stroke-width="1.5"/>
+        <line x1="7.2"  y1="20.2" x2="13" y2="17.3" stroke="#F5A623" stroke-width="1.5"/>
+      </svg>
+      <span>Knowledge<span class="wordmark-sub" style="margin-left:6px">Atlas</span></span>
+    </a>
+    <div class="nav-center">
+      <a href="../ka_schedule.html">Syllabus</a>
+      <a href="../t1_intro.html">Track 1</a>
+      <a href="../t2_intro.html">Track 2</a>
+      <a href="../t3_intro.html">Track 3</a>
+      <a href="../t4_intro.html" class="active">Track 4</a>
+    </div>
+  </nav>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="../../index.html">Home</a> /
+  <a href="../ka_schedule.html">160 Student</a> /
+  <a href="../t4_intro.html">Track 4</a> /
+  <a href="../t4_task3.html">Task 3</a> /
+  <span>Journey M-Q-010 · Prospect-refuge evidence</span>
+</div>
+
+<div class="wrap">
+  <header class="j-header">
+    <div class="crumb">
+      <a href="../../index.html">Knowledge Atlas</a> ·
+      <a href="answer_shape_catalogue.html">Answer-shape catalogue</a> ·
+      Evidential journey: M-Q-010 (P1 · 160-student persona)
+    </div>
+    <h1>How strong is the evidence that humans prefer environments with prospect and refuge?</h1>
+    <div class="meta">
+      An evidential journey · Toulmin shape · 160-student persona (P1-eager) ·
+      M-Q-010 in the combined question corpus.
+    </div>
+  </header>
+
+  <div class="search-box">
+    <span class="icon">⌕</span>
+    <input type="text" value="How strong is the evidence for prospect-refuge preference?" aria-label="Reader's typed question">
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--muted);margin:-8px 0 18px;">
+    Maya is writing a paper that cites Appleton's prospect-refuge theory. She needs to
+    know whether the evidence is strong enough to build on — and what the most important
+    boundary condition is. This journey builds a Toulmin argument around her question,
+    surfaces the principal defeater, and asks which Chinn &amp; Brewer (1993) response
+    she would take.
+  </p>
+
+  <!-- STEP 1 — DATA -->
+  <div class="step" id="data">
+    <h2>Step 1 · Data</h2>
+    <h3>A meta-analysis of 88 studies finds moderate, replicable preferences for environments combining prospect and refuge — weighted mean d&nbsp;≈&nbsp;0.43.</h3>
+    <p>
+      Stamps (2010) conducted the most comprehensive quantitative synthesis of the
+      prospect-refuge preference literature, pooling 88 published studies. Across designs
+      ranging from photograph-rating tasks and physical environment walk-throughs to
+      simulated VR environments, the weighted mean effect size for prospect features was
+      d&nbsp;=&nbsp;0.43 and for refuge features was d&nbsp;=&nbsp;0.38 — both in the
+      "moderate" range by Cohen's (1988) conventions. Critically, neither estimate
+      disappeared under heterogeneity analysis, and the fail-safe N (the number of
+      unpublished null results required to drive the pooled estimate to zero) exceeded
+      1,000 studies.
+    </p>
+    <div class="stat-figure">
+      <span class="num">d ≈ 0.43</span>
+      <span class="lbl">
+        weighted mean effect size for prospect-feature preference across 88 studies
+        (Stamps, 2010). Refuge features: d&nbsp;≈&nbsp;0.38. Both estimates are
+        statistically robust (fail-safe N &gt; 1,000).
+        <em style="display:block;font-style:italic;color:var(--muted);font-size:0.82rem;margin-top:4px;">
+          Earlier estimates from the Appleton (1975) theoretical framework were not formally
+          quantified; the Stamps synthesis is the first meta-analytic baseline.
+        </em>
+      </span>
+    </div>
+    <p>
+      Earlier cross-cultural work by Orians &amp; Heerwagen (1992) had shown above-chance
+      preference for savannah-like environments (open ground with scattered trees and
+      water visible) in samples drawn from the US, Australia, Argentina, and Nigeria.
+      Hagerhall et al. (2008) added eye-tracking evidence that visual attention allocates
+      disproportionately to prospect-refuge boundary zones — the edges where open prospect
+      meets sheltered refuge — suggesting an attentional bias that operates below explicit
+      preference reports.
+    </p>
+    <p>
+      What the data do <em>not</em> show: that the effect is universal across all
+      environmental types, or that it scales linearly with the degree of prospect or
+      refuge present. The studies are heterogeneous in stimuli (natural landscapes,
+      architectural interiors, urban spaces) and Stamps's own analysis notes that
+      the effect is larger and more consistent in natural and semi-natural settings
+      than in urban ones.
+    </p>
+    <div class="cite">
+      <b>Sources.</b> Stamps, A. E. (2010). Use of static and dynamic
+      media to simulate built environments. <em>Perceptual and Motor Skills</em>,
+      111(3), 900–920; Orians, G. H., &amp; Heerwagen, J. H. (1992). Evolved responses
+      to landscapes. In J. Barkow et al. (Eds.), <em>The Adapted Mind</em>. Oxford
+      University Press; Hagerhall et al. (2008), <em>Journal of Environmental Psychology</em>.
+    </div>
+  </div>
+
+  <!-- STEP 2 — WARRANT + BACKING -->
+  <div class="step" id="warrant">
+    <h2>Step 2 · Warrant and Backing</h2>
+    <h3>If a perceptual preference reliably tracks evolutionary fitness, then it should appear consistently across populations, reduce under artificial or culturally specific conditions, and be detectable below the level of explicit report.</h3>
+    <p>
+      The inference from Stamps's meta-analytic data to the claim that prospect-refuge
+      preference is a real, theory-consistent effect is licensed by the warrant above.
+      The warrant makes three predictions. (i) The effect should be cross-cultural —
+      present in populations that share the evolved perceptual system but differ in
+      contemporary landscape exposure. (ii) It should be stronger in stimuli that more
+      closely resemble the ancestral environment than in urban or artificial stimuli
+      (because the signal-to-noise ratio for the evolved cue detection system would be
+      higher). (iii) It should manifest in attention allocation as well as in explicit
+      ratings, because perceptual biases that track survival cues operate partly
+      pre-attentively. All three of these predictions receive support in the literature,
+      though none unconditionally.
+    </p>
+    <p>
+      The cross-cultural prediction is partially confirmed: Orians &amp; Heerwagen
+      (1992) found preferences in four culturally diverse samples, but their stimuli were
+      photographs of natural landscapes, and the degree of within-sample cultural
+      homogeneity (education level, urban vs. rural upbringing) was not systematically
+      controlled. The setting-type moderation is supported: the Stamps meta-analysis
+      shows larger effects in natural-landscape studies than in architectural-interior
+      studies. The pre-attentive component is supported by Hagerhall et al.'s (2008)
+      eye-tracking data.
+    </p>
+    <div class="cite">
+      <b>Backing.</b> Orians, G. H. (1980). Habitat selection: General theory and
+      applications to human behavior. In J. S. Lockard (Ed.), <em>The Evolution of
+      Human Social Behavior</em>. Elsevier; Appleton, J. (1975). <em>The Experience
+      of Landscape</em>. Wiley; Kaplan, S., &amp; Kaplan, R. (1989). <em>The
+      Experience of Nature</em>. Cambridge University Press.
+    </div>
+  </div>
+
+  <!-- STEP 3 — QUALIFIED CLAIM -->
+  <div class="step" id="claim">
+    <h2>Step 3 · Qualified Claim</h2>
+    <h3>Prospect-refuge theory has moderate, cross-replication empirical support in natural and semi-natural settings; the evidence weakens in urban environments and has not been adequately tested across cultural and socioeconomic diversity.</h3>
+    <p>
+      Reading the data through the warrant produces the claim above with two attached
+      qualifiers. The first qualifier is <em>in natural and semi-natural settings</em>:
+      the meta-analytic base is dominated by studies using photographs or walkthroughs
+      of parks, forests, and residential landscapes — urban studies are underrepresented
+      and show smaller effects. The second qualifier is <em>in predominantly WEIRD
+      samples</em>: while Orians &amp; Heerwagen (1992) sampled across four continents,
+      the subsequent literature is overwhelmingly from North America, western Europe,
+      and east Asia, with limited representation of subsistence-farming or rural
+      populations from the Global South, where evolved habitat-preference signals might
+      operate differently given different baseline ecological exposure.
+    </p>
+    <div class="toulmin-mini" aria-label="Toulmin mini-diagram: data to qualified claim">
+      <div class="box">
+        <p class="label">Data</p>
+        88-study meta-analysis: d&nbsp;≈&nbsp;0.43 for prospect features, d&nbsp;≈&nbsp;0.38
+        for refuge; cross-cultural partial replication (Orians &amp; Heerwagen, 1992);
+        attentional bias at prospect-refuge boundaries (Hagerhall et al., 2008).
+      </div>
+      <div class="arrow">→</div>
+      <div class="box">
+        <p class="label">Claim (moderate support)</p>
+        Prospect-refuge preference is a real, theory-consistent effect in natural and
+        semi-natural settings; evidence weakens in urban contexts and in culturally
+        diverse samples.
+      </div>
+    </div>
+    <p>
+      This is the claim Maya can defensibly write in her paper. It is stronger than
+      "anecdotal aesthetic preference" and weaker than "universal evolutionary law."
+      A paper that cites Appleton (1975) without qualifying for setting type and sample
+      diversity will overstate the evidence — which is precisely the boundary condition
+      the Toulmin qualifier is designed to make visible.
+    </p>
+  </div>
+
+  <!-- STEP 4 — REBUTTAL -->
+  <div class="step rebut" id="rebuttal">
+    <h2>Step 4 · Rebuttal</h2>
+    <h3>The principal threat to the claim: in urban environments, prospect can signal exposure to strangers and danger rather than safety — producing preference reversal.</h3>
+    <p>
+      The claim above treats the prospect-refuge effect as reliably positive. A coherent
+      and empirically supported rebuttal exists. Nasar &amp; Fisher (1992) studied
+      preference and safety ratings for urban streetscapes in Columbus, Ohio and found
+      that open, high-prospect spaces were rated as <em>less</em> safe and less
+      comfortable than more enclosed, refuge-like spaces — precisely the reverse of
+      Appleton's prediction. The mechanism they proposed: in urban environments, the
+      same prospect feature that signals freedom from predation in a savannah context
+      signals visibility to strangers and potential criminals in a city context. The
+      evolutionary cue is present, but its valence is reversed by the social
+      interpretation of who might be watching.
+    </p>
+    <p>
+      This reversal is not a marginal finding. It has been replicated in several
+      subsequent urban studies (reviewed in Stamps &amp; Nasar, 2006) and constitutes
+      the standard internal critique of prospect-refuge theory's scope conditions.
+      A paper that applies the theory to urban contexts — classrooms, libraries,
+      campus buildings — without acknowledging this reversal will not survive peer
+      review by anyone who knows the Nasar &amp; Fisher literature.
+    </p>
+    <p>
+      The Toulmin-specific version of this defeater, as flagged in the corpus, concerns
+      qualifier integrity. Toulmin (2003) explicitly noted that a persuasive argument
+      that omits or weakens the qualifier to appear more forceful is epistemically
+      dishonest. The qualifier "in natural and semi-natural settings" is not decorative;
+      it is the boundary condition that distinguishes the claim from a false
+      universalism.
+    </p>
+    <div class="cite">
+      <b>Defeater source.</b> Nasar, J. L., &amp; Fisher, B. S. (1992). Design for
+      vulnerability: Cues and reactions to fear of crime. <em>Sociology and Social
+      Research</em>, 76(2), 48–58; Stamps, A. E., &amp; Nasar, J. L. (2006). Design
+      review and public preferences: Effects of geographical location, public consensus,
+      sensation seeking, and architectural styles. <em>Journal of Environmental
+      Psychology</em>, 26(4), 295–312.
+    </div>
+  </div>
+
+  <!-- STEP 5 — CHINN-BREWER PANEL -->
+  <div class="step" id="chinn-brewer">
+    <h2>Step 5 · How readers respond to this defeater</h2>
+    <h3>Seven responses to the urban-reversal finding, as catalogued by Chinn &amp; Brewer (1993).</h3>
+    <p>
+      Chinn &amp; Brewer (1993) catalogue seven responses that readers actually take when
+      presented with evidence that conflicts with a theory they hold. Each response below
+      is applied to the specific defeater this journey has surfaced. They are exposed
+      here by default because a reader who only skims the headings has not yet done
+      the epistemic work the journey requires.
+    </p>
+    <div class="cb-panel">
+      <h4>Anomalous datum (this journey)</h4>
+      <p class="cb-prompt">
+        <em>Nasar &amp; Fisher (1992) found that in dense urban streetscapes,
+        high-prospect environments were rated as less safe and less comfortable than
+        enclosed spaces — reversing the direction of the effect predicted by
+        prospect-refuge theory.</em>
+      </p>
+      <ul class="cb-list" id="cb-list">
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">1.</span>
+            <span class="cb-name">Ignore the data</span>
+            <span class="cb-disp protective">protective</span>
+          </div>
+          <div class="cb-body">
+            <p>Maya continues citing Appleton (1975) as supporting the design of open campus atria and high-windowed libraries without engaging the urban reversal. The paper looks well-sourced but will fail at a journal that routes to Nasar-aware reviewers. Defensible only if there is independent evidence that campus architectural spaces function as natural rather than urban environments — which must be argued, not assumed.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">2.</span>
+            <span class="cb-name">Reject the data</span>
+            <span class="cb-disp protective">protective</span>
+          </div>
+          <div class="cb-body">
+            <p>Maya argues that Nasar &amp; Fisher (1992) studied high-crime urban neighbourhoods that are not representative of the campus or residential settings she is writing about. This can be correct — but the rejection criterion must be stated explicitly. If the criterion is "low perceived crime," it needs to be measured, not assumed; and it shifts the qualifier from a setting-type condition to a perceived-safety condition, which may change the theory's predictions in other ways.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">3.</span>
+            <span class="cb-name">Exclude the data from the theory's domain</span>
+            <span class="cb-disp protective">protective</span>
+          </div>
+          <div class="cb-body">
+            <p>Maya concedes the urban reversal and proposes that prospect-refuge theory applies to natural and semi-natural settings only; urban streetscapes lie outside the theory's original scope. This is Appleton's own position (though he did not put it this way explicitly), and it is a principled narrowing. The cost: it makes the theory less useful for architectural design, which often takes place in urban contexts. Maya should acknowledge that cost rather than quietly setting the urban case aside.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">4.</span>
+            <span class="cb-name">Hold the data in abeyance</span>
+            <span class="cb-disp flexible">flexible</span>
+          </div>
+          <div class="cb-body">
+            <p>Maya registers the urban reversal as a genuine challenge but notes that the replication landscape for urban prospect-refuge studies is thin — Stamps's (2010) meta-analysis shows high variance for urban studies, and few have controlled for perceived crime. She defers to further evidence before updating her position. Often the rational stance, but it should be stated explicitly: the paper should flag the urban-reversal literature as an open question rather than burying it.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">5.</span>
+            <span class="cb-name">Reinterpret the data, theory unchanged</span>
+            <span class="cb-disp flexible">flexible</span>
+          </div>
+          <div class="cb-body">
+            <p>Maya proposes that the Nasar &amp; Fisher finding is not a reversal but a <em>moderation</em>: the prospect-refuge preference is real, but its direction depends on whether prospect signals freedom-from-predation or exposure-to-predation. This is a reinterpretation that preserves the evolutionary core of the theory while adding a social-threat moderator. Inventive and defensible — but it must generate a new prediction (e.g., the reversal should disappear in spaces where social-threat cues are absent) to distinguish itself from a post-hoc relabelling.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">6.</span>
+            <span class="cb-name">Make peripheral changes to the theory</span>
+            <span class="cb-disp revising">revising</span>
+          </div>
+          <div class="cb-body">
+            <p>Maya keeps Appleton's core — that humans evolved preferences for environments balancing prospect and refuge — and adds an auxiliary condition: the preference manifests in the predicted direction only when social-threat cues are below a threshold. This is Lakatos's protective-belt move. Legitimate when the auxiliary condition is independently testable (e.g., via perceived safety ratings measured separately); less legitimate if it is simply added wherever the theory is falsified, without ever testing the auxiliary claim directly.</p>
+          </div>
+        </li>
+        <li>
+          <div class="cb-head">
+            <span class="cb-num">7.</span>
+            <span class="cb-name">Change the theory</span>
+            <span class="cb-disp revising">revising</span>
+          </div>
+          <div class="cb-body">
+            <p>Maya treats the urban reversal as decisive and concludes that prospect-refuge theory, as originally framed, does not generalise beyond natural-landscape aesthetics. She switches to a framing that treats environmental preference as jointly determined by evolutionary affordance cues and contemporaneous social-threat signals — effectively adopting a dual-process account. The most intellectually honest move given the full evidence, and the hardest to make in a paper that began by taking Appleton's side.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 6 — READER RESPONSE -->
+  <div class="step" id="response">
+    <h2>Step 6 · Your response</h2>
+    <h3>Which Chinn-Brewer response do you take with this defeater, and why?</h3>
+    <p>
+      The journey is designed not to leave Maya with a single answer but to make her
+      <em>response to the defeater</em> explicit before she cites prospect-refuge theory
+      in her paper. A student who identifies which response she is taking — and can
+      articulate why — has done the epistemic work the Atlas was built to support.
+    </p>
+    <div class="reader-response">
+      <h4>Record your response (saved for this session)</h4>
+      <label for="cb-pick">Which Chinn &amp; Brewer response would you take?</label>
+      <select id="cb-pick">
+        <option value="">— select —</option>
+        <option value="1">1. Ignore the data</option>
+        <option value="2">2. Reject the data</option>
+        <option value="3">3. Exclude the data from the theory's domain</option>
+        <option value="4">4. Hold the data in abeyance</option>
+        <option value="5">5. Reinterpret the data, theory unchanged</option>
+        <option value="6">6. Make peripheral changes to the theory</option>
+        <option value="7">7. Change the theory</option>
+      </select>
+      <label for="cb-why">Why this response, in one or two sentences?</label>
+      <textarea id="cb-why" placeholder="Your reasoning — what specifically about this evidence and your use-case makes this the right response for you right now?"></textarea>
+      <button id="cb-save">Save my response</button>
+      <div class="stored" id="cb-stored"></div>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    An evidential journey for M-Q-010 of the combined 160-student question corpus.
+    Built as a Track 4, Task 3 prototype for COGS 160 SP26. Persona: P1-eager (Maya Chen).
+    The Chinn-Brewer taxonomy is drawn from the
+    <a href="chinn_brewer_response_widget.html">standalone widget</a>.
+    Sources: <cite>Appleton (1975); Orians &amp; Heerwagen (1992); Stamps (2010); Nasar &amp; Fisher (1992);
+    Hagerhall et al. (2008); Toulmin (1958/2003); Chinn &amp; Brewer (1993)</cite>.
+  </p>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner" style="max-width:880px;margin:0 auto;padding:20px 28px;display:flex;gap:36px;flex-wrap:wrap;border-top:1px solid var(--rule);">
+    <div>
+      <div style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:var(--accent)">Knowledge Atlas</div>
+      <a href="../../index.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Global home</a>
+    </div>
+    <div>
+      <div style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:var(--accent)">COGS 160 SP</div>
+      <a href="../t4_intro.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Track 4 overview</a>
+    </div>
+    <div>
+      <div style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:var(--accent)">Companion artefacts</div>
+      <a href="answer_shape_catalogue.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Answer-shape catalogue</a>
+      <a href="chinn_brewer_response_widget.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Chinn-Brewer widget</a>
+      <a href="journey_q29_art_affect_confound.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;margin-bottom:3px;">Q-29 worked journey</a>
+      <a href="../t4_task3.html" style="display:block;font-size:0.84rem;color:var(--muted);text-decoration:none;">Back to Task 3</a>
+    </div>
+    <div style="margin-top:auto;font-size:0.78rem;color:var(--muted);width:100%">
+      COGS 160 Spring 2026 · Prof. David Kirsh, UCSD Cognitive Science.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Toggle Chinn-Brewer items on click (items start open; clicking closes/re-opens)
+  document.querySelectorAll('#cb-list .cb-head').forEach(head => {
+    head.addEventListener('click', () => {
+      head.closest('li').classList.toggle('closed');
+    });
+  });
+
+  // Reader response — in-memory storage only (no localStorage per Atlas convention)
+  let SAVED = null;
+  document.getElementById('cb-save').addEventListener('click', () => {
+    const pick = document.getElementById('cb-pick').value;
+    const why  = document.getElementById('cb-why').value.trim();
+    if (!pick) { alert('Please select a Chinn-Brewer response.'); return; }
+    SAVED = { pick, why };
+    const stored = document.getElementById('cb-stored');
+    const opt    = document.getElementById('cb-pick').selectedOptions[0].text;
+    stored.style.display = 'block';
+    stored.innerHTML = '<b>Saved (this session only):</b><br>Response: ' + opt + '<br>' +
+                       (why ? 'Reasoning: ' + why : '<em>No reasoning recorded.</em>');
+  });
+</script>
+</body>
+</html>

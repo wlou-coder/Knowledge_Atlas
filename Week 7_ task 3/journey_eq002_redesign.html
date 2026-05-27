@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where does SRT diverge from ART? — A worked evidential journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-soft: #233455;
+    --teal: #0F6E56;
+    --teal-2: #0B5642;
+    --teal-light: #E1F5EE;
+    --gold: #7A5C1E;
+    --gold-bg: #FBF5E6;
+    --amber: #854F0B;
+    --amber-bg: #FEF3E2;
+
+    --protective: #A1452B;
+    --protective-bg: #FBEAE2;
+    --flexible: #0F6E56;
+    --flexible-bg: #E1F5EE;
+    --revising: #185FA5;
+    --revising-bg: #E2EEF9;
+
+    --border: #D8D5CA;
+    --border-strong: #B9B6A9;
+    --text: #1a1a18;
+    --text-mid: #444441;
+    --text-muted: #8a887e;
+    --bg: #fafaf8;
+    --bg-2: #f3f1ea;
+    --bg-card: #ffffff;
+
+    --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --shadow-sm: 0 1px 2px rgba(26,39,68,0.06);
+    --shadow-md: 0 4px 14px rgba(26,39,68,0.08), 0 1px 2px rgba(26,39,68,0.05);
+    --shadow-lg: 0 12px 32px rgba(26,39,68,0.12), 0 2px 6px rgba(26,39,68,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--serif);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ── TOP NAV (preserved, trimmed) ── */
+  nav.atlas {
+    background: var(--navy);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 2px solid var(--teal);
+    overflow-x: auto;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--sans);
+    font-size: 12px; font-weight: 600;
+    color: #9FE1CB;
+    letter-spacing: 0.08em;
+    padding: 14px 18px 14px 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    margin-right: 6px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .nav-brand b { font-weight:700; letter-spacing:0.02em; color:#fff; margin-left:2px; }
+  nav.atlas a {
+    font-family: var(--sans);
+    font-size: 12px; color: rgba(255,255,255,0.62);
+    text-decoration: none;
+    padding: 14px 12px;
+    white-space: nowrap; flex-shrink: 0;
+    transition: color 0.15s;
+  }
+  nav.atlas a:hover { color: #fff; }
+  nav.atlas .persona {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(159,225,203,0.12);
+    border: 1px solid rgba(159,225,203,0.25);
+    border-radius: 999px;
+    padding: 5px 12px;
+    color: #d7f3e6;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+  nav.atlas .persona .dot { width:6px; height:6px; border-radius:50%; background:#9FE1CB; }
+
+  /* ── PAGE HEAD ── */
+  .pagehead {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 0.5rem;
+  }
+  .breadcrumb {
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    letter-spacing: 0.01em;
+    margin-bottom: 1.25rem;
+  }
+  .breadcrumb a { color: var(--teal); text-decoration: none; }
+  .breadcrumb span.sep { color: var(--text-muted); margin: 0 8px; opacity: 0.6; }
+  .breadcrumb .here { color: var(--text); }
+
+  .head-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 2.5rem;
+    align-items: end;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .head-kicker {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .head-kicker .kdot { display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--teal); margin: 0 9px 2px; vertical-align:middle; }
+  h1.qtitle {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+    line-height: 1.18;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+    max-width: 24ch;
+    text-wrap: balance;
+  }
+  h1.qtitle em { font-style: italic; color: var(--teal-2); }
+
+  .head-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--sans);
+    font-size: 12.5px;
+  }
+  .meta-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .meta-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .meta-row .l { color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; font-size: 10.5px; font-weight: 600; }
+  .meta-row .v { color: var(--text); font-weight: 500; }
+  .meta-row .v.code { font-family: var(--mono); font-size: 11.5px; }
+
+  /* ── JOURNEY RAIL (sticky) ── */
+  .rail-wrap {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .rail {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .rail-steps {
+    display: flex;
+    gap: 4px;
+    align-items: stretch;
+    overflow-x: auto;
+    padding: 10px 0;
+  }
+  .rail-step {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px 8px 10px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-mid);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .rail-step:hover { background: var(--bg-2); color: var(--text); }
+  .rail-step.active {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+  }
+  .rail-step.active .rs-num { background: rgba(255,255,255,0.18); color:#fff; }
+  .rail-step .rs-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 10.5px; font-weight: 700;
+    color: var(--text-mid);
+    font-family: var(--sans);
+  }
+  .rail-step .rs-label { letter-spacing: 0.02em; }
+  .rail-step.done .rs-num {
+    background: var(--teal); color: #fff; border-color: var(--teal);
+  }
+  .rail-step.done .rs-num::after { content: "✓"; font-size: 11px; }
+  .rail-step.done .rs-num span { display: none; }
+
+  .rail-progress {
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+  }
+  .rail-bar {
+    width: 80px; height: 4px; background: var(--bg-2); border-radius: 2px; overflow: hidden;
+  }
+  .rail-bar > div { height: 100%; background: var(--teal); transition: width 0.4s; }
+
+  /* ── MAIN GRID ── */
+  .stage {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 2rem 6rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  section.scene { scroll-margin-top: 80px; }
+
+  .scene-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .scene-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .scene-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.45rem;
+    color: var(--navy);
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    flex: 1;
+    text-wrap: balance;
+  }
+  .scene-shape {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ── ARGUMENT MAP (DATA → WARRANT → CLAIM → REBUTTAL) ── */
+  .arg-map {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    position: relative;
+  }
+  .arg-node {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex; flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    transition: all 0.18s;
+  }
+  .arg-node:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .arg-node.data { border-top: 3px solid var(--gold); }
+  .arg-node.warrant { border-top: 3px solid var(--teal); }
+  .arg-node.claim { border-top: 3px solid var(--navy); background: linear-gradient(to bottom, #fcfbf4 0%, var(--bg-card) 100%); }
+  .arg-node.rebuttal {
+    grid-column: 1 / -1;
+    border-top: 3px solid var(--amber);
+    background: linear-gradient(to right, var(--amber-bg) 0%, var(--bg-card) 28%);
+  }
+
+  .node-label {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.65rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .node-label .ldot { width: 6px; height: 6px; border-radius: 50%; }
+  .arg-node.data .ldot { background: var(--gold); }
+  .arg-node.warrant .ldot { background: var(--teal); }
+  .arg-node.claim .ldot { background: var(--navy); }
+  .arg-node.rebuttal .ldot { background: var(--amber); }
+  .arg-node.data .node-label, .arg-node.data .node-label * { color: var(--gold); }
+  .arg-node.warrant .node-label, .arg-node.warrant .node-label * { color: var(--teal); }
+  .arg-node.claim .node-label, .arg-node.claim .node-label * { color: var(--navy); }
+  .arg-node.rebuttal .node-label, .arg-node.rebuttal .node-label * { color: var(--amber); }
+
+  .node-headline {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    color: var(--text);
+    letter-spacing: -0.005em;
+    margin-bottom: 0.9rem;
+    text-wrap: pretty;
+  }
+  .arg-node.rebuttal .node-headline { font-size: 1.15rem; max-width: 56ch; }
+
+  .node-visual { margin-bottom: 0.9rem; }
+  .node-expand-btn {
+    margin-top: auto;
+    align-self: flex-start;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--teal);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px 0 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    letter-spacing: 0.02em;
+  }
+  .node-expand-btn .chev {
+    display: inline-block; width: 8px; height: 8px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+  }
+  .node-expand-btn.open .chev { transform: rotate(-135deg); }
+  .node-detail {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.25s ease, margin 0.3s;
+  }
+  .node-detail.open {
+    max-height: 3000px;
+    opacity: 1;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--border);
+  }
+  .node-detail p {
+    font-family: var(--serif);
+    font-size: 15.5px;
+    color: var(--text-mid);
+    line-height: 1.65;
+    margin-bottom: 0.85rem;
+  }
+  .node-detail p:last-child { margin-bottom: 0; }
+  .node-detail em { font-style: italic; }
+  .node-detail .sources {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px dotted var(--border);
+    padding-top: 10px;
+    margin-top: 14px;
+    line-height: 1.6;
+  }
+  .node-detail .sources strong { color: var(--text-mid); font-weight: 600; }
+
+  /* Effect-size chart */
+  .es-chart {
+    background: var(--gold-bg);
+    border-radius: 10px;
+    padding: 1rem 1.1rem 1.1rem;
+    border: 1px solid #ECE2C2;
+  }
+  .es-chart h4 {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .es-chart h4 .n {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 500;
+  }
+  .es-row { margin-bottom: 10px; }
+  .es-row:last-child { margin-bottom: 0; }
+  .es-row-label {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-mid);
+    margin-bottom: 4px;
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .es-row-label .name { font-weight: 600; color: var(--text); }
+  .es-row-label .val { font-family: var(--mono); font-size: 11.5px; color: var(--gold); font-weight: 600; }
+  .es-track {
+    position: relative;
+    height: 22px;
+    background: rgba(122,92,30,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .es-bar {
+    height: 100%;
+    background: linear-gradient(to right, rgba(122,92,30,0.7), var(--gold));
+    border-radius: 4px;
+    position: relative;
+    transform-origin: left;
+    animation: barIn 0.9s cubic-bezier(.4,.0,.2,1) both;
+  }
+  @keyframes barIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .es-scale {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    letter-spacing: 0.04em;
+  }
+  .es-foot {
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--text-mid);
+    line-height: 1.5;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(122,92,30,0.25);
+  }
+
+  /* Mechanism contrast */
+  .mech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .mech {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .mech.srt { border-left: 3px solid var(--teal); }
+  .mech.art { border-left: 3px solid var(--revising); }
+  .mech-name {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .mech.srt .mech-name { color: var(--teal); }
+  .mech.art .mech-name { color: var(--revising); }
+  .mech-kind {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+  }
+  .mech-path {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text);
+    line-height: 1.65;
+    background: var(--bg-card);
+    border-radius: 4px;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+  }
+  .mech-path span { color: var(--text-muted); margin: 0 3px; }
+
+  /* Claim chip card */
+  .claim-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .claim-side {
+    background: var(--bg-2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+  }
+  .claim-side .who {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .claim-side.win-srt .who { color: var(--teal); }
+  .claim-side.win-art .who { color: var(--revising); }
+  .claim-side .what {
+    font-family: var(--serif);
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text-mid);
+  }
+  .claim-side .what strong { color: var(--text); font-weight: 600; }
+
+  .claim-qualifier {
+    margin-top: 0.9rem;
+    padding: 10px 12px;
+    background: #fcfbf4;
+    border: 1px dashed #d6cfa8;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.55;
+  }
+  .claim-qualifier strong { color: var(--amber); font-weight: 600; }
+
+  /* Rebuttal branches */
+  .reb-branches {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 0.4rem;
+  }
+  .reb-branch {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    position: relative;
+  }
+  .reb-branch.support { border-left: 3px solid var(--flexible); }
+  .reb-branch.defeat  { border-left: 3px solid var(--amber); }
+  .reb-letter {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .reb-claim {
+    font-family: var(--serif);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .reb-tag {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .reb-branch.support .reb-tag { color: var(--flexible); }
+  .reb-branch.defeat  .reb-tag { color: var(--amber); }
+
+  /* ── CHINN-BREWER MATRIX ── */
+  .cb-shell {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 1.5rem;
+  }
+  .cb-anomaly {
+    grid-column: 1 / -1;
+    background: var(--amber-bg);
+    border: 1px solid #f0d8a8;
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 0.5rem;
+  }
+  .cb-anomaly .badge {
+    flex-shrink: 0;
+    background: var(--amber);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 4px 9px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .cb-anomaly .text {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  .cb-stance-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .cb-col {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+  }
+  .cb-col.protective { background: linear-gradient(to bottom, #fcf3ee, var(--bg-card) 70%); }
+  .cb-col.flexible   { background: linear-gradient(to bottom, #ebf6f1, var(--bg-card) 70%); }
+  .cb-col.revising   { background: linear-gradient(to bottom, #ebf3fb, var(--bg-card) 70%); }
+  .cb-col-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px 6px 10px;
+    margin-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .cb-col-name {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .cb-col.protective .cb-col-name { color: var(--protective); }
+  .cb-col.flexible   .cb-col-name { color: var(--flexible); }
+  .cb-col.revising   .cb-col-name { color: var(--revising); }
+  .cb-col-count {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-muted);
+  }
+  .cb-col-tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    padding: 0 6px 10px;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+
+  .cb-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .cb-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+  }
+  .cb-card.selected {
+    border-color: var(--navy);
+    border-width: 2px;
+    padding: 11px 13px;
+    background: #fffefa;
+    box-shadow: 0 0 0 4px rgba(26,39,68,0.06), var(--shadow-md);
+  }
+  .cb-col.protective .cb-card.selected { border-color: var(--protective); box-shadow: 0 0 0 4px rgba(161,69,43,0.10), var(--shadow-md); }
+  .cb-col.flexible   .cb-card.selected { border-color: var(--flexible);   box-shadow: 0 0 0 4px rgba(15,110,86,0.10),  var(--shadow-md); }
+  .cb-col.revising   .cb-card.selected { border-color: var(--revising);   box-shadow: 0 0 0 4px rgba(24,95,165,0.10),  var(--shadow-md); }
+
+  .cb-card-top {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px;
+  }
+  .cb-card-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-2);
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+  .cb-card-name {
+    font-family: var(--sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+  }
+  .cb-card-implication {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+  .cb-card-cost {
+    margin-top: 9px;
+    padding-top: 8px;
+    border-top: 1px dotted var(--border);
+    display: flex; gap: 10px;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+  }
+  .cb-card-cost .lbl { color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+  .cb-card-cost .val { color: var(--text); font-weight: 500; }
+  .cb-card-cost .val.warn { color: var(--amber); }
+  .cb-card-cost .val.good { color: var(--flexible); }
+
+  /* Detail rail (Chinn-Brewer) */
+  .cb-detail {
+    position: sticky; top: 80px;
+    align-self: start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+  }
+  .cb-detail-empty {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    padding: 6px 0;
+  }
+  .cb-detail-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .cb-detail-name {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+  }
+  .cb-detail-stance {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .cb-detail-stance.protective { background: var(--protective-bg); color: var(--protective); }
+  .cb-detail-stance.flexible   { background: var(--flexible-bg);   color: var(--flexible); }
+  .cb-detail-stance.revising   { background: var(--revising-bg);   color: var(--revising); }
+
+  .cb-detail-body {
+    font-family: var(--serif);
+    font-size: 14.5px;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .cb-detail-body em { font-style: italic; }
+
+  .cb-detail-cost {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+  .cb-detail-cost .row {
+    display: grid; grid-template-columns: 86px 1fr; gap: 10px;
+    padding: 5px 0;
+    font-family: var(--sans);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .cb-detail-cost .row:not(:last-child) { border-bottom: 1px dashed var(--border); }
+  .cb-detail-cost .row .k { color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; font-size: 10.5px; font-weight: 600; align-self: center; }
+  .cb-detail-cost .row .v { color: var(--text); }
+  .cb-detail-cost .row .v.warn { color: var(--amber); }
+  .cb-detail-cost .row .v.good { color: var(--flexible); }
+  .cb-pick-btn {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .cb-pick-btn:hover { background: var(--navy-soft); transform: translateY(-1px); }
+  .cb-pick-btn.picked {
+    background: var(--teal);
+  }
+  .cb-pick-btn.picked::before { content: "✓ "; }
+
+  /* ── STICKY RESPONSE TRAY ── */
+  .tray {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    width: min(1180px, calc(100% - 32px));
+    background: var(--navy);
+    color: #fff;
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(26,39,68,0.06);
+    z-index: 60;
+    font-family: var(--sans);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .tray.minimized {
+    grid-template-columns: auto 1fr auto;
+  }
+  .tray-status {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .tray-pick {
+    font-size: 13.5px;
+    color: #fff;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .tray-pick .stance-pill {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+  }
+  .tray-pick .stance-pill.protective { background: rgba(255,170,140,0.28); color: #ffe1d0; }
+  .tray-pick .stance-pill.flexible   { background: rgba(159,225,203,0.28); color: #d7f4e6; }
+  .tray-pick .stance-pill.revising   { background: rgba(160,196,238,0.28); color: #d9e7f6; }
+  .tray-pick .name { opacity: 0.95; }
+  .tray-pick .none { color: rgba(255,255,255,0.55); font-style: italic; }
+
+  .tray-reason {
+    flex: 1;
+    min-width: 0;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: var(--sans);
+    font-size: 13px;
+    outline: none;
+    transition: background 0.15s, border 0.15s;
+  }
+  .tray-reason::placeholder { color: rgba(255,255,255,0.4); }
+  .tray-reason:focus { background: rgba(255,255,255,0.12); border-color: rgba(159,225,203,0.6); }
+
+  .tray-btn {
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    background: #9FE1CB;
+    color: var(--navy);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: all 0.15s;
+  }
+  .tray-btn:hover { background: #b9ecd9; }
+  .tray-btn:disabled { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); cursor: not-allowed; }
+  .tray-btn.saved { background: var(--teal); color: #fff; }
+
+  .tray-min {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: var(--sans);
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .tray-min:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  /* footnotes & small */
+  .small-foot {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--border);
+    margin-top: 1.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.45);
+    padding: 2.5rem 2rem;
+    font-family: var(--sans);
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+  footer h4 {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9FE1CB;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  footer a { color: rgba(255,255,255,0.55); text-decoration: none; display: block; padding: 2px 0; }
+  footer a:hover { color: #9FE1CB; }
+  .footer-copy {
+    max-width: 1280px;
+    margin: 1.5rem auto 0;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 11.5px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 1024px) {
+    .head-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .arg-map { grid-template-columns: 1fr; }
+    .cb-shell { grid-template-columns: 1fr; }
+    .cb-detail { position: relative; top: 0; max-height: none; }
+    .cb-stance-cols { grid-template-columns: 1fr; }
+    .reb-branches { grid-template-columns: 1fr; }
+    .claim-card, .mech-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .pagehead, .stage, .rail { padding-left: 1rem; padding-right: 1rem; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .tray { grid-template-columns: 1fr; gap: 8px; }
+    .tray-status { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="atlas">
+  <div class="nav-brand">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9FE1CB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    KNOWLEDGE&nbsp;<b>Atlas</b>
+  </div>
+  <a href="#">Search</a>
+  <a href="#">Syllabus</a>
+  <a href="#">A0</a>
+  <a href="#">Track 4</a>
+  <a href="#">Task 3</a>
+  <div class="persona"><span class="dot"></span> Viewing as P3 · Elena (researcher)</div>
+</nav>
+
+<!-- PAGE HEAD -->
+<div class="pagehead">
+  <div class="breadcrumb">
+    <a href="#">Home</a><span class="sep">/</span>
+    <a href="#">160 Student</a><span class="sep">/</span>
+    <a href="#">Track 4</a><span class="sep">/</span>
+    <a href="#">Task 3</a><span class="sep">/</span>
+    <span class="here">E-Q-002 · SRT vs ART divergence</span>
+  </div>
+
+  <div class="head-grid">
+    <div>
+      <div class="head-kicker">Evidential journey<span class="kdot"></span>Toulmin shape<span class="kdot"></span>Researcher persona</div>
+      <h1 class="qtitle">Where does the evidence for SRT genuinely <em>diverge</em> from ART?</h1>
+    </div>
+    <div class="head-meta">
+      <div class="meta-row"><span class="l">Question ID</span><span class="v code">E-Q-002</span></div>
+      <div class="meta-row"><span class="l">Answer shape</span><span class="v">Toulmin · 4-node</span></div>
+      <div class="meta-row"><span class="l">Defeater</span><span class="v" style="color:var(--amber);">Measurement artefact</span></div>
+      <div class="meta-row"><span class="l">Reading time</span><span class="v">~6 min surface · ~18 min deep</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- JOURNEY RAIL (sticky) -->
+<div class="rail-wrap">
+  <div class="rail">
+    <div class="rail-steps" id="rail-steps">
+      <!-- populated by JS -->
+    </div>
+    <div class="rail-progress">
+      <span id="rail-progress-text">0 / 6</span>
+      <div class="rail-bar"><div id="rail-progress-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN STAGE -->
+<main class="stage" id="stage">
+
+  <!-- ───────── SCENE 1 — THE ARGUMENT MAP (Data + Warrant + Claim + Rebuttal) ───────── -->
+  <section class="scene" id="scene-map">
+    <div class="scene-head">
+      <span class="scene-num">01 / 03</span>
+      <h2 class="scene-title">The argument, mapped</h2>
+      <span class="scene-shape">Toulmin · Data → Warrant → Claim</span>
+    </div>
+
+    <div class="arg-map">
+
+      <!-- DATA -->
+      <article class="arg-node data" data-step="data">
+        <div class="node-label"><span class="ldot"></span> Data · Step 1</div>
+        <div class="node-headline">Autonomic recovery effects are consistently larger than directed-attention effects in the same studies.</div>
+        <div class="node-visual">
+          <div class="es-chart" aria-label="Effect sizes for SRT vs ART outcomes">
+            <h4>Effect size (Hedges' g) · same studies <span class="n">k = 14 · n ≈ 30–250</span></h4>
+            <div class="es-row">
+              <div class="es-row-label"><span class="name">SRT · Autonomic recovery</span><span class="val">g ≈ 0.55 – 0.75</span></div>
+              <div class="es-track"><div class="es-bar" style="width:75%; animation-delay:.05s;"></div></div>
+            </div>
+            <div class="es-row">
+              <div class="es-row-label"><span class="name">ART · Directed-attention</span><span class="val">g ≈ 0.25 – 0.45</span></div>
+              <div class="es-track"><div class="es-bar" style="width:45%; opacity:0.62; animation-delay:.18s;"></div></div>
+            </div>
+            <div class="es-scale"><span>0</span><span>0.2</span><span>0.4</span><span>0.6</span><span>0.8</span><span>1.0</span></div>
+            <div class="es-foot">Pooled across 14 studies measuring both outcome types in the same participants (van den Berg, Hartig, &amp; Staats, 2015). Range reflects heterogeneity in stressor type and exposure duration, not a single CI.</div>
+          </div>
+        </div>
+        <button class="node-expand-btn" data-target="d-data"><span class="chev"></span><span class="lbl">Read the evidence</span></button>
+        <div class="node-detail" id="d-data">
+          <p>The sharpest empirical evidence on SRT–ART divergence comes from studies that measure both theories' signature outcomes within the same participants and exposure conditions. After an identifiable acute stressor, nature-exposed participants show larger effects on autonomic outcomes — cardiovascular return-to-baseline, cortisol suppression, skin-conductance recovery — than on the directed-attention outcomes ART predicts: backwards digit-span, restorativeness scales, sustained-attention tasks.</p>
+          <p>The original demonstration (Ulrich et&nbsp;al., 1991) showed recovery within four to seven minutes of nature exposure post-surgery — a timescale consistent with SRT's parasympathetic rebound account. Directed-attention recovery, as Kaplan (1995) models it, operates on a longer timescale and does not require a prior stressor as a precondition.</p>
+          <p><strong>What the data does <em>not</em> show.</strong> The smaller attentional effect is still real — ART's mechanism is not absent. The data also does not show whether the gap is a genuine theoretical difference or an artefact of differential measurement sensitivity. These two interpretations are not yet distinguishable from pooled data.</p>
+          <div class="sources"><strong>Sources.</strong> Ulrich et al. (1991), <em>Environment &amp; Behavior</em>; Kaplan (1995), <em>Environment &amp; Behavior</em>; van den Berg, Hartig, &amp; Staats (2015); Laumann, Gärling, &amp; Stormark (2003).</div>
+        </div>
+      </article>
+
+      <!-- WARRANT -->
+      <article class="arg-node warrant" data-step="warrant">
+        <div class="node-label"><span class="ldot"></span> Warrant · Step 2</div>
+        <div class="node-headline">Two theories with overlapping scope can only be discriminated by a design that independently activates each mechanism.</div>
+        <div class="node-visual">
+          <div class="mech-grid">
+            <div class="mech srt">
+              <div class="mech-name">SRT</div>
+              <div class="mech-kind">autonomic · stress-axis</div>
+              <div class="mech-path">stressor<span>→</span>SAM axis<span>→</span>parasympathetic rebound<span>→</span>HPA suppression</div>
+            </div>
+            <div class="mech art">
+              <div class="mech-name">ART</div>
+              <div class="mech-kind">attentional · resource</div>
+              <div class="mech-path">mental fatigue<span>→</span>directed-attention depleted<span>→</span>soft fascination engages<span>→</span>capacity restored</div>
+            </div>
+          </div>
+        </div>
+        <button class="node-expand-btn" data-target="d-warr"><span class="chev"></span><span class="lbl">Why the comparison is hard</span></button>
+        <div class="node-detail" id="d-warr">
+          <p>The argument from differential effect sizes to a theoretical verdict rests on a logical principle: a larger effect size for one theory's outcomes is only evidence of that theory's priority if the design <em>independently activates</em> each mechanism. SRT and ART describe genuinely distinct causal pathways — one runs through the body's acute stress axis, the other through attentional resource allocation. They carry different predictions: SRT predicts faster physiological recovery <em>when a prior stressor is present</em>; ART predicts directed-attention improvement <em>whether or not</em> a prior stressor occurred.</p>
+          <p>But in virtually every published study, both pathways are simultaneously active: participants are both post-stressor <em>and</em> attention-fatigued, and the natural environments used are simultaneously low-threat <em>and</em> low-demand. The design conflates activation conditions for both theories.</p>
+          <div class="sources"><strong>Backing.</strong> Woodward (2003), <em>Making Things Happen</em> (interventionist causation); Hartig (2021), <em>Handbook of Environmental Psychology</em>; Ulrich (1983), <em>Science</em>.</div>
+        </div>
+      </article>
+
+      <!-- CLAIM -->
+      <article class="arg-node claim" data-step="claim">
+        <div class="node-label"><span class="ldot"></span> Claim · Step 3</div>
+        <div class="node-headline">The frameworks are not yet competitive — each leads on a different sub-process.</div>
+        <div class="node-visual">
+          <div class="claim-card">
+            <div class="claim-side win-srt">
+              <div class="who">SRT leads on…</div>
+              <div class="what"><strong>Acute recovery</strong> from an identifiable stressor. Direct physiological evidence, specified mechanism, matched timescale (minutes).</div>
+            </div>
+            <div class="claim-side win-art">
+              <div class="who">ART leads on…</div>
+              <div class="what"><strong>Sustained directed-attention</strong> restoration over longer exposures. Larger evidence base, smaller effects, harder-to-operationalise mechanism.</div>
+            </div>
+          </div>
+          <div class="claim-qualifier"><strong>Qualifier.</strong> No published study has run a clean crossed design holding <em>stressor presence</em> and <em>environment demand-level</em> independent while measuring both outcome types with matched sensitivity. Until that design exists, "SRT wins on the acute trajectory" is defensible but not definitive.</div>
+        </div>
+        <button class="node-expand-btn" data-target="d-clm"><span class="chev"></span><span class="lbl">Read the qualified claim</span></button>
+        <div class="node-detail" id="d-clm">
+          <p>Reading the differential effect-size data through the warrant produces a <em>two-part qualified claim</em> rather than a single winner. SRT carries the stronger warrant for acute recovery from an identifiable stressor — the physiological evidence is direct, the mechanism (SAM-axis rebound via parasympathetic activation) is specified to a timescale consistent with the data (minutes, not hours), and the designs that best match SRT's predictions show the larger effects.</p>
+          <p>ART carries the stronger warrant for directed-attention restoration over longer exposures without a mandatory prior stressor — its evidence base is larger, but effect sizes are smaller and the mechanism (involuntary attention engagement replenishing a depletable resource) is harder to operationalise independently of the outcome it predicts.</p>
+          <p>This is the claim a journey can defensibly leave a reader with in 2026. It is stronger than a "both explain the same thing" dismissal; it is weaker than a decisive theoretical verdict. Both frameworks survive, but for different aspects of the restorative response.</p>
+        </div>
+      </article>
+
+      <!-- REBUTTAL (full width) -->
+      <article class="arg-node rebuttal" data-step="rebuttal">
+        <div class="node-label"><span class="ldot"></span> Rebuttal · Step 4 · <em style="text-transform:none;letter-spacing:0;font-weight:500;font-family:var(--serif);font-style:italic;">the defeater that lives in the room</em></div>
+        <div class="node-headline">The effect-size gap may be a measurement artefact, not a theoretical discriminant.</div>
+        <div class="node-visual">
+          <div class="reb-branches">
+            <div class="reb-branch support">
+              <div class="reb-letter">a</div>
+              <div class="reb-claim">Genuine mechanistic difference. SRT's mechanism is more potent for acute recovery.</div>
+              <div class="reb-tag">supports the claim</div>
+            </div>
+            <div class="reb-branch defeat">
+              <div class="reb-letter">b</div>
+              <div class="reb-claim">Differential measurement sensitivity. Autonomic instruments simply detect more than behavioural attention tests.</div>
+              <div class="reb-tag">defeats the claim</div>
+            </div>
+            <div class="reb-branch defeat">
+              <div class="reb-letter">c</div>
+              <div class="reb-claim">Shared upstream pathway. Affect mediates both — the gap reflects how quickly affect feeds back into each system.</div>
+              <div class="reb-tag">defeats the claim</div>
+            </div>
+          </div>
+        </div>
+        <button class="node-expand-btn" data-target="d-reb"><span class="chev"></span><span class="lbl">Read the rebuttal in full</span></button>
+        <div class="node-detail" id="d-reb">
+          <p>The claim above treats the differential effect-size pattern as evidence that SRT's mechanism is more potent for acute recovery. A coherent rebuttal exists. If the instruments used to measure SRT outcomes — continuous cardiovascular monitoring, salivary cortisol assay, galvanic skin response — are simply more sensitive and more directly tied to the exposure manipulation than those used for ART outcomes — backwards digit span, self-reported restorativeness, selective attention tasks — then the larger effect size for SRT outcomes would appear even if both mechanisms operated at identical strength. On this reading, the divergence tells us about the psychometrics of the measurement tools, not about the theoretical priority of either framework.</p>
+          <p>Settling this would require a study that holds measurement sensitivity constant across both outcome domains — for instance, using resting-state fMRI connectivity as the outcome for both (default-mode network for ART-aligned restoration; heart-rate variability with neural correlates for SRT-aligned recovery). The field has begun moving in this direction (Bratman et al., 2019), but crossed designs at scale have not yet been run.</p>
+          <div class="sources"><strong>Defeater sources.</strong> Hartig, Evans, Jamner, Davis, &amp; Gärling (2003); Joye &amp; van den Berg (2011), <em>Psychological Bulletin</em>; Bratman, Anderson, Berman et al. (2019), <em>Science Advances</em>.</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ───────── SCENE 2 — CHINN-BREWER STANCE MATRIX ───────── -->
+  <section class="scene" id="scene-cb">
+    <div class="scene-head">
+      <span class="scene-num">02 / 03</span>
+      <h2 class="scene-title">How would <em style="font-style:italic;color:var(--teal-2);">you</em> respond to this defeater?</h2>
+      <span class="scene-shape">Chinn &amp; Brewer (1993) · 7 responses</span>
+    </div>
+
+    <div class="cb-shell">
+
+      <div class="cb-anomaly">
+        <div class="badge">Anomaly</div>
+        <div class="text">The effect-size gap between autonomic and attentional outcomes may reflect differential measurement sensitivity across instrument types rather than a genuine difference in mechanism strength — and no existing study has independently activated one mechanism while controlling for the other.</div>
+      </div>
+
+      <div class="cb-stance-cols" id="cb-cols">
+        <!-- columns populated by JS -->
+      </div>
+
+      <aside class="cb-detail" id="cb-detail">
+        <div class="cb-detail-empty">
+          <strong>Hover</strong> a card to preview the response. <strong>Click</strong> to expand it here and see what taking that response would cost, preserve, and require.
+          <br><br>
+          The seven responses are not equally defensible — some preserve the verdict at the cost of epistemic honesty, others revise it at the cost of accumulated commitment.
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <!-- ───────── SCENE 3 — YOUR RESPONSE / EXIT ───────── -->
+  <section class="scene" id="scene-you">
+    <div class="scene-head">
+      <span class="scene-num">03 / 03</span>
+      <h2 class="scene-title">Your response, saved to the journey</h2>
+      <span class="scene-shape">Reader-response stage</span>
+    </div>
+
+    <div id="exit-card" style="
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--teal);
+      border-radius: 10px;
+      padding: 1.5rem 1.75rem;
+    ">
+      <p style="font-family: var(--serif); font-size: 16.5px; color: var(--text-mid); line-height: 1.7; margin-bottom: 1rem; max-width: 64ch;">
+        The journey is designed not to leave you with a single answer but to make your <em>response to the defeater</em> explicit. The stance you pick above, and the reason you give for it, is the epistemic work this journey was built to surface — pick it from the matrix; refine your reason in the tray at the bottom; save it before you leave.
+      </p>
+      <div id="exit-summary" style="
+        margin-top: 1rem;
+        padding: 14px 16px;
+        background: var(--bg-2);
+        border-radius: 8px;
+        font-family: var(--sans);
+        font-size: 13px;
+        color: var(--text-mid);
+        line-height: 1.6;
+      ">
+        <em style="color: var(--text-muted);">No response saved yet for this session.</em>
+      </div>
+    </div>
+
+    <p class="small-foot">
+      <strong style="color:var(--text-mid);">Carried exemplar.</strong> Built as the Task-3 prototype for COGS 160 SP Track 4, modelled on the Q-29 working journey. Sources behind every claim are linked in the expanded panels. Persona: P3 Elena (researcher).
+    </p>
+
+  </section>
+
+</main>
+
+<!-- STICKY RESPONSE TRAY -->
+<div class="tray" id="tray">
+  <div>
+    <div class="tray-status">Your stance</div>
+    <div class="tray-pick" id="tray-pick"><span class="none">— pick a response above —</span></div>
+  </div>
+  <input class="tray-reason" id="tray-reason" placeholder="Why this response? One or two sentences…" autocomplete="off">
+  <button class="tray-btn" id="tray-save" disabled>Save</button>
+  <button class="tray-min" id="tray-min" title="Minimise">—</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>Knowledge Atlas</h4>
+      <a href="#">Global home</a>
+      <a href="#">Site map</a>
+      <a href="#">Course setup</a>
+    </div>
+    <div>
+      <h4>COGS 160 SP</h4>
+      <a href="#">Tracks portal</a>
+      <a href="#">Track 4 overview</a>
+      <a href="#">Syllabus</a>
+    </div>
+    <div>
+      <h4>Companion artefacts</h4>
+      <a href="#">Answer-shape catalogue</a>
+      <a href="#">Chinn-Brewer 7-response widget</a>
+      <a href="#">Back to Task 3</a>
+    </div>
+  </div>
+  <div class="footer-copy" style="max-width:1280px;margin:1.5rem auto 0;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);">
+    A worked evidential journey for E-Q-002 of the researcher question corpus. Sources: Ulrich (1983); Kaplan &amp; Kaplan (1989); Kaplan (1995); Ulrich et al. (1991); Hartig et al. (2003); Laumann et al. (2003); van den Berg et al. (2015); Joye &amp; van den Berg (2011); Bratman et al. (2019); Woodward (2003); Chinn &amp; Brewer (1993); Toulmin (1958/2003).
+    <br>COGS 160 Spring 2026 · Prof. David Kirsh, UCSD Cognitive Science.
+  </div>
+</footer>
+
+<script>
+/* ──────────────────────────────────────────────────────────────
+   E-Q-002 · Where does SRT diverge from ART? — interactive layer
+   No framework. Plain JS. Three pieces:
+     1. Journey rail (scroll-spy + jump)
+     2. Argument-map node expanders
+     3. Chinn-Brewer stance matrix + sticky response tray
+   ──────────────────────────────────────────────────────────── */
+
+/* ── DATA ── */
+
+const SCENES = [
+  { id: 'scene-map', n: 1, label: 'Argument map' },
+  { id: 'scene-cb',  n: 2, label: 'Stance matrix' },
+  { id: 'scene-you', n: 3, label: 'Your response' },
+];
+
+const RAIL_STEPS = [
+  { id: 'data',     n: 1, label: 'Data',     target: 'scene-map'  },
+  { id: 'warrant',  n: 2, label: 'Warrant',  target: 'scene-map'  },
+  { id: 'claim',    n: 3, label: 'Claim',    target: 'scene-map'  },
+  { id: 'rebuttal', n: 4, label: 'Rebuttal', target: 'scene-map'  },
+  { id: 'cb',       n: 5, label: 'Responses',target: 'scene-cb'   },
+  { id: 'you',      n: 6, label: 'Your call', target: 'scene-you' },
+];
+
+const RESPONSES = [
+  {
+    n: 1, stance: 'protective', name: 'Ignore the data',
+    implication: 'Proceed as if the measurement-sensitivity rebuttal weren\'t there. Treat the gap as a settled verdict.',
+    cost: { preserves: 'Original claim, clean.', costs: 'Engagement with the design-confound argument.', warn: true },
+    body: `<p>A reader who ignores the measurement-sensitivity rebuttal proceeds to treat the effect-size gap as a settled theoretical verdict: SRT wins on the acute trajectory, ART wins on sustained restoration.</p>
+           <p>This response is available but intellectually costly — it requires not engaging with the logical force of the design-confound argument, which is a standard objection in the philosophy of science literature (Woodward, 2003).</p>
+           <p><em>A researcher persona (P3 Elena) should find this response uncomfortable; an instructor (P5 Marisol) assigning this journey would probably flag it as insufficient for full credit.</em></p>`,
+    requires: 'No counter-argument; just non-engagement.'
+  },
+  {
+    n: 2, stance: 'protective', name: 'Reject the data',
+    implication: 'Argue the instruments <em>are</em> matched — cardiovascular monitoring and digit span are comparably sensitive.',
+    cost: { preserves: 'Verdict.', costs: 'A positive defence of instrument equivalence.', warn: true },
+    body: `<p>A reader who rejects the measurement-sensitivity claim argues that the instruments are, in fact, comparably sensitive — for instance, that cardiovascular monitoring and backwards digit span are both well-validated, reliable measures that should produce comparable effect sizes if the mechanisms were equally active.</p>
+           <p>This response is <em>empirically contestable</em>: sensitivity differences between physiological monitoring and cognitive task performance are well-documented in the psychophysiology literature. Taking this response requires a positive argument that the instruments are matched, not just an assertion that they are.</p>`,
+    requires: 'A psychometric argument that crosses domains.'
+  },
+  {
+    n: 3, stance: 'protective', name: 'Exclude the data from scope',
+    implication: 'SRT was never about attention; ART was never about autonomic recovery. The comparison is out-of-scope.',
+    cost: { preserves: 'Both theories.', costs: 'Two decades of papers that explicitly compare them.', warn: true },
+    body: `<p>A reader who takes this response argues that SRT was never intended to make predictions about directed-attention outcomes, and ART was never intended to make predictions about autonomic recovery — so the effect-size comparison is simply outside both theories' scope.</p>
+           <p>This is <em>partially</em> defensible: Ulrich's original SRT paper (1983) does focus on affective and physiological outcomes, while Kaplan's ART papers focus on attentional capacity. But the response becomes strained in light of two decades of studies that explicitly test both theories in the same paradigm, implying both domains are in scope for the comparison.</p>`,
+    requires: 'A re-reading of each theory\'s original scope statements.'
+  },
+  {
+    n: 4, stance: 'flexible', name: 'Hold the data in abeyance',
+    implication: 'Accept the rebuttal as a real possibility; don\'t update strongly until a crossed design has run.',
+    cost: { preserves: 'Epistemic honesty.', costs: 'A clean answer for now.', warn: false },
+    body: `<p>A reader who holds the rebuttal in abeyance accepts that the measurement-sensitivity objection is a real possibility but does not update strongly in either direction until a crossed design with sensitivity-matched instruments has been run.</p>
+           <p>This is the <em>epistemically responsible default</em> for a researcher in 2026: the evidence is real, the rebuttal is real, and neither yet dominates. P3 Elena, looking for the honest state of the field, would likely find this satisfying — it does not falsely resolve a live methodological dispute.</p>`,
+    requires: 'A flag in your notes that this remains unresolved.'
+  },
+  {
+    n: 5, stance: 'flexible', name: 'Reinterpret the data, theory unchanged',
+    implication: 'Both the gap <em>and</em> the sensitivity confound are real — and consistent with the original verdict.',
+    cost: { preserves: 'Theory.', costs: 'A bet that the mechanism really is faster, not yet confirmed.', warn: false },
+    body: `<p>A reader who reinterprets the data argues that the effect-size gap is real <em>and</em> the measurement-sensitivity objection is real, but that both are consistent with an integrated account: SRT's mechanism genuinely operates faster and more powerfully in the acute post-stressor context, <em>and</em> measuring it with sensitive physiological instruments naturally produces larger effects.</p>
+           <p>The theories remain as stated; the data is read as confirming the expected mechanistic ordering rather than as ambiguous. This response requires committing to an empirical claim — SRT's mechanism is faster and stronger in acute contexts — that is plausible but not yet directly confirmed.</p>`,
+    requires: 'A commitment that the mechanism prediction will hold up.'
+  },
+  {
+    n: 6, stance: 'revising', name: 'Make peripheral changes',
+    implication: 'Keep both core mechanisms; tighten each theory\'s scope to where its evidence is strongest.',
+    cost: { preserves: 'Both core mechanisms.', costs: 'Scope claims on each side.', warn: false },
+    body: `<p>A reader who makes peripheral changes accepts the rebuttal's force and modifies the theory's scope claims rather than its core mechanism. For example: revising ART to specify that its directed-attention restoration effect is most reliably detectable after longer exposures (&gt; 20 min) and without an acute stressor present, while ceding the short-exposure post-stressor domain to SRT.</p>
+           <p>This is a <em>principled revision</em> that preserves both theories' core mechanisms while demarcating their scope conditions more carefully — arguably what a collaborative update to both research programs should look like.</p>`,
+    requires: 'A re-write of each theory\'s domain statement.'
+  },
+  {
+    n: 7, stance: 'revising', name: 'Change the theory',
+    implication: 'Drop the SRT/ART distinction. Replace it with a unified arousal-and-attention account.',
+    cost: { preserves: 'Empirical regularities.', costs: 'The framework distinction itself.', warn: false },
+    body: `<p>A reader who changes the theory takes the rebuttal as grounds for abandoning the SRT/ART framework distinction altogether and replacing it with a unified account in which nature exposure produces restorative effects through a common pathway (e.g., reduced arousal → improved attention and physiological regulation) that both theories partially describe.</p>
+           <p>This is the <em>most epistemically bold</em> response. It is not obviously wrong — unified accounts exist in the literature (Bratman et al., 2019 propose "nature and mental health" as a superordinate framework) — but it requires accepting that the theoretical distinction between SRT and ART is not just under-tested but positively misleading.</p>
+           <p><em>A contributing scientist (P4 Samira) who believed her 2022 data supported this view might push for exactly this revision.</em></p>`,
+    requires: 'A new framework that captures what the old two captured.'
+  },
+];
+
+const STANCE_COLS = [
+  { id: 'protective', name: 'Protective', tag: 'Holds the verdict in place.' },
+  { id: 'flexible',   name: 'Flexible',   tag: 'Updates the reading without rewriting the theory.' },
+  { id: 'revising',   name: 'Revising',   tag: 'Modifies the theory itself.' },
+];
+
+/* ── STATE ── */
+
+const STATE_KEY = 'eq002_state_v2';
+const state = (() => {
+  try { return JSON.parse(sessionStorage.getItem(STATE_KEY)) || {}; }
+  catch (e) { return {}; }
+})();
+function persist() { sessionStorage.setItem(STATE_KEY, JSON.stringify(state)); }
+
+state.visited = state.visited || {};
+state.expanded = state.expanded || {};
+
+/* ── RAIL ── */
+
+const railEl = document.getElementById('rail-steps');
+RAIL_STEPS.forEach(s => {
+  const btn = document.createElement('button');
+  btn.className = 'rail-step';
+  btn.dataset.step = s.id;
+  btn.innerHTML = `<span class="rs-num"><span>${s.n}</span></span><span class="rs-label">${s.label}</span>`;
+  btn.addEventListener('click', () => {
+    // jump to the relevant scene, and if it's an arg-node, expand it
+    const scene = document.getElementById(s.target);
+    scene && scene.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (['data', 'warrant', 'claim', 'rebuttal'].includes(s.id)) {
+      // open the matching node
+      const node = document.querySelector(`.arg-node[data-step="${s.id}"]`);
+      if (node) {
+        const btn = node.querySelector('.node-expand-btn');
+        const detailId = btn?.dataset.target;
+        const detail = detailId && document.getElementById(detailId);
+        if (btn && detail && !detail.classList.contains('open')) {
+          btn.classList.add('open');
+          detail.classList.add('open');
+          state.expanded[detailId] = true;
+          persist();
+        }
+      }
+    }
+    markVisited(s.id);
+  });
+  railEl.appendChild(btn);
+});
+
+function updateRail(activeId) {
+  const steps = railEl.querySelectorAll('.rail-step');
+  steps.forEach(el => {
+    const id = el.dataset.step;
+    el.classList.toggle('active', id === activeId);
+    el.classList.toggle('done', !!state.visited[id] && id !== activeId);
+  });
+  const done = Object.keys(state.visited).length;
+  document.getElementById('rail-progress-text').textContent = `${done} / ${RAIL_STEPS.length}`;
+  document.getElementById('rail-progress-fill').style.width = `${(done / RAIL_STEPS.length) * 100}%`;
+}
+
+function markVisited(id) {
+  state.visited[id] = true;
+  persist();
+  updateRail(id);
+}
+
+/* ── SCROLL-SPY ── */
+
+const railTargets = [
+  { step: 'data',     selector: '.arg-node[data-step="data"]' },
+  { step: 'warrant',  selector: '.arg-node[data-step="warrant"]' },
+  { step: 'claim',    selector: '.arg-node[data-step="claim"]' },
+  { step: 'rebuttal', selector: '.arg-node[data-step="rebuttal"]' },
+  { step: 'cb',       selector: '#scene-cb' },
+  { step: 'you',      selector: '#scene-you' },
+];
+
+const spy = new IntersectionObserver((entries) => {
+  // find topmost visible
+  let best = null;
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      if (!best || e.boundingClientRect.top < best.boundingClientRect.top) best = e;
+    }
+  });
+  if (best) {
+    const stepId = best.target.dataset.spyStep;
+    markVisited(stepId);
+  }
+}, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+
+railTargets.forEach(t => {
+  const el = document.querySelector(t.selector);
+  if (el) {
+    el.dataset.spyStep = t.step;
+    spy.observe(el);
+  }
+});
+
+/* ── ARGUMENT-MAP EXPANDERS ── */
+
+document.querySelectorAll('.node-expand-btn').forEach(btn => {
+  const target = document.getElementById(btn.dataset.target);
+  if (!target) return;
+  if (state.expanded[btn.dataset.target]) {
+    btn.classList.add('open');
+    target.classList.add('open');
+  }
+  btn.addEventListener('click', () => {
+    const open = target.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    state.expanded[btn.dataset.target] = open;
+    persist();
+  });
+});
+
+/* ── CHINN-BREWER STANCE MATRIX ── */
+
+const colsEl = document.getElementById('cb-cols');
+STANCE_COLS.forEach(col => {
+  const wrap = document.createElement('div');
+  wrap.className = `cb-col ${col.id}`;
+  wrap.innerHTML = `
+    <div class="cb-col-head">
+      <span class="cb-col-name">${col.name}</span>
+      <span class="cb-col-count">${RESPONSES.filter(r => r.stance === col.id).length} responses</span>
+    </div>
+    <div class="cb-col-tag">${col.tag}</div>
+    <div class="cb-col-cards"></div>
+  `;
+  colsEl.appendChild(wrap);
+  const cardsHost = wrap.querySelector('.cb-col-cards');
+  RESPONSES.filter(r => r.stance === col.id).forEach(r => {
+    const card = document.createElement('article');
+    card.className = 'cb-card';
+    card.dataset.n = r.n;
+    card.innerHTML = `
+      <div class="cb-card-top">
+        <span class="cb-card-num">${String(r.n).padStart(2, '0')}</span>
+        <span class="cb-card-name">${r.name}</span>
+      </div>
+      <div class="cb-card-implication">${r.implication}</div>
+      <div class="cb-card-cost">
+        <span><span class="lbl">Preserves </span><span class="val good">${r.cost.preserves}</span></span>
+        <span><span class="lbl">Costs </span><span class="val ${r.cost.warn ? 'warn' : ''}">${r.cost.costs}</span></span>
+      </div>
+    `;
+    card.addEventListener('mouseenter', () => previewResponse(r));
+    card.addEventListener('focus', () => previewResponse(r));
+    card.addEventListener('click', () => selectResponse(r));
+    cardsHost.appendChild(card);
+  });
+});
+
+const detailEl = document.getElementById('cb-detail');
+
+function previewResponse(r) {
+  detailEl.innerHTML = `
+    <div class="cb-detail-head">
+      <div>
+        <div class="cb-detail-name">${String(r.n).padStart(2,'0')} · ${r.name}</div>
+      </div>
+      <div class="cb-detail-stance ${r.stance}">${r.stance}</div>
+    </div>
+    <div class="cb-detail-body">${r.body}</div>
+    <div class="cb-detail-cost">
+      <div class="row"><span class="k">Preserves</span><span class="v good">${r.cost.preserves}</span></div>
+      <div class="row"><span class="k">Costs</span><span class="v ${r.cost.warn ? 'warn' : ''}">${r.cost.costs}</span></div>
+      <div class="row"><span class="k">Requires</span><span class="v">${r.requires}</span></div>
+    </div>
+    <button class="cb-pick-btn ${state.pick === r.n ? 'picked' : ''}" id="cb-pick-btn">
+      ${state.pick === r.n ? 'This is your stance' : 'Take this stance'}
+    </button>
+  `;
+  document.getElementById('cb-pick-btn').addEventListener('click', () => selectResponse(r));
+}
+
+function selectResponse(r) {
+  state.pick = r.n;
+  persist();
+  document.querySelectorAll('.cb-card').forEach(c => {
+    c.classList.toggle('selected', +c.dataset.n === r.n);
+  });
+  previewResponse(r);
+  updateTray();
+  markVisited('cb');
+  updateExitSummary();
+}
+
+/* ── STICKY RESPONSE TRAY ── */
+
+const trayPickEl = document.getElementById('tray-pick');
+const trayReasonEl = document.getElementById('tray-reason');
+const traySaveBtn = document.getElementById('tray-save');
+const trayMinBtn = document.getElementById('tray-min');
+const trayEl = document.getElementById('tray');
+
+trayReasonEl.value = state.reason || '';
+
+trayReasonEl.addEventListener('input', () => {
+  state.reason = trayReasonEl.value;
+  persist();
+  refreshSaveBtn();
+});
+
+traySaveBtn.addEventListener('click', () => {
+  state.savedAt = new Date().toISOString();
+  persist();
+  traySaveBtn.classList.add('saved');
+  traySaveBtn.textContent = 'Saved ✓';
+  markVisited('you');
+  updateExitSummary();
+  setTimeout(() => {
+    traySaveBtn.textContent = 'Save';
+    traySaveBtn.classList.remove('saved');
+  }, 1800);
+});
+
+trayMinBtn.addEventListener('click', () => {
+  const min = trayEl.classList.toggle('minimized');
+  trayReasonEl.style.display = min ? 'none' : '';
+  traySaveBtn.style.display = min ? 'none' : '';
+  trayMinBtn.textContent = min ? '+' : '—';
+});
+
+function refreshSaveBtn() {
+  traySaveBtn.disabled = !state.pick || !(state.reason && state.reason.trim().length > 0);
+}
+
+function updateTray() {
+  if (!state.pick) {
+    trayPickEl.innerHTML = `<span class="none">— pick a response above —</span>`;
+  } else {
+    const r = RESPONSES.find(x => x.n === state.pick);
+    trayPickEl.innerHTML = `
+      <span class="stance-pill ${r.stance}">${r.stance}</span>
+      <span class="name">${String(r.n).padStart(2,'0')} · ${r.name}</span>
+    `;
+  }
+  refreshSaveBtn();
+}
+
+/* ── EXIT SUMMARY ── */
+
+const exitEl = document.getElementById('exit-summary');
+function updateExitSummary() {
+  if (!state.pick) {
+    exitEl.innerHTML = `<em style="color:var(--text-muted);">No response saved yet for this session.</em>`;
+    return;
+  }
+  const r = RESPONSES.find(x => x.n === state.pick);
+  const when = state.savedAt ? new Date(state.savedAt).toLocaleString() : null;
+  exitEl.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">YOUR STANCE</span>
+      <span style="font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;
+        background:var(--${r.stance}-bg); color:var(--${r.stance});">${r.stance}</span>
+      <span style="font-family:var(--serif);font-size:15px;color:var(--text);">${String(r.n).padStart(2,'0')} · ${r.name}</span>
+    </div>
+    <div style="font-family:var(--serif);font-size:14.5px;color:var(--text-mid);line-height:1.6;margin-bottom:8px;">
+      ${state.reason ? `<strong style="color:var(--text);font-weight:600;">Your reason: </strong>"${escapeHtml(state.reason)}"` : `<em style="color:var(--text-muted);">No reason given yet — type one in the tray below.</em>`}
+    </div>
+    ${when ? `<div style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">Saved ${when}</div>` : ''}
+  `;
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ── INIT ── */
+
+updateTray();
+updateExitSummary();
+if (state.pick) {
+  const r = RESPONSES.find(x => x.n === state.pick);
+  if (r) {
+    document.querySelectorAll('.cb-card').forEach(c => c.classList.toggle('selected', +c.dataset.n === r.n));
+    previewResponse(r);
+  }
+}
+updateRail('data');
+
+</script>
+
+</body>
+</html>

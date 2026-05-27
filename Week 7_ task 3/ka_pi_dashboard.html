@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PI Dashboard · K-Atlas</title>
+<style>
+:root {
+  --bg:       #f4f3f0;
+  --surface:  #ffffff;
+  --primary:  #1a3a5c;
+  --accent:   #c17f3a;
+  --text:     #1c1c1c;
+  --muted:    #64748b;
+  --border:   #e2ddd6;
+  --red:      #dc2626; --red-bg: #fee2e2; --red-border: #fca5a5;
+  --amber:    #d97706; --amber-bg: #fef3c7; --amber-border: #fcd34d;
+  --green:    #16a34a; --green-bg: #dcfce7; --green-border: #86efac;
+  --blue:     #1d4ed8; --blue-bg:  #dbeafe; --blue-border:  #93c5fd;
+  --gray-bg:  #f1f5f9;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-size: 13px; line-height: 1.5; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { cursor: pointer; font-family: inherit; }
+
+/* ── TOP NAV ── */
+.top-nav {
+  background: var(--primary); color: #fff;
+  display: flex; align-items: center;
+  padding: 0 24px; height: 46px; gap: 20px;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+  font-size: 12.5px;
+}
+.top-nav .logo { font-weight: 800; font-size: 15px; letter-spacing: .2px; }
+.top-nav a { color: rgba(255,255,255,.7); }
+.top-nav a:hover { color: #fff; text-decoration: none; }
+.top-nav .spacer { flex: 1; }
+.pi-badge {
+  background: #7c3aed; color: #fff;
+  border-radius: 10px; padding: 2px 10px;
+  font-size: 10.5px; font-weight: 700;
+}
+.nav-time { font-size: 11px; color: rgba(255,255,255,.55); font-variant-numeric: tabular-nums; }
+
+/* ── STATUS BAR ── */
+.status-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 24px;
+  font-size: 12px; font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+.status-bar.urgent { background: var(--red-bg); color: var(--red); }
+.status-bar.warn   { background: var(--amber-bg); color: var(--amber); }
+.status-bar.ok     { background: var(--green-bg); color: var(--green); }
+.status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; border: 1px solid transparent;
+}
+.s-red    { background: var(--red-bg);   color: var(--red);   border-color: var(--red-border); }
+.s-amber  { background: var(--amber-bg); color: var(--amber); border-color: var(--amber-border); }
+.s-green  { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+.s-blue   { background: var(--blue-bg);  color: var(--blue);  border-color: var(--blue-border); }
+.s-gray   { background: var(--gray-bg);  color: var(--muted); border-color: var(--border); }
+.sb-spacer { flex: 1; }
+.refresh-btn {
+  background: rgba(0,0,0,.06); border: 1px solid var(--border);
+  border-radius: 5px; padding: 4px 12px;
+  font-size: 11px; font-weight: 700; color: var(--muted);
+}
+.refresh-btn:hover { background: rgba(0,0,0,.1); }
+.last-sync { font-size: 11px; color: var(--muted); font-weight: 400; }
+
+/* ── MAIN LAYOUT ── */
+.dashboard { padding: 18px 24px 60px; max-width: 1440px; margin: 0 auto; }
+
+/* ── SECTION HEADER ── */
+.sec-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+}
+.sec-head h2 {
+  font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--muted);
+}
+.sec-head .count-badge {
+  font-size: 10px; font-weight: 800;
+  background: var(--primary); color: #fff;
+  border-radius: 8px; padding: 1px 7px;
+}
+.sec-head .count-badge.red   { background: var(--red); }
+.sec-head .count-badge.amber { background: var(--amber); }
+.sec-head .count-badge.green { background: var(--green); }
+.sec-rule { flex: 1; height: 1px; background: var(--border); }
+
+/* ── TRIAGE ZONE ── */
+.triage-zone {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+/* ── ADJUDICATION QUEUE ── */
+.adj-queue { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.adj-queue-header {
+  background: var(--primary); color: #fff;
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.adj-queue-header h3 { font-size: 12px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; }
+.adj-queue-header .q-count {
+  background: var(--red); color: #fff;
+  border-radius: 10px; padding: 1px 8px;
+  font-size: 11px; font-weight: 800;
+}
+.adj-queue-header .spacer { flex: 1; }
+.adj-queue-header .filter-tabs { display: flex; gap: 6px; }
+.ftab {
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  border-radius: 4px; padding: 2px 9px;
+  color: rgba(255,255,255,.8); font-size: 10.5px; font-weight: 600;
+  cursor: pointer;
+}
+.ftab:hover, .ftab.active { background: rgba(255,255,255,.25); color: #fff; }
+
+.adj-table { width: 100%; border-collapse: collapse; }
+.adj-table th {
+  padding: 6px 12px; background: var(--gray-bg);
+  text-align: left; font-size: 10px; font-weight: 800;
+  letter-spacing: .8px; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.adj-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.adj-table tr:last-child td { border-bottom: none; }
+.adj-table tr.resolved td { opacity: .38; text-decoration: line-through; }
+.adj-table tr:hover:not(.resolved) td { background: #fafaf8; }
+
+.item-id { font-family: 'SF Mono', 'Fira Mono', monospace; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.item-type {
+  display: inline-block; padding: 1px 7px; border-radius: 8px;
+  font-size: 10px; font-weight: 700; white-space: nowrap;
+}
+.type-warrant  { background: #ede9fe; color: #4c1d95; }
+.type-student  { background: #fce7f3; color: #831843; }
+.type-extractor{ background: var(--amber-bg); color: #92400e; }
+.type-tag      { background: var(--blue-bg); color: var(--blue); }
+.type-hitl     { background: var(--gray-bg); color: var(--muted); }
+
+.item-desc { font-size: 12.5px; line-height: 1.45; }
+.item-desc .sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.item-age { font-size: 11px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.urgency-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.u-red   { background: var(--red); }
+.u-amber { background: var(--amber); }
+.u-gray  { background: #94a3b8; }
+
+.act-btn {
+  padding: 4px 12px; border-radius: 5px;
+  font-size: 11px; font-weight: 700; border: 1px solid;
+  white-space: nowrap;
+}
+.act-adj  { background: var(--primary); color: #fff; border-color: var(--primary); }
+.act-adj:hover { background: #0f2638; }
+.act-view { background: #fff; color: var(--primary); border-color: var(--primary); }
+.act-view:hover { background: var(--blue-bg); }
+.act-rev  { background: #fff; color: var(--amber); border-color: var(--amber); }
+.act-rev:hover { background: var(--amber-bg); }
+.act-res  { background: #fff; color: var(--muted); border-color: var(--border); }
+.act-res:hover { background: var(--gray-bg); }
+
+/* ── RIGHT PANEL — STATUS CARDS ── */
+.status-panel { display: grid; grid-template-rows: repeat(3, auto); gap: 12px; }
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px;
+}
+.stat-card.alert-red    { border-left: 4px solid var(--red); }
+.stat-card.alert-amber  { border-left: 4px solid var(--amber); }
+.stat-card.alert-green  { border-left: 4px solid var(--green); }
+.stat-card .sc-label {
+  font-size: 9.5px; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.stat-card .sc-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.sc-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0; border-bottom: 1px solid var(--border); font-size: 12px;
+}
+.sc-row:last-child { border-bottom: none; }
+.sc-row .val { font-weight: 700; font-variant-numeric: tabular-nums; }
+.sc-row .val.red   { color: var(--red); }
+.sc-row .val.amber { color: var(--amber); }
+.sc-row .val.green { color: var(--green); }
+.sc-row .val.muted { color: var(--muted); }
+.mini-bar-wrap { display: flex; align-items: flex-end; gap: 2px; height: 18px; }
+.mini-bar {
+  width: 6px; border-radius: 1px 1px 0 0;
+  background: var(--border);
+  transition: background .15s;
+}
+
+/* ── WARRANT CHANGES ── */
+.warrant-section { margin-bottom: 18px; }
+.w-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.w-table th {
+  padding: 7px 14px; background: var(--gray-bg);
+  text-align: left; font-size: 10px; font-weight: 800;
+  letter-spacing: .8px; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.w-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); font-size: 12.5px; vertical-align: middle; }
+.w-table tr:last-child td { border-bottom: none; }
+.w-table tr:hover td { background: #fafaf8; }
+.state-tag {
+  display: inline-block; padding: 1px 8px; border-radius: 8px;
+  font-size: 10.5px; font-weight: 800; white-space: nowrap;
+}
+.st-supported   { background: var(--green-bg); color: var(--green); }
+.st-contested   { background: var(--red-bg); color: var(--red); }
+.st-new         { background: var(--blue-bg); color: var(--blue); }
+.st-flagged     { background: var(--amber-bg); color: var(--amber); }
+.st-pending     { background: var(--gray-bg); color: var(--muted); }
+.arrow-right { color: var(--muted); margin: 0 4px; font-size: 11px; }
+
+/* ── STUDENT TRACKS ── */
+.tracks-section { margin-bottom: 18px; }
+.tracks-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.track-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+}
+.track-card-head {
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.track-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+}
+.track-card-head h3 { font-size: 12px; font-weight: 700; line-height: 1.3; }
+.track-card-head .track-meta { font-size: 10px; color: var(--muted); }
+.student-rows { padding: 0 0 6px; }
+.student-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 14px; border-top: 1px solid var(--border);
+  font-size: 12px;
+}
+.student-row .sname { flex: 1; font-weight: 600; }
+.student-row .stime { font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+.student-status { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.ss-green { background: var(--green); }
+.ss-amber { background: var(--amber); }
+.ss-red   { background: var(--red); }
+.milestone-tag {
+  font-size: 10px; padding: 1px 6px; border-radius: 6px;
+  font-weight: 700; white-space: nowrap;
+}
+.ms-ok       { background: var(--green-bg); color: var(--green); }
+.ms-soon     { background: var(--amber-bg); color: var(--amber); }
+.ms-overdue  { background: var(--red-bg); color: var(--red); }
+.ms-ahead    { background: var(--blue-bg); color: var(--blue); }
+
+/* ── LOWER ROW ── */
+.lower-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+
+/* ── HITL PANEL ── */
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.panel-head {
+  background: var(--gray-bg); border-bottom: 1px solid var(--border);
+  padding: 9px 16px; display: flex; align-items: center; gap: 10px;
+}
+.panel-head h3 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); }
+.panel-head .spacer { flex: 1; }
+.panel-body { padding: 12px 16px; }
+.hitl-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.hs-cell { text-align: center; padding: 10px; border: 1px solid var(--border); border-radius: 6px; }
+.hs-cell .hs-num { font-size: 22px; font-weight: 800; line-height: 1; margin-bottom: 3px; }
+.hs-cell .hs-label { font-size: 10px; color: var(--muted); font-weight: 600; }
+.hitl-rows { }
+.hitl-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px;
+}
+.hitl-row:last-child { border-bottom: none; }
+.hitl-row .hid { font-family: monospace; font-size: 11px; font-weight: 700; color: var(--primary); white-space: nowrap; }
+.hitl-row .hdesc { flex: 1; font-size: 12px; }
+.hitl-row .hage { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+/* ── EXTRACTOR PANEL ── */
+.ext-table { width: 100%; border-collapse: collapse; }
+.ext-table th {
+  padding: 6px 14px; text-align: left;
+  font-size: 10px; font-weight: 800; letter-spacing: .8px;
+  text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.ext-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); font-size: 12.5px; vertical-align: middle; }
+.ext-table tr:last-child td { border-bottom: none; }
+.ext-name { font-weight: 700; }
+.ext-pct  { font-variant-numeric: tabular-nums; font-weight: 700; }
+.ext-pct.red   { color: var(--red); }
+.ext-pct.amber { color: var(--amber); }
+.ext-pct.green { color: var(--green); }
+.trend-badge { font-size: 10.5px; font-weight: 800; }
+.trend-up   { color: var(--green); }
+.trend-dn   { color: var(--amber); }
+.trend-crit { color: var(--red); }
+.trend-flat { color: var(--muted); }
+
+/* ── REGISTRY FLAGS ── */
+.flags-section { margin-bottom: 18px; }
+.flags-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.flags-table th {
+  padding: 7px 14px; background: var(--gray-bg);
+  text-align: left; font-size: 10px; font-weight: 800;
+  letter-spacing: .8px; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.flags-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 12.5px; vertical-align: top; }
+.flags-table tr:last-child td { border-bottom: none; }
+.flags-table tr:hover td { background: #fafaf8; }
+.flag-type { font-size: 10.5px; font-weight: 800; }
+.conc-id { font-family: monospace; font-size: 11px; font-weight: 700; color: var(--primary); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #1c1c1c; color: #fff;
+  padding: 10px 18px; border-radius: 7px;
+  font-size: 13px; font-weight: 600;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .2s, transform .2s;
+  pointer-events: none; z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--primary); color: rgba(255,255,255,.55);
+  font-size: 11px; padding: 14px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+footer a { color: rgba(255,255,255,.7); }
+footer a:hover { color: #fff; }
+
+/* ── UTILITIES ── */
+.mono { font-family: 'SF Mono', 'Fira Mono', monospace; }
+.muted { color: var(--muted); }
+.bold { font-weight: 700; }
+.all-ok {
+  text-align: center; padding: 28px 16px;
+  color: var(--green); font-weight: 700; font-size: 14px;
+}
+.all-ok .ok-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <span class="logo">K-Atlas</span>
+  <a href="#">All Tracks</a>
+  <a href="#">Corpus</a>
+  <a href="#">Warrant Registry</a>
+  <a href="#">HITL Queue</a>
+  <a href="#">Extractors</a>
+  <div class="spacer"></div>
+  <span class="nav-time" id="clockDisplay"></span>
+  <span class="pi-badge">P8 · PI</span>
+  <a href="#">David K.</a>
+</nav>
+
+<!-- STATUS BAR -->
+<div class="status-bar warn" id="statusBar">
+  <span>⚠</span>
+  <span id="statusMsg"><strong>3 items need immediate attention</strong> — 1 extractor alert, 1 student overdue, 1 warrant state change</span>
+  <span class="sb-spacer"></span>
+  <span class="last-sync" id="lastSync">Last sync: 4 min ago</span>
+  <button class="refresh-btn" onclick="simulateRefresh()">↻ Refresh</button>
+</div>
+
+<!-- MAIN DASHBOARD -->
+<div class="dashboard">
+
+  <!-- ── TRIAGE ZONE (above fold) ── -->
+  <div class="triage-zone">
+
+    <!-- ADJUDICATION QUEUE -->
+    <div class="adj-queue">
+      <div class="adj-queue-header">
+        <h3>Adjudication Queue</h3>
+        <span class="q-count" id="queueCount">5</span>
+        <div class="spacer"></div>
+        <div class="filter-tabs">
+          <button class="ftab active" onclick="filterQueue('all',this)">All</button>
+          <button class="ftab" onclick="filterQueue('urgent',this)">🔴 Urgent</button>
+          <button class="ftab" onclick="filterQueue('warrant',this)">Warrant</button>
+          <button class="ftab" onclick="filterQueue('student',this)">Student</button>
+        </div>
+      </div>
+      <table class="adj-table" id="adjTable">
+        <thead>
+          <tr>
+            <th style="width:6px"></th>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Age</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="adjBody">
+
+          <tr data-id="q1" data-filter="urgent warrant">
+            <td><span class="urgency-dot u-red"></span></td>
+            <td class="item-id mono">W-0847</td>
+            <td><span class="item-type type-warrant">Warrant</span></td>
+            <td>
+              <div class="item-desc">
+                "Nature view → reduced LOS" flipped <strong>SUPPORTED → CONTESTED</strong>
+                <div class="sub">Counter-evidence: Kuo (2015) added by E-02; second reviewer needed</div>
+              </div>
+            </td>
+            <td class="item-age">18 h</td>
+            <td><button class="act-btn act-adj" onclick="resolveItem('q1', this)">Adjudicate</button></td>
+          </tr>
+
+          <tr data-id="q2" data-filter="urgent student">
+            <td><span class="urgency-dot u-red"></span></td>
+            <td class="item-id mono">T1-S03</td>
+            <td><span class="item-type type-student">Student</span></td>
+            <td>
+              <div class="item-desc">
+                <strong>Chen Wei</strong> — no activity in 6 days
+                <div class="sub">Milestone 3 (Corpus tagging, T1) was due 3 days ago; no submission</div>
+              </div>
+            </td>
+            <td class="item-age">6 d</td>
+            <td><button class="act-btn act-view" onclick="resolveItem('q2', this)">Contact</button></td>
+          </tr>
+
+          <tr data-id="q3" data-filter="urgent">
+            <td><span class="urgency-dot u-amber"></span></td>
+            <td class="item-id mono">E-04</td>
+            <td><span class="item-type type-extractor">Extractor</span></td>
+            <td>
+              <div class="item-desc">
+                <strong>Figure extractor</strong> reliability dropped 16 pp in 7 days
+                <div class="sub">87% → 71%; below 75% alert threshold; 34 extractions at risk</div>
+              </div>
+            </td>
+            <td class="item-age">2 d</td>
+            <td><button class="act-btn act-rev" onclick="resolveItem('q3', this)">Review</button></td>
+          </tr>
+
+          <tr data-id="q4" data-filter="warrant">
+            <td><span class="urgency-dot u-amber"></span></td>
+            <td class="item-id mono">CONC-142</td>
+            <td><span class="item-type type-tag">Tag conflict</span></td>
+            <td>
+              <div class="item-desc">
+                <strong>"Soft fascination"</strong> — 2 conflicting operalisations across 4 studies
+                <div class="sub">Students T4-Kwame and T3-Ivan applied incompatible thresholds</div>
+              </div>
+            </td>
+            <td class="item-age">1 d</td>
+            <td><button class="act-btn act-rev" onclick="resolveItem('q4', this)">Resolve</button></td>
+          </tr>
+
+          <tr data-id="q5" data-filter="">
+            <td><span class="urgency-dot u-gray"></span></td>
+            <td class="item-id mono">HITL-089</td>
+            <td><span class="item-type type-hitl">HITL</span></td>
+            <td>
+              <div class="item-desc">
+                Warrant state change <strong>W-0391</strong> unconfirmed by second reviewer
+                <div class="sub">CONTESTED → SUPPORTED; Hartig (2023) meta-analysis; N=4,200</div>
+              </div>
+            </td>
+            <td class="item-age">3 d</td>
+            <td><button class="act-btn act-res" onclick="resolveItem('q5', this)">Confirm</button></td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="all-ok" id="queueEmpty" style="display:none">
+        <span class="ok-icon">✓</span> Queue clear — nothing to adjudicate
+      </div>
+    </div><!-- /adj-queue -->
+
+    <!-- RIGHT STATUS PANEL -->
+    <div class="status-panel">
+
+      <!-- System health -->
+      <div class="stat-card alert-red">
+        <div class="sc-label">System Health</div>
+        <div class="sc-row"><span>Extractors OK</span><span class="val green">4 / 5</span></div>
+        <div class="sc-row"><span>E-04 Figure extractor</span><span class="val red">⚠ 71%</span></div>
+        <div class="sc-row"><span>E-02 Abstract extractor</span><span class="val amber">↓ 88%</span></div>
+        <div class="sc-row"><span>Registry consistency</span><span class="val amber">3 flags</span></div>
+        <div class="sc-row"><span>HITL backlog</span><span class="val amber">7 pending</span></div>
+      </div>
+
+      <!-- Student alerts -->
+      <div class="stat-card alert-amber">
+        <div class="sc-label">Student Alerts</div>
+        <div class="sc-row"><span>Active (last 24 h)</span><span class="val green">10 / 13</span></div>
+        <div class="sc-row"><span>Chen Wei — T1</span><span class="val red">6 d silent</span></div>
+        <div class="sc-row"><span>Georgia Park — T2</span><span class="val amber">Due tomorrow</span></div>
+        <div class="sc-row"><span>Lena Weber — T4</span><span class="val amber">Due in 1 d</span></div>
+        <div class="sc-row"><span>On track / ahead</span><span class="val green">10 students</span></div>
+      </div>
+
+      <!-- Claim drift -->
+      <div class="stat-card alert-amber">
+        <div class="sc-label">Claim Drift · Last 24 h</div>
+        <div class="sc-row"><span>Warrant state changes</span><span class="val amber">4 changes</span></div>
+        <div class="sc-row"><span>W-0847  SUPPORTED → CONTESTED</span><span class="val red">⚠ new</span></div>
+        <div class="sc-row"><span>W-0391  CONTESTED → SUPPORTED</span><span class="val green">resolved</span></div>
+        <div class="sc-row"><span>W-1203  ∅ → NEW (pending)</span><span class="val muted">review</span></div>
+        <div class="sc-row"><span>W-0654  PENDING → FLAGGED</span><span class="val amber">flag</span></div>
+      </div>
+
+    </div><!-- /status-panel -->
+  </div><!-- /triage-zone -->
+
+  <!-- ── WARRANT CHANGES · 24 H ── -->
+  <div class="warrant-section">
+    <div class="sec-head">
+      <h2>Warrant State Changes · Last 24 h</h2>
+      <span class="count-badge amber">4</span>
+      <div class="sec-rule"></div>
+    </div>
+    <table class="w-table">
+      <thead>
+        <tr>
+          <th>Warrant ID</th>
+          <th>Claim (truncated)</th>
+          <th>Construct</th>
+          <th>Transition</th>
+          <th>Trigger</th>
+          <th>Changed by</th>
+          <th>When</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono bold" style="color:var(--red)">W-0847</td>
+          <td>"Window view of nature reduces post-operative length of stay…"</td>
+          <td>Daylighting · LOS</td>
+          <td>
+            <span class="state-tag st-supported">SUPPORTED</span>
+            <span class="arrow-right">→</span>
+            <span class="state-tag st-contested">CONTESTED</span>
+          </td>
+          <td>Counter-evidence: Kuo (2015) N=12 null result added by E-02</td>
+          <td>Extractor E-02</td>
+          <td class="muted" style="white-space:nowrap">18 h ago</td>
+          <td><button class="act-btn act-adj" onclick="showToast('Opening W-0847…')">Adjudicate</button></td>
+        </tr>
+        <tr>
+          <td class="mono bold" style="color:var(--green)">W-0391</td>
+          <td>"Dynamic daylighting reduces ICU delirium incidence by…"</td>
+          <td>Circadian · ICU</td>
+          <td>
+            <span class="state-tag st-contested">CONTESTED</span>
+            <span class="arrow-right">→</span>
+            <span class="state-tag st-supported">SUPPORTED</span>
+          </td>
+          <td>New meta-analysis: Hartig (2023) N=4,200 added by T3-Hannah</td>
+          <td>Student T3-Hannah</td>
+          <td class="muted" style="white-space:nowrap">9 h ago</td>
+          <td><button class="act-btn act-res" onclick="showToast('Confirming W-0391…')">Confirm</button></td>
+        </tr>
+        <tr>
+          <td class="mono bold" style="color:var(--blue)">W-1203</td>
+          <td>"Soft fascination engagement reduces directed attention demand…"</td>
+          <td>ART · Fascination</td>
+          <td>
+            <span class="state-tag st-pending">∅</span>
+            <span class="arrow-right">→</span>
+            <span class="state-tag st-new">NEW</span>
+          </td>
+          <td>Freshly extracted from Berto (2014); pending initial review</td>
+          <td>Extractor E-01</td>
+          <td class="muted" style="white-space:nowrap">6 h ago</td>
+          <td><button class="act-btn act-rev" onclick="showToast('Opening W-1203 for review…')">Review</button></td>
+        </tr>
+        <tr>
+          <td class="mono bold" style="color:var(--amber)">W-0654</td>
+          <td>"Exposure to natural sounds reduces cortisol in open-plan…"</td>
+          <td>Soundscape · Stress</td>
+          <td>
+            <span class="state-tag st-pending">PENDING</span>
+            <span class="arrow-right">→</span>
+            <span class="state-tag st-flagged">FLAGGED</span>
+          </td>
+          <td>Operationalisation ambiguity: "natural sounds" undefined in primary source</td>
+          <td>Student T3-Ivan</td>
+          <td class="muted" style="white-space:nowrap">3 h ago</td>
+          <td><button class="act-btn act-rev" onclick="showToast('Opening W-0654…')">Inspect</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── STUDENT TRACKS ── -->
+  <div class="tracks-section">
+    <div class="sec-head">
+      <h2>Student Track Overview · 13 students across 4 tracks</h2>
+      <span class="count-badge red">1 overdue</span>
+      <span class="count-badge amber" style="margin-left:4px">2 at risk</span>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="tracks-grid">
+
+      <!-- Track 1 -->
+      <div class="track-card">
+        <div class="track-card-head" style="background:#eff6ff;border-bottom:1px solid var(--border)">
+          <span class="track-num" style="background:#1d4ed8">1</span>
+          <div>
+            <h3>Corpus Expansion</h3>
+            <div class="track-meta">Task 1 · 3 students</div>
+          </div>
+        </div>
+        <div class="student-rows">
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Amara Osei</span>
+            <span class="milestone-tag ms-ok">On track</span>
+            <span class="stime">2 h ago</span>
+          </div>
+          <div class="student-row">
+            <span class="student-status ss-amber"></span>
+            <span class="sname">Bella Fontaine</span>
+            <span class="milestone-tag ms-soon">Due 2 d</span>
+            <span class="stime">1 d ago</span>
+          </div>
+          <div class="student-row" style="background:#fff5f5">
+            <span class="student-status ss-red"></span>
+            <span class="sname" style="color:var(--red)">Chen Wei</span>
+            <span class="milestone-tag ms-overdue">3 d overdue</span>
+            <span class="stime" style="color:var(--red)">6 d ago</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track 2 -->
+      <div class="track-card">
+        <div class="track-card-head" style="background:#f0fdf4;border-bottom:1px solid var(--border)">
+          <span class="track-num" style="background:#15803d">2</span>
+          <div>
+            <h3>Construct Fitting</h3>
+            <div class="track-meta">Task 2 · 4 students</div>
+          </div>
+        </div>
+        <div class="student-rows">
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Diego Reyes</span>
+            <span class="milestone-tag ms-ok">On track</span>
+            <span class="stime">3 h ago</span>
+          </div>
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Elise Moreau</span>
+            <span class="milestone-tag ms-ok">On track</span>
+            <span class="stime">1 d ago</span>
+          </div>
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Faysal Hassan</span>
+            <span class="milestone-tag ms-ahead">Ahead</span>
+            <span class="stime">5 h ago</span>
+          </div>
+          <div class="student-row">
+            <span class="student-status ss-amber"></span>
+            <span class="sname">Georgia Park</span>
+            <span class="milestone-tag ms-soon">Due tmrw</span>
+            <span class="stime">2 d ago</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track 3 -->
+      <div class="track-card">
+        <div class="track-card-head" style="background:#fdf4ff;border-bottom:1px solid var(--border)">
+          <span class="track-num" style="background:#7e22ce">3</span>
+          <div>
+            <h3>Warrant Review</h3>
+            <div class="track-meta">Task 2–3 · 2 students</div>
+          </div>
+        </div>
+        <div class="student-rows">
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Hannah Brennan</span>
+            <span class="milestone-tag ms-ok">On track</span>
+            <span class="stime">4 h ago</span>
+          </div>
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Ivan Petrov</span>
+            <span class="milestone-tag ms-ok">On track</span>
+            <span class="stime">1 d ago</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track 4 -->
+      <div class="track-card">
+        <div class="track-card-head" style="background:#fff7ed;border-bottom:1px solid var(--border)">
+          <span class="track-num" style="background:#c17f3a">4</span>
+          <div>
+            <h3>Journey Prototyping</h3>
+            <div class="track-meta">Task 3 · 4 students</div>
+          </div>
+        </div>
+        <div class="student-rows">
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Jasmine L.</span>
+            <span class="milestone-tag ms-ok">Submitted</span>
+            <span class="stime">1 h ago</span>
+          </div>
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Kwame Asante</span>
+            <span class="milestone-tag ms-ok">On track</span>
+            <span class="stime">8 h ago</span>
+          </div>
+          <div class="student-row">
+            <span class="student-status ss-amber"></span>
+            <span class="sname">Lena Weber</span>
+            <span class="milestone-tag ms-soon">Due in 1 d</span>
+            <span class="stime">2 d ago</span>
+          </div>
+          <div class="student-row">
+            <span class="student-status ss-green"></span>
+            <span class="sname">Min-Jun Lee</span>
+            <span class="milestone-tag ms-ok">On track</span>
+            <span class="stime">3 h ago</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tracks-grid -->
+  </div>
+
+  <!-- ── LOWER ROW: HITL + EXTRACTORS ── -->
+  <div class="lower-row">
+
+    <!-- HITL PANEL -->
+    <div class="panel">
+      <div class="panel-head">
+        <h3>HITL Queue</h3>
+        <span class="count-badge amber" style="font-size:10px;border-radius:8px;padding:1px 7px;background:var(--amber);color:#fff">7 pending</span>
+        <div class="spacer"></div>
+        <span style="font-size:11px;color:var(--muted)">Oldest: 4 d ago</span>
+      </div>
+      <div class="panel-body">
+        <div class="hitl-summary">
+          <div class="hs-cell">
+            <div class="hs-num" style="color:var(--red)">3</div>
+            <div class="hs-label">PI only</div>
+          </div>
+          <div class="hs-cell">
+            <div class="hs-num" style="color:var(--amber)">4</div>
+            <div class="hs-label">Delegable</div>
+          </div>
+          <div class="hs-cell">
+            <div class="hs-num" style="color:var(--muted)">4 d</div>
+            <div class="hs-label">Oldest</div>
+          </div>
+        </div>
+        <div class="hitl-rows">
+          <div class="hitl-row">
+            <span class="s-red status-pill">PI</span>
+            <span class="hid">HITL-082</span>
+            <span class="hdesc">Tag conflict: CONC-142 "Soft fascination" — 2 operalisations</span>
+            <span class="hage">4 d</span>
+            <button class="act-btn act-adj" style="padding:3px 9px;font-size:10.5px" onclick="showToast('Opening HITL-082…')">Open</button>
+          </div>
+          <div class="hitl-row">
+            <span class="s-red status-pill">PI</span>
+            <span class="hid">HITL-085</span>
+            <span class="hdesc">Warrant state: W-0847 SUPPORTED→CONTESTED needs co-sign</span>
+            <span class="hage">18 h</span>
+            <button class="act-btn act-adj" style="padding:3px 9px;font-size:10.5px" onclick="showToast('Opening HITL-085…')">Open</button>
+          </div>
+          <div class="hitl-row">
+            <span class="s-red status-pill">PI</span>
+            <span class="hid">HITL-088</span>
+            <span class="hdesc">Student escalation: T1-Chen Wei non-responsive</span>
+            <span class="hage">3 d</span>
+            <button class="act-btn act-adj" style="padding:3px 9px;font-size:10.5px" onclick="showToast('Opening HITL-088…')">Open</button>
+          </div>
+          <div class="hitl-row">
+            <span class="s-amber status-pill">TA</span>
+            <span class="hid">HITL-083</span>
+            <span class="hdesc">Warrant review: W-0391 CONTESTED→SUPPORTED confirmation</span>
+            <span class="hage">3 d</span>
+            <button class="act-btn act-res" style="padding:3px 9px;font-size:10.5px" onclick="showToast('Delegating HITL-083…')">Delegate</button>
+          </div>
+          <div class="hitl-row">
+            <span class="s-amber status-pill">TA</span>
+            <span class="hid">HITL-084</span>
+            <span class="hdesc">New extraction W-1203 initial review pending</span>
+            <span class="hage">2 d</span>
+            <button class="act-btn act-res" style="padding:3px 9px;font-size:10.5px" onclick="showToast('Delegating HITL-084…')">Delegate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXTRACTOR RELIABILITY -->
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Extractor Reliability · 7-day trend</h3>
+        <span class="count-badge red" style="font-size:10px;border-radius:8px;padding:1px 7px;background:var(--red);color:#fff">1 alert</span>
+        <div class="spacer"></div>
+        <span style="font-size:11px;color:var(--muted)">Alert threshold: 75%</span>
+      </div>
+      <table class="ext-table">
+        <thead>
+          <tr>
+            <th>Extractor</th>
+            <th>Current</th>
+            <th>7-day trend</th>
+            <th>Sparkline</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="extBody">
+          <!-- populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /lower-row -->
+
+  <!-- ── REGISTRY FLAGS ── -->
+  <div class="flags-section">
+    <div class="sec-head">
+      <h2>Tagging Contractor Registry · Flagged Inconsistencies</h2>
+      <span class="count-badge amber">3 flags</span>
+      <div class="sec-rule"></div>
+    </div>
+    <table class="flags-table">
+      <thead>
+        <tr>
+          <th>Construct ID</th>
+          <th>Construct name</th>
+          <th>Flag type</th>
+          <th>Description</th>
+          <th>Studies affected</th>
+          <th>Flagged by</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="conc-id">CONC-142</td>
+          <td><strong>Soft fascination</strong></td>
+          <td><span class="flag-type s-amber status-pill">Operalisation conflict</span></td>
+          <td>Two students applied incompatible threshold definitions. T4-Kwame: "any involuntary attention without deliberate effort"; T3-Ivan: "low-arousal involuntary attention only." Four studies coded differently as a result.</td>
+          <td style="text-align:center;font-weight:700">4</td>
+          <td class="muted">Auto-detected</td>
+          <td><button class="act-btn act-rev" onclick="showToast('Opening CONC-142 registry entry…')">Resolve</button></td>
+        </tr>
+        <tr>
+          <td class="conc-id">CONC-087</td>
+          <td><strong>Directed attention</strong></td>
+          <td><span class="flag-type s-amber status-pill">Threshold underspecified</span></td>
+          <td>Seven studies tagged with CONC-087 do not operationalise the "depletion" threshold required for ART boundary conditions. The construct definition in the registry does not specify a measurable threshold, making it impossible to tag boundary cases consistently.</td>
+          <td style="text-align:center;font-weight:700">7</td>
+          <td class="muted">T3-Hannah</td>
+          <td><button class="act-btn act-rev" onclick="showToast('Opening CONC-087 registry entry…')">Inspect</button></td>
+        </tr>
+        <tr>
+          <td class="conc-id">CONC-203</td>
+          <td><strong>Psychological restoration</strong></td>
+          <td><span class="flag-type s-blue status-pill" style="background:var(--blue-bg);color:var(--blue);border-color:var(--blue-border)">Umbrella tag</span></td>
+          <td>Twelve studies tagged with CONC-203 use it as an umbrella construct covering both ART-type cognitive restoration and SRT-type affective restoration. The tag is doing two distinct theoretical jobs and should be split into CONC-203a (cognitive) and CONC-203b (affective) before the construct-fitting task finalises.</td>
+          <td style="text-align:center;font-weight:700">12</td>
+          <td class="muted">T2-Diego</td>
+          <td><button class="act-btn act-adj" onclick="showToast('Opening disambiguation wizard for CONC-203…')">Disambiguate</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /dashboard -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  <span>K-Atlas · PI Dashboard · ka_pi_dashboard.html · P8 Prof. David Kirsh</span>
+  <span>
+    <a href="#">← Home</a> &nbsp;·&nbsp;
+    <button style="background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:11px;padding:0" onclick="resetAll()">Reset demo state</button>
+  </span>
+</footer>
+
+<script>
+/* ── Clock ── */
+function tick() {
+  const now = new Date();
+  document.getElementById('clockDisplay').textContent =
+    now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}) + '  ' +
+    now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+}
+tick();
+setInterval(tick, 30000);
+
+/* ── Extractor data + sparklines ── */
+const extractors = [
+  { id:'E-01', name:'Full-text',  data:[94,93,94,95,94,95,94], threshold:75 },
+  { id:'E-02', name:'Abstract',   data:[91,90,89,88,87,87,88], threshold:75 },
+  { id:'E-03', name:'Citation',   data:[92,91,92,93,92,91,91], threshold:75 },
+  { id:'E-04', name:'Figure',     data:[87,85,82,79,75,72,71], threshold:75 },
+  { id:'E-05', name:'Claim',      data:[84,83,84,83,83,83,83], threshold:75 },
+];
+
+function sparklineSVG(data, color) {
+  const max = Math.max(...data), min = Math.min(...data);
+  const range = max - min || 1;
+  const w = 72, h = 22;
+  const pts = data.map((v,i) => {
+    const x = (i/(data.length-1))*w;
+    const y = h - ((v-min)/range)*(h-4) - 2;
+    return x.toFixed(1)+','+y.toFixed(1);
+  }).join(' ');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
+}
+
+function renderExtractors() {
+  const tbody = document.getElementById('extBody');
+  tbody.innerHTML = '';
+  extractors.forEach(e => {
+    const cur = e.data[e.data.length-1];
+    const prev = e.data[e.data.length-2];
+    const first = e.data[0];
+    const delta = cur - first;
+    const isAlert = cur < e.threshold;
+    const isDeclining = delta < -5;
+    let pctClass = 'green', trendClass = 'trend-flat', trendText = '→ flat';
+    let sparkColor = '#16a34a';
+    if (isAlert) { pctClass = 'red'; trendClass = 'trend-crit'; trendText = '↓↓ alert'; sparkColor = '#dc2626'; }
+    else if (isDeclining) { pctClass = 'amber'; trendClass = 'trend-dn'; trendText = '↓ declining'; sparkColor = '#d97706'; }
+
+    const statusHTML = isAlert
+      ? '<span class="s-red status-pill">⚠ Below threshold</span>'
+      : isDeclining
+        ? '<span class="s-amber status-pill">Declining</span>'
+        : '<span class="s-green status-pill">Stable</span>';
+
+    const tr = document.createElement('tr');
+    if (isAlert) tr.style.background = '#fff5f5';
+    tr.innerHTML = `
+      <td><span class="ext-name">${e.id}</span> <span class="muted" style="font-size:11px">${e.name}</span></td>
+      <td><span class="ext-pct ${pctClass}">${cur}%</span></td>
+      <td><span class="trend-badge ${trendClass}">${trendText}</span> <span class="muted" style="font-size:11px">(${delta>0?'+':''}${delta} pp / 7 d)</span></td>
+      <td>${sparklineSVG(e.data, sparkColor)}</td>
+      <td>${statusHTML}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+renderExtractors();
+
+/* ── Resolve queue items ── */
+const resolved = new Set(JSON.parse(sessionStorage.getItem('piResolvedQ') || '[]'));
+
+function resolveItem(id, btn) {
+  const tr = document.querySelector(`[data-id="${id}"]`);
+  if (!tr) return;
+  resolved.add(id);
+  sessionStorage.setItem('piResolvedQ', JSON.stringify([...resolved]));
+  tr.classList.add('resolved');
+  btn.textContent = 'Done ✓';
+  btn.disabled = true;
+  updateQueueCount();
+  showToast('Marked as handled');
+}
+
+function updateQueueCount() {
+  const rows = document.querySelectorAll('#adjBody tr');
+  const pending = [...rows].filter(r => !r.classList.contains('resolved')).length;
+  document.getElementById('queueCount').textContent = pending;
+  if (pending === 0) {
+    document.getElementById('adjTable').style.display = 'none';
+    document.getElementById('queueEmpty').style.display = 'block';
+  }
+}
+
+function restoreResolved() {
+  resolved.forEach(id => {
+    const tr = document.querySelector(`[data-id="${id}"]`);
+    if (!tr) return;
+    tr.classList.add('resolved');
+    const btn = tr.querySelector('button');
+    if (btn) { btn.textContent = 'Done ✓'; btn.disabled = true; }
+  });
+  updateQueueCount();
+}
+restoreResolved();
+
+/* ── Filter queue ── */
+function filterQueue(type, btn) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#adjBody tr').forEach(tr => {
+    if (type === 'all') { tr.style.display = ''; return; }
+    const f = tr.dataset.filter || '';
+    tr.style.display = f.includes(type) ? '' : 'none';
+  });
+}
+
+/* ── Refresh (simulated) ── */
+function simulateRefresh() {
+  const btn = document.querySelector('.refresh-btn');
+  btn.textContent = '↻ Syncing…';
+  setTimeout(() => {
+    btn.textContent = '↻ Refresh';
+    document.getElementById('lastSync').textContent = 'Last sync: just now';
+    showToast('Dashboard synced');
+  }, 1200);
+}
+
+/* ── Toast ── */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ── Reset all (demo) ── */
+function resetAll() {
+  sessionStorage.removeItem('piResolvedQ');
+  resolved.clear();
+  document.querySelectorAll('#adjBody tr').forEach(tr => {
+    tr.classList.remove('resolved');
+    const btn = tr.querySelector('button');
+    if (btn) { btn.textContent = btn.textContent.replace('Done ✓','').trim() || 'Action'; btn.disabled = false; }
+  });
+  // restore original button labels
+  const labels = ['Adjudicate','Contact','Review','Resolve','Confirm'];
+  document.querySelectorAll('#adjBody tr button').forEach((btn,i) => {
+    btn.textContent = labels[i] || 'Action';
+    btn.disabled = false;
+  });
+  document.getElementById('adjTable').style.display = '';
+  document.getElementById('queueEmpty').style.display = 'none';
+  updateQueueCount();
+  showToast('Demo state reset');
+}
+
+/* ── Update status bar when all resolved ── */
+const origUpdateQueueCount = updateQueueCount;
+</script>
+
+</body>
+</html>
