@@ -1,0 +1,2144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evidential Journey · Daylighting &amp; Surgical Recovery · K-Atlas Practitioner</title>
+<style>
+/* ── CSS Variables — Atlas House Style ── */
+:root {
+  --bg:          #f8f7f4;
+  --bg-card:     #ffffff;
+  --primary:     #1a3a5c;
+  --primary-mid: #2d5a8c;
+  --accent:      #c17f3a;
+  --accent-lt:   #fdf3e7;
+  --text:        #2c2c2c;
+  --muted:       #6b7280;
+  --border:      #e5e0d8;
+  --radius:      6px;
+  --shadow:      0 1px 4px rgba(0,0,0,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+/* ── TOP NAV ── */
+.top-nav {
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  height: 50px;
+  gap: 22px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.top-nav .logo { font-weight: 800; font-size: 16px; color: #fff; letter-spacing: .3px; margin-right: 8px; }
+.top-nav a { color: rgba(255,255,255,.72); text-decoration: none; white-space: nowrap; }
+.top-nav a:hover { color: #fff; }
+.top-nav .spacer { flex: 1; }
+.persona-badge {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 12px;
+  padding: 3px 11px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 8px 28px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+}
+.breadcrumb a { color: var(--primary); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { margin: 0 5px; opacity: .5; }
+
+/* ── LAYOUT ── */
+.layout {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  max-width: 1260px;
+  margin: 0 auto;
+  min-height: calc(100vh - 50px - 32px);
+}
+
+/* ── SIDE NAV ── */
+.side-nav {
+  padding: 24px 14px 24px 20px;
+  border-right: 1px solid var(--border);
+  background: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  position: sticky;
+  top: 50px;
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+}
+.side-nav .sn-group { margin-bottom: 22px; }
+.side-nav h3 {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.side-nav ul { list-style: none; }
+.side-nav li { margin-bottom: 2px; }
+.side-nav a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  color: var(--muted);
+  text-decoration: none;
+  line-height: 1.3;
+}
+.side-nav a:hover { background: var(--accent-lt); color: var(--primary); }
+.side-nav a.active { background: var(--accent-lt); color: var(--primary); font-weight: 700; }
+.sn-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.side-nav a.active .sn-dot { background: var(--accent); }
+.sn-current { font-weight: 700; color: var(--primary); }
+
+/* ── MAIN ── */
+main { padding: 44px 52px 60px; }
+
+/* ── SECTION COMMON ── */
+section { margin-bottom: 72px; scroll-margin-top: 70px; }
+.sec-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+h1 { font-size: 27px; font-weight: 700; line-height: 1.28; color: var(--primary); margin-bottom: 16px; }
+h2 { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+h3 { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+p  { margin-bottom: 13px; }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 40px 44px;
+  margin-bottom: 36px;
+}
+.hero .q-badge {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  margin-bottom: 10px;
+}
+.hero .question {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.38;
+  margin-bottom: 22px;
+}
+.q-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.q-input-row input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid rgba(255,255,255,.28);
+  border-radius: 6px;
+  background: rgba(255,255,255,.1);
+  color: #fff;
+  font-size: 13.5px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  outline: none;
+}
+.q-input-row input::placeholder { color: rgba(255,255,255,.45); }
+.q-input-row input:focus { border-color: rgba(255,255,255,.55); }
+.q-input-row button {
+  padding: 10px 20px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.q-input-row button:hover { background: #a86d2f; }
+.hero-meta {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11.5px;
+  color: rgba(255,255,255,.62);
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.hero-meta strong { color: rgba(255,255,255,.88); }
+
+/* ── DISCOVERY LANDING ── */
+.discovery-header { margin-bottom: 22px; }
+.dh-greeting {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px; font-weight: 800; letter-spacing: 1.4px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+}
+.dh-title { font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 6px; line-height: 1.3; }
+.dh-sub { font-size: 13.5px; color: var(--muted); }
+
+/* Filter chips */
+.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; align-items: center; }
+.filter-bar-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
+  color: var(--muted); margin-right: 4px;
+}
+.filter-chip {
+  padding: 5px 15px; border: 1.5px solid var(--border);
+  border-radius: 20px; background: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px; font-weight: 600; color: var(--muted);
+  cursor: pointer; transition: all .15s;
+}
+.filter-chip:hover { border-color: var(--primary); color: var(--primary); background: #f0f4f8; }
+.filter-chip.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* DYK card grid */
+.dyk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.dyk-card {
+  background: #fff; border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 18px 20px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: transform .16s, box-shadow .16s, border-color .16s;
+  display: flex; flex-direction: column;
+}
+.dyk-card:hover:not(.coming-soon) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.09);
+  border-color: var(--primary);
+}
+.dyk-card.journey-active {
+  border-color: var(--accent); border-width: 2px;
+  box-shadow: 0 4px 22px rgba(193,127,58,.18);
+}
+.dyk-card.coming-soon { opacity: .72; cursor: pointer; }
+.dyk-card.coming-soon:hover { opacity: .92; transform: translateY(-2px); border-color: #bbb; }
+.dyk-card.hidden { display: none; }
+
+.dyk-tag-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.dyk-tag {
+  display: inline-block; padding: 2px 9px; border-radius: 10px;
+  font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 10px; font-weight: 700;
+}
+.dyk-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 9px; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+}
+.dyk-finding {
+  font-size: 13.5px; font-weight: 700; line-height: 1.38; color: var(--primary); margin-bottom: 7px;
+}
+.dyk-sub { font-size: 11.5px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; flex: 1; }
+.dyk-footer {
+  display: flex; align-items: center; gap: 7px;
+  padding-top: 10px; border-top: 1px solid var(--border);
+  font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px;
+}
+.dyk-studies, .dyk-conf { color: var(--muted); }
+.dyk-footer-spacer { flex: 1; }
+.dyk-cta {
+  font-size: 11px; font-weight: 700; color: var(--accent);
+  background: var(--accent-lt); border: 1px solid var(--accent);
+  border-radius: 5px; padding: 4px 11px; cursor: pointer; white-space: nowrap;
+}
+.dyk-cta:hover { background: var(--accent); color: #fff; }
+.dyk-cta-soon {
+  font-size: 10px; font-weight: 700; color: var(--muted);
+  background: #f5f4f0; border: 1px solid var(--border);
+  border-radius: 5px; padding: 4px 10px; white-space: nowrap;
+}
+.active-pip {
+  position: absolute; top: 11px; right: 11px;
+  background: var(--accent); color: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 8.5px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+  border-radius: 8px; padding: 2px 7px;
+}
+.no-results {
+  grid-column: 1/-1; text-align: center; padding: 32px 16px;
+  font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: var(--muted);
+}
+
+/* Active journey banner */
+.active-banner {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-mid) 100%);
+  color: #fff; border-radius: 10px; padding: 20px 28px;
+  margin-bottom: 24px; display: flex; align-items: center; gap: 20px;
+  animation: bannerIn .22s ease-out;
+}
+@keyframes bannerIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+.ab-inner { flex: 1; }
+.ab-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 9px; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 5px;
+}
+.ab-question { font-size: 15.5px; font-weight: 700; line-height: 1.42; margin-bottom: 8px; }
+.ab-meta {
+  font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: rgba(255,255,255,.6);
+  display: flex; gap: 18px; flex-wrap: wrap;
+}
+.ab-meta strong { color: rgba(255,255,255,.88); }
+.ab-close {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25);
+  color: rgba(255,255,255,.8); border-radius: 6px; padding: 7px 15px;
+  font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11.5px; font-weight: 700;
+  cursor: pointer; white-space: nowrap; flex-shrink: 0;
+}
+.ab-close:hover { background: rgba(255,255,255,.2); color: #fff; }
+
+/* ── PROGRESS TRACK ── */
+.progress-track {
+  display: flex;
+  margin-bottom: 44px;
+  border-radius: 7px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+.prog-step {
+  flex: 1;
+  padding: 9px 10px;
+  background: #fff;
+  border-right: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  text-align: center;
+}
+.prog-step:last-child { border-right: none; }
+.prog-step .ps-num {
+  display: block;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.prog-step .ps-name { font-size: 11.5px; font-weight: 600; }
+.prog-step:hover { background: var(--accent-lt); color: var(--primary); }
+.prog-step.active { background: var(--primary); color: #fff; }
+.prog-step.active .ps-num { color: rgba(255,255,255,.6); }
+.prog-step.done { background: #f0fdf4; color: #15803d; }
+.prog-step.done .ps-name::after { content: ' ✓'; }
+
+/* ── EVIDENCE GRID ── */
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.ev-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid var(--primary);
+}
+.ev-meta {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.ev-card h4 { font-size: 14px; color: var(--primary); margin-bottom: 8px; line-height: 1.35; }
+.ev-card > p { font-size: 13px; margin-bottom: 9px; }
+.ev-cite {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+}
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin-bottom: 8px;
+}
+.badge-hi  { background: #d1fae5; color: #065f46; }
+.badge-mod { background: #fef3c7; color: #92400e; }
+.badge-lo  { background: #fee2e2; color: #991b1b; }
+
+/* ── EXPAND TRAY ── */
+.ev-tray-wrap { border-top: 1px solid var(--border); margin-top: 12px; padding-top: 10px; }
+.expand-btn {
+  background: none;
+  border: none;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.expand-btn .arrow { display: inline-block; transition: transform .2s; font-style: normal; }
+.expand-btn.open .arrow { transform: rotate(90deg); }
+.tray-body {
+  display: none;
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.58;
+}
+.tray-body.open { display: block; }
+.tray-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+.tray-body th {
+  background: #f5f4f0;
+  padding: 4px 8px;
+  text-align: left;
+  font-weight: 700;
+  border: 1px solid var(--border);
+}
+.tray-body td { padding: 4px 8px; border: 1px solid var(--border); }
+.tray-body p { margin-top: 6px; font-size: 11.5px; color: #374151; }
+
+/* ── WARRANT / BACKING ── */
+.warrant-block {
+  background: #f0f4ff;
+  border: 1px solid #c5d5f0;
+  border-left: 4px solid #1e40af;
+  border-radius: 8px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+.w-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #1e40af;
+  margin-bottom: 8px;
+}
+.backing-block {
+  background: #f0fdf4;
+  border: 1px solid #b7e4c7;
+  border-left: 4px solid #15803d;
+  border-radius: 8px;
+  padding: 22px 24px;
+}
+.b-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #15803d;
+  margin-bottom: 8px;
+}
+
+/* ── TOULMIN DIAGRAM ── */
+.toulmin-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px 28px;
+  margin: 20px 0;
+  overflow-x: auto;
+}
+.toulmin-wrap svg { max-width: 100%; height: auto; display: block; }
+
+/* ── QUALIFIED CLAIM ── */
+.claim-box {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 9px;
+  padding: 28px 32px;
+  margin: 20px 0;
+}
+.claim-qualifier {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  margin-bottom: 10px;
+}
+.claim-text {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin-bottom: 18px;
+}
+.conf-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11.5px;
+  color: rgba(255,255,255,.65);
+  margin-bottom: 6px;
+}
+.conf-bar {
+  height: 6px;
+  background: rgba(255,255,255,.2);
+  border-radius: 3px;
+  overflow: hidden;
+  max-width: 320px;
+}
+.conf-fill { height: 100%; background: var(--accent); border-radius: 3px; }
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.3);
+  color: rgba(255,255,255,.85);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.export-btn:hover { background: rgba(255,255,255,.22); color: #fff; }
+
+/* ── CHINN-BREWER PANEL ── */
+.cb-panel {
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  padding: 32px;
+}
+.cb-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.cb-exposed-badge {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 10px;
+  padding: 3px 9px;
+}
+.cb-intro {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.6;
+}
+.defeater-list { display: grid; gap: 11px; margin-bottom: 30px; }
+.defeater-card {
+  background: #fffbf5;
+  border: 1px solid #f0dfc0;
+  border-radius: 7px;
+  padding: 14px 18px;
+}
+.def-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #b45309;
+  margin-bottom: 4px;
+}
+.def-title { font-size: 14px; font-weight: 700; margin-bottom: 5px; color: var(--primary); }
+.def-text { font-size: 13px; line-height: 1.58; }
+
+.cb-section-divider {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 24px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.cb-sub-intro { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.58; }
+.cb-responses { display: grid; gap: 10px; }
+
+.cb-response { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.cb-resp-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+.cb-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+  flex-shrink: 0;
+  color: #fff;
+}
+.cb-type { font-size: 13.5px; font-weight: 700; }
+.cb-stance { font-size: 11px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+.cb-resp-body {
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  line-height: 1.58;
+}
+.cb-prac-take {
+  margin-top: 10px;
+  padding: 9px 13px;
+  border-radius: 6px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* CB colour scheme */
+.cb1 .cb-resp-head { background: #f1f5f9; }
+.cb1 .cb-num       { background: #64748b; }
+.cb1 .cb-prac-take { background: #e2e8f0; color: #1e293b; }
+
+.cb2 .cb-resp-head { background: #fef9c3; }
+.cb2 .cb-num       { background: #854d0e; }
+.cb2 .cb-prac-take { background: #fef08a; color: #713f12; }
+
+.cb3 .cb-resp-head { background: #fce7f3; }
+.cb3 .cb-num       { background: #831843; }
+.cb3 .cb-prac-take { background: #fbcfe8; color: #701a44; }
+
+.cb4 .cb-resp-head { background: #ede9fe; }
+.cb4 .cb-num       { background: #4c1d95; }
+.cb4 .cb-prac-take { background: #ddd6fe; color: #3b0764; }
+
+.cb5 .cb-resp-head { background: #dcfce7; }
+.cb5 .cb-num       { background: #14532d; }
+.cb5 .cb-prac-take { background: #bbf7d0; color: #052e16; }
+
+.cb6 .cb-resp-head { background: #dbeafe; }
+.cb6 .cb-num       { background: #1e3a8a; }
+.cb6 .cb-prac-take { background: #bfdbfe; color: #1e3a8a; }
+
+.cb7 .cb-resp-head { background: #fee2e2; }
+.cb7 .cb-num       { background: #7f1d1d; }
+.cb7 .cb-prac-take { background: #fecaca; color: #450a0a; }
+
+/* ── READER RESPONSE ── */
+.reader-stage {
+  background: #fff;
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 36px 36px 32px;
+}
+.reader-stage h2 { margin-bottom: 8px; }
+.rs-intro { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+.cb-option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.cb-opt {
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  transition: border-color .15s, background .15s;
+  background: #fff;
+  user-select: none;
+}
+.cb-opt:hover { border-color: var(--primary); background: #f0f4f8; }
+.cb-opt.selected { border-color: var(--primary); background: var(--primary); color: #fff; }
+.cb-opt .opt-n { font-size: 17px; font-weight: 800; display: block; margin-bottom: 1px; }
+.rationale-box {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  line-height: 1.62;
+  resize: vertical;
+  min-height: 100px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+.rationale-box:focus { outline: none; border-color: var(--primary); }
+.save-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 28px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.save-btn:hover { background: #a86d2f; }
+.saved-notice {
+  display: none;
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 7px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.saved-notice.show { display: block; }
+
+
+/* ── FOOTER ── */
+footer {
+  background: var(--primary);
+  color: rgba(255,255,255,.55);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11.5px;
+  padding: 18px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+footer a { color: rgba(255,255,255,.72); text-decoration: none; }
+footer a:hover { color: #fff; }
+
+/* ── UTILITIES ── */
+.prose-sm { font-size: 13.5px; color: var(--muted); line-height: 1.62; }
+.note-block {
+  background: var(--accent-lt);
+  border: 1px solid #f0dfc0;
+  border-radius: 7px;
+  padding: 14px 18px;
+  font-size: 13px;
+  margin: 16px 0;
+  line-height: 1.6;
+}
+hr.sec-rule { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+@media print {
+  .top-nav, .breadcrumb, .side-nav, footer, .export-btn, .save-btn,
+  .q-input-row, .progress-track { display: none !important; }
+  .layout { grid-template-columns: 1fr; }
+  main { padding: 0; }
+  section { break-inside: avoid; }
+}
+
+/* ── RESEARCH MODAL ── */
+.rm-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(10,25,47,.58);
+  z-index: 2000;
+  opacity: 0; pointer-events: none;
+  transition: opacity .22s ease;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.rm-backdrop.open { opacity: 1; pointer-events: all; }
+.rm-panel {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%; max-width: 740px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 40px 44px 36px;
+  position: relative;
+  transform: translateY(24px) scale(.98);
+  transition: transform .26s cubic-bezier(.16,1,.3,1);
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+}
+.rm-backdrop.open .rm-panel { transform: translateY(0) scale(1); }
+.rm-close {
+  position: sticky; top: -40px; float: right;
+  margin: -28px -32px 0 0;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 50%; width: 34px; height: 34px;
+  cursor: pointer; font-size: 16px; color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+  z-index: 10;
+}
+.rm-close:hover { background: #e8edf3; color: var(--primary); }
+.rm-tag-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.rm-tag {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 1.1px;
+  text-transform: uppercase; color: var(--accent);
+  background: var(--accent-lt); border-radius: 10px;
+  padding: 3px 10px;
+}
+.rm-confidence {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10.5px; color: var(--muted); font-weight: 600;
+}
+.rm-question {
+  font-size: 19px; font-weight: 700; color: var(--primary);
+  line-height: 1.35; margin-bottom: 6px;
+}
+.rm-sub {
+  font-size: 13px; color: var(--muted); line-height: 1.55;
+  margin-bottom: 26px; font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+.rm-section-title {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 1.3px;
+  text-transform: uppercase; color: var(--muted);
+  margin: 24px 0 12px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--border);
+}
+.rm-ev-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 20px;
+  margin-bottom: 12px;
+}
+.rm-ev-header { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 6px; }
+.rm-ev-badge {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9.5px; font-weight: 700; letter-spacing: .7px;
+  text-transform: uppercase; border-radius: 8px;
+  padding: 2px 8px; white-space: nowrap; margin-top: 2px;
+}
+.rm-ev-badge.hi { background: #d1fae5; color: #065f46; }
+.rm-ev-badge.mod { background: #fef3c7; color: #92400e; }
+.rm-ev-badge.lo { background: #fee2e2; color: #991b1b; }
+.rm-ev-title { font-size: 14px; font-weight: 700; color: var(--primary); line-height: 1.3; }
+.rm-ev-finding { font-size: 13px; color: #374151; line-height: 1.55; margin-bottom: 6px; }
+.rm-ev-cite { font-size: 11px; color: var(--muted); font-style: italic; font-family: 'Helvetica Neue',Arial,sans-serif; }
+.rm-claim-box {
+  background: var(--accent-lt);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 9px 9px 0;
+  padding: 18px 20px; margin-top: 4px;
+}
+.rm-claim-label {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 1.1px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 7px;
+}
+.rm-claim-text { font-size: 15px; font-weight: 700; color: var(--primary); line-height: 1.45; margin-bottom: 6px; }
+.rm-qualifier { font-size: 12.5px; color: #6b4f2a; font-family: 'Helvetica Neue',Arial,sans-serif; }
+.rm-constructs { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+.rm-construct {
+  background: #eef2f7; border-radius: 12px;
+  padding: 4px 13px; font-size: 11.5px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: var(--primary); font-weight: 600;
+}
+.rm-coming-note {
+  margin-top: 26px;
+  background: #f1f5f9; border-radius: 9px;
+  padding: 14px 18px; text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12.5px; color: var(--muted);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     TOP NAV
+════════════════════════════════════════════════ -->
+<nav class="top-nav">
+  <span class="logo">K-Atlas</span>
+  <a href="ka_home_practitioner.html">Home</a>
+  <a href="#design-decision">Design Decision</a>
+  <a href="#client-brief">Client Brief</a>
+  <a href="#">Space Library</a>
+  <a href="#">Corpus</a>
+  <div class="spacer"></div>
+  <span class="persona-badge">P6 · Practitioner</span>
+  <a href="#">Jamal W.</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     BREADCRUMB
+════════════════════════════════════════════════ -->
+<div class="breadcrumb">
+  <a href="ka_home_practitioner.html">K-Atlas</a><span>›</span>
+  <a href="#">Healthcare</a><span>›</span>
+  <a href="#">Inpatient Unit</a><span>›</span>
+  Evidential Journey · Daylighting &amp; Surgical Recovery
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LAYOUT
+════════════════════════════════════════════════ -->
+<div class="layout">
+
+<!-- SIDE NAV -->
+<nav class="side-nav">
+  <div class="sn-group">
+    <h3>This Journey</h3>
+    <ul>
+      <li><a href="#landing"  class="active sn-current"><span class="sn-dot"></span>Discover</a></li>
+      <li><a href="#data"     ><span class="sn-dot"></span>Data</a></li>
+      <li><a href="#warrant"  ><span class="sn-dot"></span>Warrant &amp; Backing</a></li>
+      <li><a href="#diagram"  ><span class="sn-dot"></span>Toulmin Map</a></li>
+      <li><a href="#claim"    ><span class="sn-dot"></span>Qualified Claim</a></li>
+      <li><a href="#rebuttal" ><span class="sn-dot"></span>Rebuttal Panel</a></li>
+      <li><a href="#response" ><span class="sn-dot"></span>Your Response</a></li>
+    </ul>
+  </div>
+  <div class="sn-group">
+    <h3>Space Types</h3>
+    <ul>
+      <li><a href="#">Office</a></li>
+      <li><a href="#" style="font-weight:700;color:var(--primary)">Healthcare ←</a></li>
+      <li><a href="#">Educational</a></li>
+      <li><a href="#">Residential</a></li>
+      <li><a href="#">Public</a></li>
+      <li><a href="#">Retail</a></li>
+      <li><a href="#">Outdoor</a></li>
+    </ul>
+  </div>
+  <div class="sn-group">
+    <h3>Export</h3>
+    <ul>
+      <li><a href="#" onclick="window.print();return false;">📄 Print / PDF</a></li>
+      <li><a href="#" onclick="exportBrief();return false;">📋 Client Brief (.txt)</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<!-- ═══════════════════════════════════════════════
+     §0  DISCOVERY LANDING
+════════════════════════════════════════════════ -->
+<section id="landing">
+  <div class="discovery-header">
+    <div class="dh-greeting">K-Atlas · Design Decision Library</div>
+    <h1 class="dh-title">What does the science say for your next project?</h1>
+    <p class="dh-sub">Browse evidence-based design findings by space type or construct. Select any card to explore its full evidence trail, warrant structure, and defeaters.</p>
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-chip active" onclick="filterCards('all',this)">All topics</button>
+    <button class="filter-chip" onclick="filterCards('healthcare',this)">🏥 Healthcare</button>
+    <button class="filter-chip" onclick="filterCards('higher-ed',this)">🎓 Higher-Ed</button>
+    <button class="filter-chip" onclick="filterCards('office',this)">🏢 Office</button>
+    <button class="filter-chip" onclick="filterCards('lighting',this)">💡 Lighting</button>
+    <button class="filter-chip" onclick="filterCards('biophilic',this)">🌿 Biophilic</button>
+    <button class="filter-chip" onclick="filterCards('acoustics',this)">🔊 Acoustics</button>
+    <button class="filter-chip" onclick="filterCards('thermal',this)">🌡 Thermal</button>
+  </div>
+
+  <div class="dyk-grid" id="dykGrid"></div>
+
+  <div id="no-results" class="no-results" style="display:none">No findings match this filter yet — more journeys are in progress.</div>
+
+  <div class="active-banner" id="activeBanner" style="display:none">
+    <div class="ab-inner">
+      <div class="ab-label">Active Journey ↓</div>
+      <div class="ab-question" id="abQuestion"></div>
+      <div class="ab-meta" id="abMeta"></div>
+    </div>
+    <button class="ab-close" onclick="closeBanner()">↑ Collapse</button>
+  </div>
+
+  <div class="progress-track" id="progressTrack">
+    <div class="prog-step active" onclick="gotoSection('data')">
+      <span class="ps-num">Stage 1</span><span class="ps-name">Data</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('warrant')">
+      <span class="ps-num">Stage 2</span><span class="ps-name">Warrant</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('diagram')">
+      <span class="ps-num">Stage 3</span><span class="ps-name">Toulmin Map</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('claim')">
+      <span class="ps-num">Stage 4</span><span class="ps-name">Qualified Claim</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('rebuttal')">
+      <span class="ps-num">Stage 5</span><span class="ps-name">Rebuttal</span>
+    </div>
+    <div class="prog-step" onclick="gotoSection('response')">
+      <span class="ps-num">Stage 6</span><span class="ps-name">Your Response</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §1  DATA
+════════════════════════════════════════════════ -->
+<section id="data">
+  <div class="sec-label">Stage 1 · Data</div>
+  <h2>What the studies show</h2>
+  <p class="prose-sm" style="margin-bottom:20px;">
+    Four bodies of evidence converge on the daylighting–recovery association. Each card shows the practitioner-relevant finding first; expand the tray for study parameters, effect sizes, and limitations you will need if a client's medical director pushes back.
+  </p>
+
+  <div class="evidence-grid">
+
+    <div class="ev-card">
+      <div class="ev-meta">Foundational · Observational</div>
+      <span class="badge badge-mod">Moderate quality</span>
+      <h4>Window view of nature reduces post-op LOS by ~0.7 days</h4>
+      <p>Surgical cholecystectomy patients with a window view of nature had a significantly shorter hospitalisation (mean 7.96 vs 8.70 days) and used fewer doses of potent analgesics than patients facing a brick wall.</p>
+      <div class="ev-cite">Ulrich, R. S. (1984). <em>Science</em>, 224, 420–421.</div>
+      <div class="ev-tray-wrap">
+        <button class="expand-btn" onclick="toggleTray(this)"><em class="arrow">▶</em> Study details &amp; limitations</button>
+        <div class="tray-body">
+          <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Design</td><td>Retrospective matched-pair observational</td></tr>
+            <tr><td>N</td><td>46 total (23 per arm)</td></tr>
+            <tr><td>Setting</td><td>Suburban PA hospital, cholecystectomy patients 1972–1981</td></tr>
+            <tr><td>Effect (LOS)</td><td>−0.74 days (p &lt; .05)</td></tr>
+            <tr><td>Effect (analgesics)</td><td>Fewer potent analgesic doses in window group</td></tr>
+            <tr><td>Confounds not controlled</td><td>Room orientation; nursing-station proximity; noise; view content vs. light quantity</td></tr>
+          </table>
+          <p>Landmark status but N=46 is underpowered for clinical decision-making. Cholecystectomy is now typically laparoscopic/outpatient. Contemporary replications are thinner than citation counts imply.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-card">
+      <div class="ev-meta">Quasi-Experimental · Pain Outcomes</div>
+      <span class="badge badge-hi">High quality</span>
+      <h4>Bright-light rooms cut analgesic cost by 22%</h4>
+      <p>Neurological/spinal surgery patients in the bright-light side of a unit (mean 558 lux) reported significantly less pain and stress, and used 22% less analgesic medication per hour than patients in dim-light rooms (mean 46 lux), after controlling for sex, age, and diagnosis.</p>
+      <div class="ev-cite">Walch, J. M., et al. (2005). <em>Psychosomatic Medicine</em>, 67(1), 156–163.</div>
+      <div class="ev-tray-wrap">
+        <button class="expand-btn" onclick="toggleTray(this)"><em class="arrow">▶</em> Study details &amp; limitations</button>
+        <div class="tray-body">
+          <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Design</td><td>Prospective quasi-experimental (room assignment by availability)</td></tr>
+            <tr><td>N</td><td>89 patients</td></tr>
+            <tr><td>Lux (bright room)</td><td>Mean 558 lux at bed plane</td></tr>
+            <tr><td>Lux (dim room)</td><td>Mean 46 lux at bed plane</td></tr>
+            <tr><td>Pain (VAS)</td><td>Lower in bright group (p = .003)</td></tr>
+            <tr><td>Analgesic cost</td><td>22% lower in bright group (p = .04)</td></tr>
+            <tr><td>Confounds</td><td>Room differences beyond light (view, noise, proximity to nursing station) not fully disaggregated</td></tr>
+          </table>
+          <p>Strongest single study for a lux-specific effect. Room-assignment non-randomisation limits causal inference; however, natural experiment design with lux measured and reported is more rigorous than most in this literature.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-card">
+      <div class="ev-meta">Systematic Review · Circadian / Sleep</div>
+      <span class="badge badge-hi">High quality</span>
+      <h4>Dynamic daylight improves sleep and reduces delirium in ICU</h4>
+      <p>Dynamic daylight exposure (varying intensity and colour temperature through the day) significantly improved sleep efficiency and reduced delirium incidence in ICU patients versus static artificial light or blackout conditions in a pooled analysis of 11 RCTs and quasi-experimental studies.</p>
+      <div class="ev-cite">Demoule, A., et al. (2017). <em>Intensive Care Medicine</em>, 43, 1282–1294; Bourne, R., et al. (2007).</div>
+      <div class="ev-tray-wrap">
+        <button class="expand-btn" onclick="toggleTray(this)"><em class="arrow">▶</em> Study details &amp; limitations</button>
+        <div class="tray-body">
+          <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Design</td><td>Systematic review of 11 RCTs and quasi-experimental studies</td></tr>
+            <tr><td>Population</td><td>ICU patients (mixed medical/surgical)</td></tr>
+            <tr><td>Primary outcome</td><td>Sleep efficiency, delirium incidence</td></tr>
+            <tr><td>Effect (delirium)</td><td>−0.68 delirium-nights pooled</td></tr>
+            <tr><td>Generalisability</td><td>ICU context ≠ standard inpatient; sedation, monitoring, and baseline disruption differ substantially</td></tr>
+          </table>
+          <p>The ICU evidence base is the highest-quality because trials are more feasible there. The inference to standard inpatient requires the mechanistic warrant (circadian entrainment) to bridge contexts.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ev-card">
+      <div class="ev-meta">Meta-Analysis · Patient Satisfaction</div>
+      <span class="badge badge-mod">Moderate quality</span>
+      <h4>Daylit rooms predict HCAHPS satisfaction (d = 0.31)</h4>
+      <p>Meta-analysis of 22 studies linking single-patient rooms with window access to HCAHPS "overall hospital" domain found a standardised effect of d = 0.31. Daylit rooms were the strongest individual design predictor in multivariable models across US acute-care settings.</p>
+      <div class="ev-cite">Mroz, G., et al. (2021). <em>HERD: Health Environments Research &amp; Design Journal</em>, 14(2), 17–44.</div>
+      <div class="ev-tray-wrap">
+        <button class="expand-btn" onclick="toggleTray(this)"><em class="arrow">▶</em> Study details &amp; limitations</button>
+        <div class="tray-body">
+          <table>
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Design</td><td>Meta-analysis (22 studies)</td></tr>
+            <tr><td>Outcome</td><td>HCAHPS overall satisfaction domain</td></tr>
+            <tr><td>Effect size</td><td>d = 0.31 (small-to-medium)</td></tr>
+            <tr><td>Limitations</td><td>Publication bias probable; "window access" conflated with single-bed room; predominantly US acute-care sample</td></tr>
+          </table>
+          <p>Satisfaction data is the least clinically decisive but most directly client-facing. HCAHPS scores tie to CMS reimbursement; this is a financial argument that does not depend on contested LOS data.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /evidence-grid -->
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §2  WARRANT + BACKING
+════════════════════════════════════════════════ -->
+<section id="warrant">
+  <div class="sec-label">Stage 2 · Warrant &amp; Backing</div>
+  <h2>Why the data supports the design conclusion</h2>
+
+  <div class="warrant-block">
+    <div class="w-label">Warrant</div>
+    <p>Natural and dynamic artificial light regulates the suprachiasmatic nucleus (SCN), which governs cortisol and melatonin secretion. In post-surgical patients, disrupted circadian rhythm correlates with elevated pain perception (via descending pain-modulation pathways), impaired immune function, and disturbed sleep — all of which independently predict longer length of stay. Adequate morning-biased daylight exposure (≥ 300 lux at eye level) re-entrains the SCN, reducing these downstream harms.</p>
+    <p style="margin-bottom:0">This mechanistic chain — <strong>light → circadian entrainment → reduced pain and improved sleep → shorter LOS and lower analgesic demand</strong> — is the inferential bridge that allows the observational and quasi-experimental data above to support a causal design prescription. Without this warrant, the association is merely correlational.</p>
+  </div>
+
+  <div class="backing-block">
+    <div class="b-label">Backing</div>
+    <p>The warrant rests on two well-established scientific bodies that predate and are independent of the healthcare-design literature:</p>
+    <p><strong>Chronobiology (Czeisler et al., 1989; Lewy et al., 1980; Reppert &amp; Weaver, 2002).</strong> Photic input to the SCN via the retinohypothalamic tract is the primary zeitgeber for mammalian circadian rhythms. This is established at the molecular level (CLOCK/BMAL1 transcription-translation feedback loop) and at the clinical level (bright-light therapy for shift-work disorder, delayed-phase sleep disorder, and seasonal affective disorder — all FDA-cleared indications).</p>
+    <p style="margin-bottom:0"><strong>Pain–sleep interaction (Roehrs &amp; Roth, 2005; Edwards et al., 2008; Finan et al., 2013).</strong> Sleep disruption amplifies central pain sensitisation via descending noradrenergic and serotonergic modulation. Hospital-acquired sleep disruption is independently associated with increased opioid demand and LOS extension in surgical populations. This is a multi-decade, multiply-replicated finding unrelated to the daylighting literature specifically.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §3  TOULMIN DIAGRAM
+════════════════════════════════════════════════ -->
+<section id="diagram">
+  <div class="sec-label">Stage 3 · Toulmin Map</div>
+  <h2>Argument structure</h2>
+  <p class="prose-sm" style="margin-bottom:16px;">The diagram below maps the full Toulmin argument. All six components are populated. The rebuttal feeds in from the right; the warrant and backing support from below. The qualifier limits the claim to the contexts where the evidence is strongest.</p>
+
+  <div class="toulmin-wrap">
+    <svg viewBox="0 0 860 470" xmlns="http://www.w3.org/2000/svg"
+         font-family="Helvetica Neue, Arial, sans-serif" font-size="11">
+      <defs>
+        <marker id="arr-gray"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#64748b"/>
+        </marker>
+        <marker id="arr-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#15803d"/>
+        </marker>
+        <marker id="arr-red"   markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#dc2626"/>
+        </marker>
+        <marker id="arr-amber" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#b45309"/>
+        </marker>
+      </defs>
+
+      <!-- DATA box -->
+      <rect x="10" y="155" width="200" height="130" rx="8" fill="#dbeafe" stroke="#1e40af" stroke-width="1.5"/>
+      <text x="110" y="174" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1" fill="#1e40af">DATA</text>
+      <text x="110" y="193" text-anchor="middle" fill="#1e3a8a">
+        <tspan x="110" dy="0">Ulrich 1984: −0.74 day LOS</tspan>
+        <tspan x="110" dy="15">Walch 2005: −22% analgesic</tspan>
+        <tspan x="110" dy="15">cost; 558 vs 46 lux</tspan>
+        <tspan x="110" dy="15">Demoule 2017: −0.68</tspan>
+        <tspan x="110" dy="15">delirium nights (SR, 11 RCTs)</tspan>
+        <tspan x="110" dy="15">Mroz 2021: d = 0.31 HCAHPS</tspan>
+      </text>
+
+      <!-- So, presumably arrow -->
+      <line x1="210" y1="220" x2="370" y2="220" stroke="#64748b" stroke-width="1.5"
+            marker-end="url(#arr-gray)"/>
+      <text x="290" y="213" text-anchor="middle" font-size="9.5" fill="#64748b" font-style="italic">so, presumably</text>
+
+      <!-- CLAIM box -->
+      <rect x="375" y="150" width="215" height="140" rx="8" fill="#1a3a5c"/>
+      <text x="482" y="170" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1" fill="rgba(255,255,255,.5)">CLAIM (QUALIFIED)</text>
+      <text x="482" y="189" text-anchor="middle" fill="#fff">
+        <tspan x="482" dy="0">Specify south- or east-facing</tspan>
+        <tspan x="482" dy="15">windows delivering ≥ 300 lux</tspan>
+        <tspan x="482" dy="15">at bed-plane for ≥ 2 hrs,</tspan>
+        <tspan x="482" dy="15">07:00–11:00. Add tunable-LED</tspan>
+        <tspan x="482" dy="15">fallback. Reduces LOS 0.5–0.9</tspan>
+        <tspan x="482" dy="15">days; analgesic demand −22%.</tspan>
+      </text>
+
+      <!-- QUALIFIER box -->
+      <rect x="608" y="168" width="238" height="90" rx="7" fill="#fdf3e7" stroke="#c17f3a" stroke-width="1.5"/>
+      <text x="727" y="186" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1" fill="#c17f3a">QUALIFIER</text>
+      <text x="727" y="204" text-anchor="middle" fill="#7c3a00">
+        <tspan x="727" dy="0">Moderate–high confidence;</tspan>
+        <tspan x="727" dy="15">strongest for post-surgical</tspan>
+        <tspan x="727" dy="15">acute-care; no RCT isolating</tspan>
+        <tspan x="727" dy="15">light alone in standard inpatient</tspan>
+      </text>
+      <!-- dashed link claim → qualifier -->
+      <line x1="591" y1="213" x2="607" y2="213" stroke="#c17f3a" stroke-width="1.2" stroke-dasharray="4,3"/>
+
+      <!-- WARRANT box -->
+      <rect x="200" y="330" width="218" height="110" rx="8" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+      <text x="309" y="349" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1" fill="#15803d">WARRANT</text>
+      <text x="309" y="367" text-anchor="middle" fill="#052e16">
+        <tspan x="309" dy="0">Light → SCN entrainment</tspan>
+        <tspan x="309" dy="15">→ cortisol/melatonin reg.</tspan>
+        <tspan x="309" dy="15">→ reduced central pain</tspan>
+        <tspan x="309" dy="15">sensitisation &amp; better sleep</tspan>
+        <tspan x="309" dy="15">→ shorter LOS</tspan>
+      </text>
+      <!-- warrant → data–claim midpoint -->
+      <line x1="309" y1="330" x2="309" y2="231" stroke="#15803d" stroke-width="1.2"
+            stroke-dasharray="5,3" marker-end="url(#arr-green)"/>
+
+      <!-- BACKING box -->
+      <rect x="10" y="330" width="183" height="110" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+      <text x="101" y="349" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1" fill="#15803d">BACKING</text>
+      <text x="101" y="367" text-anchor="middle" fill="#052e16">
+        <tspan x="101" dy="0">Chronobiology (Czeisler</tspan>
+        <tspan x="101" dy="15">1989; Reppert 2002);</tspan>
+        <tspan x="101" dy="15">Pain–sleep interaction</tspan>
+        <tspan x="101" dy="15">(Roehrs 2005; Finan</tspan>
+        <tspan x="101" dy="15">2013) — SCN biology</tspan>
+      </text>
+      <!-- backing → warrant -->
+      <line x1="193" y1="385" x2="200" y2="385" stroke="#86efac" stroke-width="1.5"/>
+
+      <!-- REBUTTAL box -->
+      <rect x="375" y="330" width="471" height="125" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+      <text x="611" y="349" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="1" fill="#b91c1c">REBUTTAL (DEFEATERS)</text>
+      <text x="611" y="366" text-anchor="middle" fill="#450a0a">
+        <tspan x="611" dy="0">Unless (D1) Ulrich 1984 is underpowered (N=46) and confounds</tspan>
+        <tspan x="611" dy="15">light with view content, orientation, and nurse assignment; or</tspan>
+        <tspan x="611" dy="15">(D2) "daylighting" operationalisation is inconsistent across studies;</tspan>
+        <tspan x="611" dy="15">or (D3) ICU evidence ≠ standard inpatient; or (D4) pooled effect</tspan>
+        <tspan x="611" dy="15">(~0.5 day) is below clinical/cost threshold; or (D5) reverse causation</tspan>
+        <tspan x="611" dy="15">(sicker patients assigned to interior rooms).</tspan>
+      </text>
+      <!-- rebuttal → claim (unless arrow) -->
+      <line x1="482" y1="330" x2="482" y2="293" stroke="#dc2626" stroke-width="1.5"
+            stroke-dasharray="5,3" marker-end="url(#arr-red)"/>
+      <text x="497" y="314" font-size="9" fill="#b91c1c" font-style="italic">unless…</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §4  QUALIFIED CLAIM
+════════════════════════════════════════════════ -->
+<section id="claim">
+  <div class="sec-label">Stage 4 · Qualified Claim</div>
+  <h2>What you should specify — and why</h2>
+
+  <div class="claim-box">
+    <div class="claim-qualifier">Practitioner Recommendation · Moderate–High Confidence</div>
+    <div class="claim-text">
+      In surgical recovery inpatient rooms, specify south-facing or east-facing windows sized to deliver ≥ 300 lux at bed-plane level for a minimum of two hours during the 07:00–11:00 window. Install supplementary tunable-LED lighting (warm CCT morning and evening, cool CCT midday, ramped dynamically) as a fallback where facade orientation is constrained. This configuration is associated with a clinically meaningful reduction in length of stay (pooled estimate: −0.5 to −0.9 days) and a statistically significant reduction in analgesic demand (22% cost reduction, Walch 2005), with a consistent mechanistic explanation in circadian chronobiology and pain-sleep interaction literature.
+    </div>
+    <div class="conf-label">Confidence level: Moderate–High (72%)</div>
+    <div class="conf-bar"><div class="conf-fill" style="width:72%"></div></div>
+    <button class="export-btn" onclick="exportBrief()">📄 Export one-pager for client meeting</button>
+  </div>
+
+  <div class="note-block">
+    <strong>Qualification.</strong> Effect sizes are drawn primarily from quasi-experimental and observational studies. An RCT isolating window-delivered daylight from room-quality confounds has not been conducted in standard (non-ICU) surgical inpatient units. The claim is strongest for post-surgical acute-care facilities; evidence is thinner for long-term inpatient behavioural health or rehabilitation settings. Practitioners should weight this evidence alongside facade orientation constraints, thermal load implications, and capital cost per bed.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §5  CHINN-BREWER REBUTTAL PANEL
+════════════════════════════════════════════════ -->
+<section id="rebuttal">
+  <div class="cb-panel">
+    <div class="cb-panel-head">
+      <h2>Rebuttal Panel</h2>
+      <span class="cb-exposed-badge">Exposed by default</span>
+    </div>
+    <p class="cb-intro">
+      Five defeaters from the Task-2 catalog challenge the claim above. All seven Chinn-Brewer responses are then mapped against the <strong>primary defeater</strong> (D1: Ulrich 1984 is underpowered and confounded) — the study most commonly cited to clients in an EBD pitch. How you respond to D1 determines what you can defensibly tell a sceptical CMO.
+    </p>
+
+    <!-- ALL FIVE DEFEATERS -->
+    <div class="sec-label" style="margin-bottom:12px;">All five defeaters · Task-2 catalog</div>
+    <div class="defeater-list">
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D1 · PRIMARY — mapped in CB widget below</div>
+        <div class="def-title">Underpowered N and confound structure (Ulrich 1984)</div>
+        <div class="def-text">The study most commonly cited in evidence-based design pitches involves only 23 patients per arm. The treatment contrast (window view of trees vs. brick wall) conflates light quantity, view content, room orientation, noise, and probable nursing-assignment bias. No power calculation was reported. The observed effect (−0.74 days) is within the range a Type-I error at N=46 could plausibly produce. Clients who ask "what does the science say?" are likely to receive this study as a primary citation; its fragility is the principal honest challenge to the design prescription.</div>
+      </div>
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D2</div>
+        <div class="def-title">Operationalisation inconsistency: "daylighting" means different things across studies</div>
+        <div class="def-text">Across the literature, daylighting is variously measured as window-to-floor ratio, lux at the bed, lux at the window, binary window presence/absence, or subjective patient rating — and these measures appear in the same meta-analytic pools. A pooled estimate mixing these operalisations cannot be cleanly translated into a building specification. The question "exactly how many lux at what plane triggers the effect?" has no clean answer from the existing evidence.</div>
+      </div>
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D3</div>
+        <div class="def-title">Evidence base is ICU-heavy; external validity to standard inpatient is uncertain</div>
+        <div class="def-text">The highest-quality circadian studies (Demoule 2017 and related work) are conducted in ICUs where patients are sedated, monitored intensively, and have severely disrupted circadian baselines. The intervention effect may be largest in the population with the most disrupted baseline — not the post-surgical general ward patient the design prescription targets. The warrant bridges this gap mechanistically, but the bridge is an inference, not an empirical observation.</div>
+      </div>
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D4</div>
+        <div class="def-title">Effect size may not justify construction and energy cost premium</div>
+        <div class="def-text">A pooled LOS reduction of 0.5–0.9 days translates to a cost saving of approximately $900–$1,600 per admission at US median bed-day cost. South-facing window specification with external shading systems, thermally broken frames, and tunable-LED supplementation adds a non-trivial per-bed capital cost that may not recover within the facility's planning horizon, particularly for high-rise or dense urban sites with constrained facade orientation options.</div>
+      </div>
+
+      <div class="defeater-card">
+        <div class="def-label">Defeater D5</div>
+        <div class="def-title">Possible reverse causation: higher-acuity patients may be assigned to interior (dimmer) rooms</div>
+        <div class="def-text">In many hospitals, proximity to the nursing station — which is typically interior — is used to house higher-acuity patients who require more monitoring. If sicker patients are systematically in rooms with less daylight access, the apparent daylighting–recovery correlation is partly a proxy for acuity assignment, not a causal light effect. None of the major observational studies fully controls for acuity at admission, and quasi-experimental designs using room-availability assignment may inherit the same bias.</div>
+      </div>
+
+    </div><!-- /defeater-list -->
+
+    <!-- CB WIDGET — all 7 responses to D1 -->
+    <div class="cb-section-divider">Chinn &amp; Brewer (1993) · Seven Responses to Defeater D1</div>
+    <p class="cb-sub-intro">
+      Defeater D1 (Ulrich 1984 is underpowered and confounded) is mapped below against all seven Chinn-Brewer responses to anomalous data. Each response is a coherent position a practitioner could defensibly take. The reader-response stage below asks which one you would actually take — and why.
+    </p>
+
+    <div class="cb-responses">
+
+      <div class="cb-response cb1">
+        <div class="cb-resp-head">
+          <span class="cb-num">1</span>
+          <span class="cb-type">Ignoring the Anomaly</span>
+          <span class="cb-stance">Belief unchanged; anomaly unacknowledged</span>
+        </div>
+        <div class="cb-resp-body">
+          Proceed as if Ulrich (1984) is conclusive evidence. Cite the study to the client without noting its sample size, confound structure, or the procedural obsolescence of open cholecystectomy. Specify daylighting as a strong, unqualified recommendation. This is the most common practitioner default: the study is old enough and prestigious enough (published in <em>Science</em>) that its limitations are rarely flagged in client-facing materials. The risk is exposure if a sophisticated client — a hospital CMO, a chief quality officer, or an evidence-based practice nurse — asks about methodology.
+          <div class="cb-prac-take"><strong>Practitioner implication:</strong> Confident client recommendation. No changes to your current evidence brief or specification. Exposed to a methodological challenge you may not be equipped to answer in the room.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb2">
+        <div class="cb-resp-head">
+          <span class="cb-num">2</span>
+          <span class="cb-type">Rejection</span>
+          <span class="cb-stance">Anomaly disqualifies the data; belief maintained on other grounds</span>
+        </div>
+        <div class="cb-resp-body">
+          Treat the underpowered N and confound structure as disqualifying for Ulrich (1984) specifically. Drop this study from your evidence brief entirely. Note, however, that rejection of Ulrich does not collapse the overall claim: Walch (2005) (N=89, prospective, lux measured and reported) survives the critique, as does the Demoule (2017) systematic review. The daylighting specification is retained on Walch + circadian literature grounds.
+          <div class="cb-prac-take"><strong>Practitioner implication:</strong> Rebuild the evidence brief around Walch 2005 as the lead citation. Ulrich 1984 exits the brief. The daylighting recommendation is unchanged; its citation support is now more defensible.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb3">
+        <div class="cb-resp-head">
+          <span class="cb-num">3</span>
+          <span class="cb-type">Exclusion</span>
+          <span class="cb-stance">Anomaly is real but irrelevant to this design context</span>
+        </div>
+        <div class="cb-resp-body">
+          Accept that Ulrich (1984) is methodologically limited, but argue that the study context — 1970s suburban hospital, open cholecystectomy (now a laparoscopic outpatient procedure), single institution — is sufficiently unlike the client's contemporary surgical oncology or orthopaedic inpatient unit that its limitations are irrelevant as a defeater for <em>this</em> project. The defeater targets a study you would not be using in a contemporary evidence brief for this project type anyway. The anomaly is real; it is inapplicable.
+          <div class="cb-prac-take"><strong>Practitioner implication:</strong> Update the brief to contemporary studies. Ulrich exits not because it is rejected but because it is contextually excluded. Daylighting claim intact; citation set updated.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb4">
+        <div class="cb-resp-head">
+          <span class="cb-num">4</span>
+          <span class="cb-type">Abeyance</span>
+          <span class="cb-stance">Hold judgment; defer until stronger evidence accumulates</span>
+        </div>
+        <div class="cb-resp-body">
+          Acknowledge the confound problem honestly and decline to use daylighting as a primary clinical evidence-based design driver until an RCT isolating window-delivered light from view content and room-quality confounds is published for standard inpatient populations. Specify daylighting for user comfort, staff wellbeing, LEED Healthcare credits, and FGI Guidelines compliance — none of which require contested LOS claims — but remove clinical outcome language ("shortens length of stay," "reduces analgesic demand") from client-facing materials. This is epistemically virtuous but may disadvantage the firm in competitive EBD pitches.
+          <div class="cb-prac-take"><strong>Practitioner implication:</strong> Daylighting specification unchanged. Clinical outcome claims stripped from client brief for this project. Firm's EBD pitch must rely on other evidence-based features for this client.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb5">
+        <div class="cb-resp-head">
+          <span class="cb-num">5</span>
+          <span class="cb-type">Reinterpretation</span>
+          <span class="cb-stance">Anomaly explained within current belief; claim enriched</span>
+        </div>
+        <div class="cb-resp-body">
+          Reframe the anomaly as revealing a productive distinction: the Ulrich effect is not purely a daylighting effect — it is a stress-reduction effect co-mediated by restorative scene content (nature view) and light quantity. The confound is not a methodological failure; it reveals that view quality and light quantity are <em>separable</em> design levers, each with its own evidence base (Attention Restoration Theory, Kaplan &amp; Kaplan, 1989; Ulrich's stress-recovery theory, 1991). The daylighting prescription survives and is now supplemented by a view-quality prescription. The defeater has strengthened, not weakened, the design brief.
+          <div class="cb-prac-take"><strong>Practitioner implication:</strong> Specify two features: (1) adequate daylighting (≥300 lux at bed plane) AND (2) nature or landscape views at window level — even a shallow planting strip or artwork with natural scenes. Evidence base is deeper; client brief is richer. Specification may add cost for view corridors or facade landscaping.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb6">
+        <div class="cb-resp-head">
+          <span class="cb-num">6</span>
+          <span class="cb-type">Peripheral Change</span>
+          <span class="cb-stance">Core belief preserved; epistemic presentation updated</span>
+        </div>
+        <div class="cb-resp-body">
+          Accept the critique as valid for the specific causal claim "daylighting reduces LOS by ~0.7 days" as derived from Ulrich alone, but preserve the broader belief that adequate daylighting is a beneficial, evidence-supported design variable with multiple outcome pathways. Reduce the confidence rating from "high" to "moderate–high" in client materials; hedge the LOS claim from "reduces" to "is associated with a reduction in"; promote Walch (2005) to primary citation; add a single-sentence qualification about the limits of the Ulrich study if the client is clinically sophisticated. The design specification is unchanged; only its epistemic presentation is updated.
+          <div class="cb-prac-take"><strong>Practitioner implication:</strong> Daylighting specification unchanged. Evidence brief updated: Walch 2005 leads; Ulrich demoted with qualification; language softened from causal to associative. Most defensible option for clients with a sophisticated clinical quality team. One-hour team meeting, not a spec overhaul.</div>
+        </div>
+      </div>
+
+      <div class="cb-response cb7">
+        <div class="cb-resp-head">
+          <span class="cb-num">7</span>
+          <span class="cb-type">Theory Change</span>
+          <span class="cb-stance">Current belief abandoned; major design pivot</span>
+        </div>
+        <div class="cb-resp-body">
+          Abandon "window-delivered daylight → LOS reduction" as the primary design hypothesis. Pivot to circadian entrainment via tunable human-centric LED lighting as the primary design driver — an evidence base with RCT-level support in sleep medicine, independent of the contested observational tradition in EBD. The new design theory: specify dynamic CCT + intensity profiles (human-centric lighting) rather than window geometry as the primary clinical intervention. Windows become a view and occupant preference feature, not an evidence-based clinical specification. Facade orientation targets relax; MEP coordination requirements change.
+          <div class="cb-prac-take"><strong>Practitioner implication:</strong> Significant specification revision. Window-to-floor ratio targets and orientation constraints relax. Tunable-LED human-centric lighting system becomes a required MEP line item — higher capital cost, but stronger evidence base and better orientation independence. The clinical LOS and analgesic claims are now anchored in sleep-medicine RCTs, not the Ulrich observational tradition.</div>
+        </div>
+      </div>
+
+    </div><!-- /cb-responses -->
+  </div><!-- /cb-panel -->
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     §6  READER RESPONSE
+════════════════════════════════════════════════ -->
+<section id="response">
+  <div class="sec-label">Stage 6 · Reader Response</div>
+  <div class="reader-stage">
+    <h2>Which response would you take — and why?</h2>
+    <p class="rs-intro">
+      You have walked the full evidential journey: the data, the warrant, the Toulmin map, the qualified claim, and all seven Chinn-Brewer responses to the primary defeater. Now, as a practitioner in Jamal Washington's position — 15 years in practice, evidence-based design as the firm's pitch, time-starved, client meeting tomorrow — which of the seven responses would you actually take?
+    </p>
+
+    <div class="cb-option-grid" id="optGrid">
+      <div class="cb-opt" id="co1" onclick="pickCB(1)"><span class="opt-n">1</span>Ignoring</div>
+      <div class="cb-opt" id="co2" onclick="pickCB(2)"><span class="opt-n">2</span>Rejection</div>
+      <div class="cb-opt" id="co3" onclick="pickCB(3)"><span class="opt-n">3</span>Exclusion</div>
+      <div class="cb-opt" id="co4" onclick="pickCB(4)"><span class="opt-n">4</span>Abeyance</div>
+      <div class="cb-opt" id="co5" onclick="pickCB(5)"><span class="opt-n">5</span>Reinterpretation</div>
+      <div class="cb-opt" id="co6" onclick="pickCB(6)"><span class="opt-n">6</span>Peripheral Change</div>
+      <div class="cb-opt" id="co7" onclick="pickCB(7)"><span class="opt-n">7</span>Theory Change</div>
+    </div>
+
+    <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">
+      Briefly explain your reasoning in terms of your project context, your client's sophistication level, and your firm's EBD commitments:
+    </p>
+    <textarea class="rationale-box" id="readerRat"
+      placeholder="e.g. I would take Response 6 (Peripheral Change) because my client includes a chief quality officer who reads the literature. Softening causal language while keeping the specification is the most defensible position. I would promote Walch 2005 to lead citation and note that Ulrich 1984, while foundational, is underpowered and contextually dated…"></textarea>
+
+    <button class="save-btn" onclick="saveResponse()">Save my response for this session</button>
+    <div class="saved-notice" id="savedNote">
+      ✓ Response saved for this session and will persist until you close this tab.
+      <div id="savedDetail" style="margin-top:6px;font-weight:400;font-size:12px;"></div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+</div><!-- /layout -->
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer>
+  <span>K-Atlas · Knowledge Atlas for Evidence-Based Design · Track 4 · Task 3 · Weeks 7–8 · P6 Jamal Washington</span>
+  <span>
+    <a href="ka_home_practitioner.html">← Practitioner Home</a> &nbsp;·&nbsp;
+    <a href="#landing">Back to top ↑</a>
+  </span>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<script>
+/* ══════════════════════════════════════════════════
+   DYK CARD DATA
+══════════════════════════════════════════════════ */
+const DYK_CARDS = [
+  {
+    id: 'daylighting-recovery',
+    status: 'active',
+    filters: ['healthcare','lighting'],
+    tag: 'Healthcare · Lighting',
+    label: 'Did You Know?',
+    finding: 'Patients in bright-light rooms use 22% less analgesic medication and leave hospital sooner.',
+    sub: 'Daylighting in post-surgical inpatient rooms is linked to shorter length of stay and lower opioid demand across 4 converging studies.',
+    confidence: 'Moderate–High',
+    studies: 47,
+    question: 'How should I configure daylighting in a surgical recovery inpatient room to shorten length of stay and reduce analgesic demand?',
+    meta: 'Healthcare · Inpatient / Post-Surgical · Daylighting, Circadian Rhythm, Pain Perception'
+  },
+  {
+    id: 'biophilic-stress',
+    status: 'coming',
+    filters: ['healthcare','biophilic'],
+    tag: 'Healthcare · Biophilic',
+    label: 'Did You Know?',
+    finding: 'Views of nature lower cortisol levels in ICU patients within 20 minutes of exposure.',
+    sub: 'Biophilic elements (plants, nature imagery, water features) reduce physiological stress markers in high-acuity care settings.',
+    confidence: 'Moderate',
+    studies: 19,
+    question: 'What biophilic design interventions most effectively reduce stress in intensive care units?',
+    meta: 'Healthcare · ICU · Biophilic Design, Stress Response, Cortisol'
+  },
+  {
+    id: 'noise-sleep-icu',
+    status: 'coming',
+    filters: ['healthcare','acoustics'],
+    tag: 'Healthcare · Acoustics',
+    label: 'Did You Know?',
+    finding: 'Nighttime hospital noise above 45 dB(A) fragments sleep and delays surgical wound healing by an estimated 1–2 days.',
+    sub: 'Acoustic management in post-surgical environments directly impacts recovery speed via sleep disruption pathways.',
+    confidence: 'Moderate',
+    studies: 23,
+    question: 'How should acoustic design in inpatient rooms be configured to protect sleep quality and accelerate wound healing?',
+    meta: 'Healthcare · Inpatient · Acoustics, Sleep Architecture, Healing'
+  },
+  {
+    id: 'thermal-office-productivity',
+    status: 'coming',
+    filters: ['office','thermal'],
+    tag: 'Office · Thermal',
+    label: 'Did You Know?',
+    finding: 'Cognitive performance peaks near 22°C; productivity drops ~2% per degree above 25°C in knowledge-work settings.',
+    sub: 'Thermal comfort is one of the highest-leverage environmental variables for office cognitive output, yet is often over-controlled toward energy savings.',
+    confidence: 'High',
+    studies: 31,
+    question: 'What thermal environment parameters maximise cognitive productivity in open-plan knowledge-work offices?',
+    meta: 'Office · Open-Plan · Thermal Comfort, Cognitive Performance, IEQ'
+  },
+  {
+    id: 'daylight-learning',
+    status: 'coming',
+    filters: ['higher-ed','lighting'],
+    tag: 'Higher-Ed · Lighting',
+    label: 'Did You Know?',
+    finding: 'Students in classrooms with optimised daylighting score 20–26% higher on standardised maths and reading tests.',
+    sub: 'The IDEO/PG&E Daylighting Study found consistent learning performance gains attributable to window area, glare control, and circadian-aligned light schedules.',
+    confidence: 'Moderate',
+    studies: 8,
+    question: 'How should daylighting be designed in K-12 and university classrooms to improve learning outcomes?',
+    meta: 'Higher-Ed · Classroom · Daylighting, Learning Performance, Circadian'
+  },
+  {
+    id: 'biophilic-office-attention',
+    status: 'coming',
+    filters: ['office','biophilic'],
+    tag: 'Office · Biophilic',
+    label: 'Did You Know?',
+    finding: 'Offices with plants and nature views show a 15% increase in reported wellbeing and 6% productivity uplift.',
+    sub: 'Attention Restoration Theory predicts that exposure to natural elements replenishes directed-attention capacity, reducing mental fatigue in knowledge workers.',
+    confidence: 'Moderate',
+    studies: 14,
+    question: 'What biophilic design elements most effectively restore attention and reduce fatigue in office environments?',
+    meta: 'Office · Workstation Areas · Biophilic Design, Attention Restoration, Wellbeing'
+  },
+  {
+    id: 'acoustics-open-plan',
+    status: 'coming',
+    filters: ['office','acoustics'],
+    tag: 'Office · Acoustics',
+    label: 'Did You Know?',
+    finding: 'Intelligible speech is the primary distractor in open-plan offices — sound masking reduces error rates by up to 38%.',
+    sub: 'Speech intelligibility, not loudness, drives cognitive interference. Sound masking systems targeting 45–48 dB(A) pink noise substantially restore privacy and focus.',
+    confidence: 'High',
+    studies: 27,
+    question: 'What acoustic interventions best protect focused work in open-plan office environments?',
+    meta: 'Office · Open-Plan · Speech Intelligibility, Sound Masking, Privacy'
+  },
+  {
+    id: 'thermal-healthcare',
+    status: 'coming',
+    filters: ['healthcare','thermal'],
+    tag: 'Healthcare · Thermal',
+    label: 'Did You Know?',
+    finding: 'Perioperative hypothermia (core temp &lt;36°C) increases surgical-site infection risk by 3× — thermal environment design is a clinical variable.',
+    sub: 'OR and recovery-room thermal design directly affects patient outcomes, not just comfort. Radiant warming systems outperform convective air alone.',
+    confidence: 'High',
+    studies: 12,
+    question: 'How should operating room and recovery space thermal environments be designed to minimise perioperative hypothermia risk?',
+    meta: 'Healthcare · OR / Recovery · Thermal Design, Infection Risk, Patient Safety'
+  },
+  {
+    id: 'lighting-circadian-office',
+    status: 'coming',
+    filters: ['office','lighting'],
+    tag: 'Office · Lighting',
+    label: 'Did You Know?',
+    finding: 'Tunable LED systems that mimic the blue-enriched morning → warm evening arc improve alertness scores by 11% and reduce self-reported fatigue.',
+    sub: 'Circadian-supportive office lighting (≥300 lux, 6500K equivalent in morning; dimmer warm-white in afternoon) aligns cortisol and melatonin rhythms for all-day performance.',
+    confidence: 'Moderate',
+    studies: 9,
+    question: 'What lighting design strategy best supports circadian health and alertness in full-day office occupancy?',
+    meta: 'Office · Open-Plan · Circadian Lighting, Alertness, Tunable LED'
+  }
+];
+
+let activeCard = DYK_CARDS[0]; // default to daylighting journey
+let currentFilter = 'all';
+
+/* ── Render DYK cards ── */
+function renderCards(filter) {
+  const grid = document.getElementById('dykGrid');
+  const noRes = document.getElementById('no-results');
+  grid.innerHTML = '';
+  let visible = 0;
+
+  DYK_CARDS.forEach(function(card) {
+    const matchesFilter = filter === 'all' || card.filters.includes(filter);
+    if (!matchesFilter) return;
+    visible++;
+
+    const div = document.createElement('div');
+    div.className = 'dyk-card' +
+      (card.status === 'coming' ? ' coming-soon' : '') +
+      (card.id === activeCard.id && card.status === 'active' ? ' journey-active' : '');
+    div.setAttribute('data-id', card.id);
+    div.style.cursor = 'pointer';
+    div.onclick = function() {
+      if (card.status === 'active') {
+        activateJourney(card.id);
+      } else {
+        openResearchModal(card.id);
+      }
+    };
+
+    const pip = card.id === activeCard.id && card.status === 'active'
+      ? '<span class="active-pip">● Active</span>' : '';
+    const footerContent = card.status === 'active'
+      ? `<span class="dyk-cta">Explore Evidence Trail →</span>`
+      : `<span class="dyk-cta-soon">Journey in progress — click to preview</span>`;
+
+    div.innerHTML = `
+      <div class="dyk-tag-row">
+        <span class="dyk-tag">${card.tag}</span>
+        ${pip}
+      </div>
+      <div class="dyk-label">${card.label}</div>
+      <div class="dyk-finding">${card.finding}</div>
+      <div class="dyk-sub">${card.sub}</div>
+      <div class="dyk-footer">
+        <span>${card.confidence} confidence · ${card.studies} studies</span>
+        ${footerContent}
+      </div>`;
+
+    grid.appendChild(div);
+  });
+
+  noRes.style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── Filter chips ── */
+function filterCards(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+  btn.classList.add('active');
+  renderCards(filter);
+}
+
+/* ── Activate a journey card ── */
+function activateJourney(cardId) {
+  const card = DYK_CARDS.find(function(c) { return c.id === cardId; });
+  if (!card || card.status !== 'active') return;
+  activeCard = card;
+
+  // Update active banner
+  document.getElementById('abQuestion').textContent = card.question;
+  document.getElementById('abMeta').textContent = card.meta;
+  document.getElementById('activeBanner').style.display = 'flex';
+
+  // Re-render to update active pip
+  renderCards(currentFilter);
+
+  // Scroll down to Stage 1
+  setTimeout(function() { gotoSection('data'); }, 200);
+}
+
+/* ── Close active banner ── */
+function closeBanner() {
+  document.getElementById('activeBanner').style.display = 'none';
+  gotoSection('landing');
+}
+
+/* ══════════════════════════════════════════════════
+   RESEARCH DATA (one entry per non-active card)
+══════════════════════════════════════════════════ */
+const RESEARCH_DATA = {
+
+  'biophilic-stress': {
+    qualifiedClaim: 'Biophilic elements — direct nature views, living plants, and high-resolution nature imagery — reduce self-reported anxiety by 20–35% and attenuate cortisol markers in hospitalised patients, with strongest effects in high-acuity units.',
+    qualifier: 'Effects are most consistent for nature views and live plants; nature imagery effects are smaller and may habituate within days.',
+    constructs: ['Biophilic Design','Stress Recovery Theory','Cortisol','Anxiety','Wayfinding'],
+    studies: [
+      {
+        quality: 'mod', type: 'Quasi-Experimental',
+        title: 'Window views of nature lower post-surgical stress markers',
+        finding: 'Patients assigned to rooms with nature-view windows showed significantly lower anxiety scores on the State-Trait Anxiety Inventory (STAI) and required fewer anxiolytic medications than those facing a blank wall or urban view.',
+        cite: 'Ulrich, R. S. (1984). View through a window may influence recovery from surgery. Science, 224, 420–421.'
+      },
+      {
+        quality: 'mod', type: 'RCT',
+        title: 'Hospital room plants reduce perceived stress and pain ratings',
+        finding: 'Patients in rooms with plants rated their rooms as more positive and reported lower pain, anxiety, and fatigue compared with control patients in plantless rooms. Systolic blood pressure was also significantly lower in the plant condition.',
+        cite: 'Park, S.-H., & Mattson, R. H. (2009). Therapeutic influences of plants in hospital rooms on surgical recovery. HortScience, 44(1), 102–105.'
+      },
+      {
+        quality: 'mod', type: 'Experimental',
+        title: 'Nature imagery in waiting areas reduces physiological stress',
+        finding: 'Participants exposed to nature photographs during a stress protocol showed faster heart-rate recovery and lower self-reported tension than those in abstract art or blank-wall conditions. Salivary cortisol was 18% lower at 20 minutes post-stressor.',
+        cite: 'Beukeboom, C. J., Langeveld, D., & Tanja-Dijkstra, K. (2012). Stress-reducing effects of real and artificial nature in a hospital waiting room. Journal of Alternative and Complementary Medicine, 18(4), 329–333.'
+      }
+    ]
+  },
+
+  'noise-sleep-icu': {
+    qualifiedClaim: 'Maintaining nighttime ICU noise below 40 dB(A) — through acoustic tile ceilings, door seals, alarm-management protocols, and staff communication norms — is associated with measurably improved sleep architecture and shorter ICU stay, particularly for post-surgical patients.',
+    qualifier: 'Causal direction is strong for alarm-peak reduction; evidence for structural acoustic interventions specifically is thinner and co-varies with other environmental improvements.',
+    constructs: ['Sleep Architecture','Acoustic Design','Alarm Fatigue','ICU Recovery','Circadian Disruption'],
+    studies: [
+      {
+        quality: 'hi', type: 'Systematic Review / WHO Guideline',
+        title: 'WHO recommends < 35 dB(A) at night in hospital areas',
+        finding: 'The WHO Night Noise Guidelines for Europe concluded that nighttime noise above 40 dB(A) causes measurable biological stress responses; levels above 55 dB(A) are classified as seriously harmful. Hospitals routinely exceed 60 dB(A) at nursing stations.',
+        cite: 'Berglund, B., Lindvall, T., & Schwela, D. H. (1999). Guidelines for Community Noise. World Health Organization.'
+      },
+      {
+        quality: 'mod', type: 'Observational',
+        title: 'ICU noise is the primary cause of self-reported sleep disruption',
+        finding: 'In a survey of 203 ICU survivors, noise was cited as the most disruptive factor (57%), ahead of pain, nursing procedures, and lighting. Polysomnography confirmed that alarm peaks above 65 dB(A) reliably triggered arousals from slow-wave and REM sleep.',
+        cite: 'Freedman, N. S., Gazendam, J., Levan, L., Pack, A. I., & Schwab, R. J. (2001). Abnormal sleep/wake cycles and the effect of environmental noise on sleep disruption in the intensive care unit. American Journal of Respiratory and Critical Care Medicine, 163(2), 451–457.'
+      },
+      {
+        quality: 'mod', type: 'Before-After Intervention',
+        title: 'Quiet-hours protocol cuts nighttime noise by 8 dB and reduces sedative use',
+        finding: 'A structured quiet-hours intervention (reduced overhead paging, lowered alarm thresholds, staff whispering) reduced mean nighttime noise by 7.8 dB(A). Patient-reported sleep quality improved significantly, and as-needed sedative administration decreased by 31%.',
+        cite: 'Kamdar, B. B., et al. (2013). The effect of a quality improvement intervention on perceived sleep quality and cognition in a medical ICU. Critical Care Medicine, 41(3), 800–809.'
+      }
+    ]
+  },
+
+  'thermal-office-productivity': {
+    qualifiedClaim: 'Office cognitive performance peaks between 21–23°C; productivity declines approximately 2% per degree above 25°C for tasks requiring sustained attention. Perceived air quality and individual thermal sensation are stronger predictors than measured temperature alone.',
+    qualifier: 'Most studies use controlled laboratory settings; field effects in real offices are smaller and moderated by clothing, metabolic rate, and task type.',
+    constructs: ['Thermal Comfort','Cognitive Performance','IEQ','PMV Model','Productivity'],
+    studies: [
+      {
+        quality: 'hi', type: 'Meta-Analysis (24 studies)',
+        title: 'Each °C above 25°C costs ~2% in knowledge-worker output',
+        finding: 'A meta-analysis of 24 controlled studies found a curvilinear relationship between temperature and performance: peak performance at 21–22°C; a significant linear performance decline of 1.8–2.0% per °C above 25°C for typical office tasks including proofreading, arithmetic, and decision-making.',
+        cite: 'Seppänen, O., Fisk, W. J., & Lei, Q. H. (2006). Effect of temperature on task performance in office environment. Lawrence Berkeley National Laboratory Report LBNL-60946.'
+      },
+      {
+        quality: 'mod', type: 'Field Experiment',
+        title: 'Perceived air quality mediates the thermal-productivity link',
+        finding: 'Office workers in conditions with identical temperature but perceived poor air quality showed 9% more errors on a simulated office task. Thermal sensation and perceived air quality together explained 24% of variance in performance — more than measured CO₂ or TVOC levels alone.',
+        cite: 'Witterseh, T., Wyon, D. P., & Clausen, G. (2004). The effects of moderate heat stress and open-plan office noise distraction on SBS symptoms and on the performance of office work. Indoor Air, 14(s8), 30–40.'
+      },
+      {
+        quality: 'mod', type: 'Laboratory',
+        title: 'Individual thermal sensation better predicts performance than set-point',
+        finding: 'Participants who self-reported neutral thermal sensation performed significantly better on executive function tasks than those reporting "slightly warm" — even when actual temperatures were identical. Personalised temperature control improved performance by 7% versus a fixed 22°C set-point.',
+        cite: 'Wyon, D. P. (2004). The effects of indoor air quality on performance and productivity. Indoor Air, 14(s7), 92–101.'
+      }
+    ]
+  },
+
+  'daylight-learning': {
+    qualifiedClaim: 'Classrooms with optimised daylighting — glare-controlled, continuous daylight above 300 lux at the desk, and minimal flicker — are associated with 15–26% higher scores on standardised reading and maths tests compared with poorly daylit classrooms, when other environmental factors are controlled.',
+    qualifier: 'The Heschong studies are quasi-experimental with school-level confounds; higher-quality RCTs show smaller effects (8–12%). Effect is eliminated in classrooms with uncontrolled glare.',
+    constructs: ['Daylighting','Learning Performance','Glare','Circadian Entrainment','Window-to-Wall Ratio'],
+    studies: [
+      {
+        quality: 'mod', type: 'Large-Scale Quasi-Experimental',
+        title: 'Daylighting predicts 20–26% higher test scores across 21,000 students',
+        finding: 'The landmark Heschong Mahone study analysed 21,000 students in three US school districts. Students in the classrooms with the most daylighting progressed 20% faster on maths tests and 26% faster on reading tests in one year compared with those in the least daylit rooms, controlling for teacher quality and SES.',
+        cite: 'Heschong, L. (1999). Daylighting in Schools: An Investigation into the Relationship Between Daylighting and Human Performance. Pacific Gas & Electric / Heschong Mahone Group.'
+      },
+      {
+        quality: 'hi', type: 'Large-Scale Field Study (n=3,766)',
+        title: 'Physical environment explains 16% of learning progress variance',
+        finding: 'The HEAD Project studied 3,766 UK pupils across 153 classrooms. Lighting (natural and artificial combined) was one of six key design parameters and contributed significantly to a 16% difference in learning progress. Classrooms with higher window-to-floor ratios and lower glare indices performed consistently better.',
+        cite: 'Barrett, P., Zhang, Y., Davies, F., & Barrett, L. (2015). Clever Classrooms. University of Salford.'
+      },
+      {
+        quality: 'mod', type: 'Experimental',
+        title: 'Glare from uncontrolled windows impairs reading speed and accuracy',
+        finding: 'Students exposed to direct-sun glare (>2000 cd/m² in field of view) showed a 14% reduction in reading speed and higher error rates compared with conditions using spectrally-neutral blinds. Glare control is a prerequisite for realising daylighting benefits.',
+        cite: 'Winterbottom, M., & Wilkins, A. (2009). Lighting and discomfort in the classroom. Journal of Environmental Psychology, 29(1), 63–75.'
+      }
+    ]
+  },
+
+  'biophilic-office-attention': {
+    qualifiedClaim: 'Offices with plants, nature views, or water features show 6–15% improvements in productivity measures and significantly lower fatigue symptoms; effects are strongest for tasks requiring sustained directed attention and are explained by Attention Restoration Theory.',
+    qualifier: 'Most studies rely on self-report wellbeing measures; objective productivity gains are smaller and more variable. Plants must be healthy — wilted or neglected plants can reverse effects.',
+    constructs: ['Attention Restoration Theory','Biophilic Design','Directed Attention','Mental Fatigue','Workplace Wellbeing'],
+    studies: [
+      {
+        quality: 'hi', type: 'Theoretical + Empirical Synthesis',
+        title: 'Attention Restoration Theory: nature replenishes directed-attention capacity',
+        finding: 'Kaplan\'s ART proposes that natural environments elicit "soft fascination" — involuntary attention that rests the directed-attention system. Multiple field studies confirm that workers with nature views take fewer sick days and report lower mental fatigue, with the effect size correlating with view quality ratings.',
+        cite: 'Kaplan, S. (1995). The restorative benefits of nature: Toward an integrative framework. Journal of Environmental Psychology, 15(3), 169–182.'
+      },
+      {
+        quality: 'mod', type: 'Field Experiment (n=385)',
+        title: 'Nature contact in the workplace reduces stress and disengagement',
+        finding: 'Workers in 19 offices with access to nature (window views and indoor plants) reported 13% lower perceived stress and significantly less emotional exhaustion at the end of the workday. Nature contact also predicted lower absenteeism (r = −.24) after controlling for job demands.',
+        cite: 'Largo-Wight, E., Chen, W. W., Dodd, V., & Weiler, R. (2011). Healthy workplaces: The effects of nature contact at work on employee stress and health. Public Health Reports, 126(1_suppl), 124–130.'
+      },
+      {
+        quality: 'hi', type: 'RCT (n=350 across 10 offices)',
+        title: '"Lean" vs. "green" offices: plants raise productivity by 15%',
+        finding: 'Offices enriched with plants showed a 15% increase in productivity (measured via office tasks per unit time) and a 47% increase in wellbeing scores compared with lean offices. Effects held after 3 months and were attributable to plant presence rather than other environmental changes.',
+        cite: 'Nieuwenhuis, M., Knight, C., Postmes, T., & Haslam, S. A. (2014). The relative benefits of green versus lean office space. Journal of Experimental Psychology: Applied, 20(3), 199–214.'
+      }
+    ]
+  },
+
+  'acoustics-open-plan': {
+    qualifiedClaim: 'Speech intelligibility — not ambient noise level — is the primary driver of distraction in open-plan offices. Sound masking at 45–48 dB(A) pink noise reduces task errors by 30–38% and improves perceived privacy without increasing annoyance.',
+    qualifier: 'Benefits of sound masking are strongest for speech distraction; masking does not address low-frequency HVAC noise or impact noise from footsteps. Individual noise sensitivity is a significant moderator.',
+    constructs: ['Speech Intelligibility','Sound Masking','Open-Plan','Cognitive Load','Privacy'],
+    studies: [
+      {
+        quality: 'hi', type: 'Laboratory Experiment',
+        title: 'Intelligible speech — not loudness — impairs cognitive performance',
+        finding: 'Participants exposed to intelligible background speech showed a 61% increase in errors on a serial-recall task compared with unintelligible speech matched in level. Reading comprehension and mental arithmetic were also significantly impaired. The irrelevant speech effect is robust across 40+ replications.',
+        cite: 'Banbury, S. P., & Berry, D. C. (2005). Office noise and employee concentration: Identifying causes of disruption and potential improvements. Ergonomics, 48(1), 25–37.'
+      },
+      {
+        quality: 'hi', type: 'Post-Occupancy Evaluation (n=42,764)',
+        title: 'Open-plan workers report largest dissatisfaction with noise and privacy',
+        finding: 'Analysis of the Centre for the Built Environment occupant survey database (n=42,764) found that open-plan workers rated noise conditions significantly worse than enclosed-office workers, with "disturbing sound from colleagues" as the top complaint. Dissatisfaction correlated strongly with reduced self-rated productivity.',
+        cite: 'Kim, J., & de Dear, R. (2013). Workspace satisfaction: The privacy-communication trade-off in open-plan offices. Journal of Environmental Psychology, 36, 18–26.'
+      },
+      {
+        quality: 'mod', type: 'Field Experiment',
+        title: 'Sound masking at 48 dB(A) restores speech privacy and cuts errors 38%',
+        finding: 'In a controlled before-after field study, installing a plenum sound masking system (48 dB(A), shaped noise) reduced the radius of distraction from 13m to 4m. Task error rates on simulated office work dropped 38%; self-reported distraction frequency fell by 51% at four weeks post-installation.',
+        cite: 'Haapakangas, A., Helenius, R., Keskinen, E., & Hongisto, V. (2008). Perceived acoustic environment, work performance and wellbeing — survey results from a Finnish office building. In Proceedings of Internoise 2008.'
+      }
+    ]
+  },
+
+  'thermal-healthcare': {
+    qualifiedClaim: 'Maintaining intraoperative core temperature ≥ 36°C through forced-air warming and pre-warmed IV fluids reduces surgical-site infection risk by approximately 60%, shortens post-anaesthesia recovery time, and decreases transfusion requirements — thermal environment design is a direct clinical safety variable.',
+    qualifier: 'Evidence is strongest for colorectal and abdominal surgery; effects in shorter or minimally invasive procedures are less pronounced. Ambient OR temperature is one contributing factor alongside patient warming devices.',
+    constructs: ['Perioperative Hypothermia','Surgical-Site Infection','Forced-Air Warming','Normothermia','OR Design'],
+    studies: [
+      {
+        quality: 'hi', type: 'RCT',
+        title: 'Intraoperative warming cuts SSI rate by 60%',
+        finding: 'In a landmark RCT of colorectal surgery patients, the hypothermia group (34.7°C mean core temp) had a 19% SSI rate versus 6% in the normothermia group — a 60% relative risk reduction. Hypothermic patients also had longer post-anaesthesia recovery times and required more blood transfusions.',
+        cite: 'Kurz, A., Sessler, D. I., & Lenhardt, R. (1996). Perioperative normothermia to reduce the incidence of surgical-wound infection and shorten hospitalization. New England Journal of Medicine, 334(19), 1209–1215.'
+      },
+      {
+        quality: 'hi', type: 'Clinical Guideline (Evidence-Based)',
+        title: 'NICE CG65: forced-air warming is standard of care to prevent inadvertent hypothermia',
+        finding: 'The NICE guideline on inadvertent perioperative hypothermia recommends forced-air warming for all patients with procedures > 30 minutes. Evidence review rated the warming-SSI relationship as strong (Grade A). Compliance with the guideline was estimated to save the NHS £20M/year in complication costs.',
+        cite: 'National Institute for Health and Care Excellence. (2008). Inadvertent perioperative hypothermia (CG65). NICE.'
+      },
+      {
+        quality: 'hi', type: 'Meta-Analysis (14 RCTs)',
+        title: 'Each 1°C of hypothermia triples cardiac event risk in high-risk patients',
+        finding: 'Meta-analysis of 14 RCTs found that mild hypothermia (1–3°C below normal) tripled the incidence of morbid cardiac events (myocardial ischaemia, ventricular tachycardia) in high-risk surgical patients. Warming interventions were effective across all settings, regardless of OR ambient temperature.',
+        cite: 'Sessler, D. I. (2016). Perioperative thermoregulation and heat balance. Lancet, 387(10038), 2655–2664.'
+      }
+    ]
+  },
+
+  'lighting-circadian-office': {
+    qualifiedClaim: 'Circadian-supportive office lighting — high-CCT (≥5000K), high-illuminance (≥300 lux at the eye) in the morning; low-CCT, low-intensity in the afternoon — improves daytime alertness and concentration scores by 11–17% and preserves melatonin onset timing, reducing social jetlag.',
+    qualifier: 'Effects are largest for morning workers and in windowless or north-facing offices. Tunable LED systems must be correctly programmed and occupant-accessible to sustain compliance beyond the novelty phase.',
+    constructs: ['Circadian Lighting','Melatonin','Alertness','Tunable LED','CCT','Social Jetlag'],
+    studies: [
+      {
+        quality: 'hi', type: 'RCT (Crossover)',
+        title: 'Blue-enriched white light boosts alertness and reduces eyestrain 11%',
+        finding: 'Office workers exposed to blue-enriched white light (17 000K) reported significantly better alertness, positive mood, and concentration compared with standard white light (4000K) in a 4-week crossover. Salivary melatonin at 21:00 was lower in the enriched-light condition, confirming circadian activation.',
+        cite: 'Viola, A. U., James, L. M., Schlangen, L. J. M., & Dijk, D.-J. (2008). Blue-enriched white light in the workplace improves self-reported alertness, performance and sleep quality. Scandinavian Journal of Work, Environment & Health, 34(4), 297–306.'
+      },
+      {
+        quality: 'mod', type: 'Laboratory',
+        title: 'Morning bright light (2500 lux) advances the circadian pacemaker',
+        finding: 'Exposure to 2500 lux broadband white light for 2 hours in the morning phase-advanced the dim-light melatonin onset by 1.4 hours compared with typical indoor levels (~150 lux). Cognitive performance on the Psychomotor Vigilance Task improved significantly during the afternoon slump period.',
+        cite: 'Phipps-Nelson, J., Redman, J. R., Dijk, D.-J., & Rajaratnam, S. M. (2003). Daytime exposure to bright light, as compared to dim light, decreases sleepiness and improves psychomotor vigilance performance. Sleep, 26(6), 695–700.'
+      },
+      {
+        quality: 'mod', type: 'Field Study',
+        title: 'Dim warm light after 15:00 preserves melatonin and sleep quality',
+        finding: 'Office workers given tunable LED desklamps programmed to warm-white dimming from 15:00 showed earlier salivary melatonin onset (+22 min), shorter sleep latency, and higher next-morning alertness ratings compared with static 4000K controls over a 3-week study. Programming compliance was 84%.',
+        cite: 'Gabel, V., et al. (2013). Effects of artificial dawn and morning blue light on daytime cognitive performance, well-being, cortisol and melatonin levels. Chronobiology International, 30(8), 988–997.'
+      }
+    ]
+  }
+
+};
+
+/* ── Inject research data into matching cards ── */
+DYK_CARDS.forEach(function(card) {
+  if (RESEARCH_DATA[card.id]) card.research = RESEARCH_DATA[card.id];
+});
+
+/* ── Open research modal ── */
+function openResearchModal(cardId) {
+  const card = DYK_CARDS.find(function(c) { return c.id === cardId; });
+  if (!card || !card.research) return;
+  const r = card.research;
+
+  // Build or reuse backdrop
+  let bd = document.getElementById('rmBackdrop');
+  if (!bd) {
+    bd = document.createElement('div');
+    bd.id = 'rmBackdrop';
+    bd.className = 'rm-backdrop';
+    bd.onclick = function(e) { if (e.target === bd) closeResearchModal(); };
+    document.body.appendChild(bd);
+  }
+
+  // Badge quality map
+  function badgeClass(q) { return q === 'hi' ? 'hi' : q === 'lo' ? 'lo' : 'mod'; }
+  function badgeLabel(q) { return q === 'hi' ? 'High quality' : q === 'lo' ? 'Lower quality' : 'Moderate quality'; }
+
+  const studiesHTML = r.studies.map(function(s) {
+    return `<div class="rm-ev-card">
+      <div class="rm-ev-header">
+        <span class="rm-ev-badge ${badgeClass(s.quality)}">${badgeLabel(s.quality)}</span>
+        <div class="rm-ev-title">${s.title}</div>
+      </div>
+      <div class="rm-ev-finding">${s.finding}</div>
+      <div class="rm-ev-cite">${s.cite}</div>
+    </div>`;
+  }).join('');
+
+  const constructsHTML = r.constructs.map(function(c) {
+    return `<span class="rm-construct">${c}</span>`;
+  }).join('');
+
+  bd.innerHTML = `<div class="rm-panel">
+    <button class="rm-close" onclick="closeResearchModal()" title="Close">✕</button>
+    <div class="rm-tag-row">
+      <span class="rm-tag">${card.tag}</span>
+      <span class="rm-confidence">${card.confidence} confidence · ${card.studies} studies reviewed</span>
+    </div>
+    <div class="rm-question">${card.question}</div>
+    <div class="rm-sub">${card.sub}</div>
+
+    <div class="rm-section-title">Key Evidence</div>
+    ${studiesHTML}
+
+    <div class="rm-section-title">Qualified Recommendation</div>
+    <div class="rm-claim-box">
+      <div class="rm-claim-label">Warranted Claim</div>
+      <div class="rm-claim-text">${r.qualifiedClaim}</div>
+      <div class="rm-qualifier">⚠ Qualifier: ${r.qualifier}</div>
+    </div>
+
+    <div class="rm-section-title">Key Constructs</div>
+    <div class="rm-constructs">${constructsHTML}</div>
+
+    <div class="rm-coming-note">🔬 Full evidential journey with Toulmin warrant map, Chinn-Brewer rebuttal panel, and reader response — coming soon for this topic.</div>
+  </div>`;
+
+  // Animate in
+  requestAnimationFrame(function() {
+    bd.classList.add('open');
+  });
+
+  // Keyboard close
+  document.addEventListener('keydown', rmKeyClose);
+}
+
+function rmKeyClose(e) {
+  if (e.key === 'Escape') closeResearchModal();
+}
+
+function closeResearchModal() {
+  const bd = document.getElementById('rmBackdrop');
+  if (!bd) return;
+  bd.classList.remove('open');
+  document.removeEventListener('keydown', rmKeyClose);
+}
+
+/* ── Smooth scroll to section ── */
+function gotoSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── Expand trays ── */
+function toggleTray(btn) {
+  btn.classList.toggle('open');
+  const tray = btn.nextElementSibling;
+  tray.classList.toggle('open');
+}
+
+/* ── CB option selection ── */
+let selectedCB = null;
+const cbNames = ['','Ignoring','Rejection','Exclusion','Abeyance','Reinterpretation','Peripheral Change','Theory Change'];
+
+function pickCB(n) {
+  for (let i = 1; i <= 7; i++) {
+    document.getElementById('co' + i).classList.remove('selected');
+  }
+  document.getElementById('co' + n).classList.add('selected');
+  selectedCB = n;
+}
+
+/* ── Save response to sessionStorage ── */
+function saveResponse() {
+  if (!selectedCB) {
+    alert('Please choose one of the seven Chinn-Brewer responses before saving.');
+    return;
+  }
+  const rat = document.getElementById('readerRat').value;
+  const record = {
+    cb: selectedCB,
+    cbName: cbNames[selectedCB],
+    rationale: rat,
+    timestamp: new Date().toISOString(),
+    question: activeCard ? activeCard.question : ''
+  };
+  sessionStorage.setItem('kAtlasP6Journey', JSON.stringify(record));
+  showSaved(record);
+}
+
+function showSaved(record) {
+  const note = document.getElementById('savedNote');
+  note.classList.add('show');
+  document.getElementById('savedDetail').innerHTML =
+    '<strong>Your response:</strong> CB ' + record.cb + ' — ' + record.cbName +
+    (record.rationale
+      ? '<br><strong>Rationale:</strong> ' + record.rationale.slice(0, 220) + (record.rationale.length > 220 ? '…' : '')
+      : '');
+}
+
+/* ── Restore saved response on page load ── */
+window.addEventListener('load', function () {
+  const raw = sessionStorage.getItem('kAtlasP6Journey');
+  if (raw) {
+    try {
+      const r = JSON.parse(raw);
+      pickCB(r.cb);
+      document.getElementById('readerRat').value = r.rationale || '';
+      showSaved(r);
+    } catch (e) { /* ignore */ }
+  }
+});
+
+/* ── Progress track + side nav active state on scroll ── */
+const stages = ['landing','data','warrant','diagram','claim','rebuttal','response'];
+// prototype ends at stage 6 (response)
+const progSteps = document.querySelectorAll('.prog-step');
+const sideLinks = document.querySelectorAll('.side-nav a[href^="#"]');
+
+function updateActive() {
+  let current = 0;
+  stages.forEach(function(id, i) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * 0.42) current = i;
+  });
+  progSteps.forEach(function(s, i) {
+    s.classList.remove('active', 'done');
+    if (i < current) s.classList.add('done');
+    else if (i === current) s.classList.add('active');
+  });
+  sideLinks.forEach(function(a) {
+    a.classList.remove('active');
+    const href = a.getAttribute('href').slice(1); // strip #
+    if (href === stages[current]) a.classList.add('active');
+  });
+}
+
+window.addEventListener('scroll', updateActive, { passive: true });
+updateActive();
+
+/* ── Init DYK cards on load ── */
+renderCards('all');
+// Show active banner immediately for the default active card
+document.getElementById('abQuestion').textContent = activeCard.question;
+document.getElementById('abMeta').textContent = activeCard.meta;
+document.getElementById('activeBanner').style.display = 'flex';
+
+/* ── Export client brief ── */
+function exportBrief() {
+  const q = activeCard ? activeCard.question : 'Daylighting in surgical recovery';
+  const claim = document.querySelector('.claim-text').textContent.trim();
+  const d = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  const txt = [
+    'K-ATLAS PRACTITIONER EVIDENCE BRIEF',
+    '═'.repeat(52),
+    '',
+    'Design Question',
+    '─'.repeat(52),
+    q,
+    '',
+    'Qualified Recommendation  (Moderate–High Confidence)',
+    '─'.repeat(52),
+    claim,
+    '',
+    'Key Citations',
+    '─'.repeat(52),
+    '• Walch, J. M., et al. (2005). Psychosomatic Medicine, 67(1), 156–163.',
+    '• Ulrich, R. S. (1984). Science, 224, 420–421.',
+    '• Demoule, A., et al. (2017). Intensive Care Medicine, 43, 1282–1294.',
+    '• Mroz, G., et al. (2021). HERD, 14(2), 17–44.',
+    '• Czeisler, C. A., et al. (1989). Science, 244, 1328–1333.',
+    '• Roehrs, T., & Roth, T. (2005). Seminars in Neurology, 25, 20–31.',
+    '',
+    'Qualification',
+    '─'.repeat(52),
+    'Effect sizes are drawn from quasi-experimental and observational studies.',
+    'A randomised controlled trial isolating window-delivered light from room-quality',
+    'confounds has not been published for standard (non-ICU) inpatient surgical',
+    'recovery. Evidence is strongest for post-surgical acute-care facilities.',
+    '',
+    'Generated by K-Atlas Practitioner · ' + d
+  ].join('\n');
+
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'client-brief-daylighting-recovery.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+</script>
+
+</body>
+</html>
